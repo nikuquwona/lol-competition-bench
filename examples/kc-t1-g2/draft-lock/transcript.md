@@ -1,0 +1,1208 @@
+# draft-lock · DeepSeek API transcript
+
+Model: deepseek-v4-pro. Default recent sample: 3 games per entity. All model-visible chat messages follow in order. The full trace JSON also includes tool definitions, API request identifiers and token usage.
+
+## system
+
+~~~~
+You are forecasting a League of Legends game at the indicated observation point. Use only the supplied current facts, the frozen history lookup, and general LoL knowledge. Do not use or recall results of the target or later games. Query the starters' personal history and any relevant past teams/series before predicting. Evaluate side, sample size, and available draft information. Return only a JSON object with p_blue_win and p_blue_ahead_15 (strict gold lead at 15:00). Both numbers must be probabilities.
+~~~~
+
+## user
+
+~~~~
+{
+  "phase": "draft-lock",
+  "series_time_utc": "2026-11-06T22:00:00+00:00",
+  "current": {
+    "event": "worlds-2026-main-event",
+    "stage": "Quarterfinals",
+    "series": "worlds-2026-main-event-quarterfinals-4",
+    "n": 2,
+    "patch": "26.20",
+    "bo": 5,
+    "blue": "Karmine Corp",
+    "red": "T1",
+    "starters": {
+      "blue": [
+        "Busio",
+        "Caliste",
+        "Canna",
+        "Kyeahoo",
+        "Yike"
+      ],
+      "red": [
+        "Doran",
+        "Faker",
+        "Keria",
+        "Oner",
+        "Peyz"
+      ]
+    },
+    "draft_rule": "Fearless",
+    "bp": [
+      {
+        "turn": 1,
+        "side": "red",
+        "action": "ban",
+        "champion": "Locke"
+      },
+      {
+        "turn": 2,
+        "side": "blue",
+        "action": "ban",
+        "champion": "Vi"
+      },
+      {
+        "turn": 3,
+        "side": "red",
+        "action": "ban",
+        "champion": "Akali"
+      },
+      {
+        "turn": 4,
+        "side": "blue",
+        "action": "ban",
+        "champion": "Qiyana"
+      },
+      {
+        "turn": 5,
+        "side": "red",
+        "action": "ban",
+        "champion": "Renata Glasc"
+      },
+      {
+        "turn": 6,
+        "side": "blue",
+        "action": "ban",
+        "champion": "Nocturne"
+      },
+      {
+        "turn": 7,
+        "side": "red",
+        "action": "pick",
+        "champion": "Cassiopeia"
+      },
+      {
+        "turn": 8,
+        "side": "blue",
+        "action": "pick",
+        "champion": "Orianna"
+      },
+      {
+        "turn": 9,
+        "side": "blue",
+        "action": "pick",
+        "champion": "Pantheon"
+      },
+      {
+        "turn": 10,
+        "side": "red",
+        "action": "pick",
+        "champion": "Olaf"
+      },
+      {
+        "turn": 11,
+        "side": "red",
+        "action": "pick",
+        "champion": "Nautilus"
+      },
+      {
+        "turn": 12,
+        "side": "blue",
+        "action": "pick",
+        "champion": "Ambessa"
+      },
+      {
+        "turn": 13,
+        "side": "blue",
+        "action": "ban",
+        "champion": "Xin Zhao"
+      },
+      {
+        "turn": 14,
+        "side": "red",
+        "action": "ban",
+        "champion": "Alistar"
+      },
+      {
+        "turn": 15,
+        "side": "blue",
+        "action": "ban",
+        "champion": "Wukong"
+      },
+      {
+        "turn": 16,
+        "side": "red",
+        "action": "ban",
+        "champion": "Xayah"
+      },
+      {
+        "turn": 17,
+        "side": "blue",
+        "action": "pick",
+        "champion": "Rell"
+      },
+      {
+        "turn": 18,
+        "side": "red",
+        "action": "pick",
+        "champion": "Kai'Sa"
+      },
+      {
+        "turn": 19,
+        "side": "red",
+        "action": "pick",
+        "champion": "Trundle"
+      },
+      {
+        "turn": 20,
+        "side": "blue",
+        "action": "pick",
+        "champion": "Tristana"
+      }
+    ]
+  },
+  "history_games_available": 96
+}
+~~~~
+
+## assistant
+
+~~~~
+I'll analyze this match by looking up the teams and players' recent history.
+~~~~
+
+`lookup_history({"kind": "team", "names": ["Karmine Corp", "T1"]})`
+
+`lookup_history({"kind": "series", "names": ["worlds-2026-main-event-quarterfinals-4"]})`
+
+## tool
+
+~~~~
+{
+  "Karmine Corp": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380
+      }
+    ]
+  },
+  "T1": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138
+      }
+    ]
+  }
+}
+~~~~
+
+## tool
+
+~~~~
+{
+  "worlds-2026-main-event-quarterfinals-4": {
+    "games": 1,
+    "wins": 1,
+    "gd15_observations": 1,
+    "ahead15": 0,
+    "mean_gd15": -660.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "players": [
+          {
+            "name": "Doran",
+            "role": "Top",
+            "side": "blue",
+            "champion": "Ornn",
+            "k": 1,
+            "d": 3,
+            "a": 13
+          },
+          {
+            "name": "Oner",
+            "role": "Jungle",
+            "side": "blue",
+            "champion": "Jarvan IV",
+            "k": 4,
+            "d": 1,
+            "a": 18
+          },
+          {
+            "name": "Faker",
+            "role": "Mid",
+            "side": "blue",
+            "champion": "Viktor",
+            "k": 7,
+            "d": 0,
+            "a": 5
+          },
+          {
+            "name": "Peyz",
+            "role": "Bot",
+            "side": "blue",
+            "champion": "Yunara",
+            "k": 11,
+            "d": 1,
+            "a": 6
+          },
+          {
+            "name": "Keria",
+            "role": "Support",
+            "side": "blue",
+            "champion": "Lulu",
+            "k": 0,
+            "d": 2,
+            "a": 15
+          },
+          {
+            "name": "Canna",
+            "role": "Top",
+            "side": "red",
+            "champion": "Rumble",
+            "k": 2,
+            "d": 4,
+            "a": 3
+          },
+          {
+            "name": "Yike",
+            "role": "Jungle",
+            "side": "red",
+            "champion": "Lee Sin",
+            "k": 2,
+            "d": 5,
+            "a": 2
+          },
+          {
+            "name": "Kyeahoo",
+            "role": "Mid",
+            "side": "red",
+            "champion": "Syndra",
+            "k": 2,
+            "d": 5,
+            "a": 2
+          },
+          {
+            "name": "Caliste",
+            "role": "Bot",
+            "side": "red",
+            "champion": "Ezreal",
+            "k": 1,
+            "d": 3,
+            "a": 2
+          },
+          {
+            "name": "Busio",
+            "role": "Support",
+            "side": "red",
+            "champion": "Leona",
+            "k": 0,
+            "d": 6,
+            "a": 4
+          }
+        ],
+        "bp": [
+          {
+            "turn": 1,
+            "side": "red",
+            "action": "ban",
+            "champion": "Nocturne"
+          },
+          {
+            "turn": 2,
+            "side": "blue",
+            "action": "ban",
+            "champion": "Cassiopeia"
+          },
+          {
+            "turn": 3,
+            "side": "red",
+            "action": "ban",
+            "champion": "Renata Glasc"
+          },
+          {
+            "turn": 4,
+            "side": "blue",
+            "action": "ban",
+            "champion": "Vi"
+          },
+          {
+            "turn": 5,
+            "side": "red",
+            "action": "ban",
+            "champion": "Galio"
+          },
+          {
+            "turn": 6,
+            "side": "blue",
+            "action": "ban",
+            "champion": "Qiyana"
+          },
+          {
+            "turn": 7,
+            "side": "red",
+            "action": "pick",
+            "champion": "Rumble"
+          },
+          {
+            "turn": 8,
+            "side": "blue",
+            "action": "pick",
+            "champion": "Lulu"
+          },
+          {
+            "turn": 9,
+            "side": "blue",
+            "action": "pick",
+            "champion": "Jarvan IV"
+          },
+          {
+            "turn": 10,
+            "side": "red",
+            "action": "pick",
+            "champion": "Ezreal"
+          },
+          {
+            "turn": 11,
+            "side": "red",
+            "action": "pick",
+            "champion": "Leona"
+          },
+          {
+            "turn": 12,
+            "side": "blue",
+            "action": "pick",
+            "champion": "Yunara"
+          },
+          {
+            "turn": 13,
+            "side": "blue",
+            "action": "ban",
+            "champion": "Wukong"
+          },
+          {
+            "turn": 14,
+            "side": "red",
+            "action": "ban",
+            "champion": "Locke"
+          },
+          {
+            "turn": 15,
+            "side": "blue",
+            "action": "ban",
+            "champion": "Pantheon"
+          },
+          {
+            "turn": 16,
+            "side": "red",
+            "action": "ban",
+            "champion": "Orianna"
+          },
+          {
+            "turn": 17,
+            "side": "blue",
+            "action": "pick",
+            "champion": "Ornn"
+          },
+          {
+            "turn": 18,
+            "side": "red",
+            "action": "pick",
+            "champion": "Syndra"
+          },
+          {
+            "turn": 19,
+            "side": "red",
+            "action": "pick",
+            "champion": "Lee Sin"
+          },
+          {
+            "turn": 20,
+            "side": "blue",
+            "action": "pick",
+            "champion": "Viktor"
+          }
+        ]
+      }
+    ]
+  }
+}
+~~~~
+
+## assistant
+
+~~~~
+Let me look at individual player histories for more context.
+~~~~
+
+`lookup_history({"kind": "player", "names": ["Faker", "Peyz", "Keria", "Oner", "Doran"]})`
+
+`lookup_history({"kind": "player", "names": ["Caliste", "Canna", "Yike", "Busio", "Kyeahoo"]})`
+
+## tool
+
+~~~~
+{
+  "Faker": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "champion": "Viktor",
+        "role": "Mid",
+        "kda": [
+          7,
+          0,
+          5
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510,
+        "champion": "Orianna",
+        "role": "Mid",
+        "kda": [
+          5,
+          2,
+          10
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138,
+        "champion": "Syndra",
+        "role": "Mid",
+        "kda": [
+          5,
+          2,
+          8
+        ]
+      }
+    ]
+  },
+  "Peyz": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "champion": "Yunara",
+        "role": "Bot",
+        "kda": [
+          11,
+          1,
+          6
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510,
+        "champion": "Jhin",
+        "role": "Bot",
+        "kda": [
+          8,
+          1,
+          5
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138,
+        "champion": "Xayah",
+        "role": "Bot",
+        "kda": [
+          2,
+          3,
+          9
+        ]
+      }
+    ]
+  },
+  "Keria": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "champion": "Lulu",
+        "role": "Support",
+        "kda": [
+          0,
+          2,
+          15
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510,
+        "champion": "Karma",
+        "role": "Support",
+        "kda": [
+          3,
+          3,
+          16
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138,
+        "champion": "Nautilus",
+        "role": "Support",
+        "kda": [
+          1,
+          2,
+          14
+        ]
+      }
+    ]
+  },
+  "Oner": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "champion": "Jarvan IV",
+        "role": "Jungle",
+        "kda": [
+          4,
+          1,
+          18
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510,
+        "champion": "Jarvan IV",
+        "role": "Jungle",
+        "kda": [
+          2,
+          3,
+          13
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138,
+        "champion": "Lee Sin",
+        "role": "Jungle",
+        "kda": [
+          6,
+          3,
+          9
+        ]
+      }
+    ]
+  },
+  "Doran": {
+    "games": 6,
+    "wins": 5,
+    "gd15_observations": 6,
+    "ahead15": 3,
+    "mean_gd15": 1087.0,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Karmine Corp",
+        "win": true,
+        "gd15": -660,
+        "champion": "Ornn",
+        "role": "Top",
+        "kda": [
+          1,
+          3,
+          13
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 3510,
+        "champion": "Gwen",
+        "role": "Top",
+        "kda": [
+          4,
+          0,
+          7
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "T1",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": -138,
+        "champion": "Ambessa",
+        "role": "Top",
+        "kda": [
+          6,
+          0,
+          6
+        ]
+      }
+    ]
+  }
+}
+~~~~
+
+## tool
+
+~~~~
+{
+  "Caliste": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660,
+        "champion": "Ezreal",
+        "role": "Bot",
+        "kda": [
+          1,
+          3,
+          2
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093,
+        "champion": "Sivir",
+        "role": "Bot",
+        "kda": [
+          5,
+          1,
+          7
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380,
+        "champion": "Ashe",
+        "role": "Bot",
+        "kda": [
+          5,
+          3,
+          7
+        ]
+      }
+    ]
+  },
+  "Canna": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660,
+        "champion": "Rumble",
+        "role": "Top",
+        "kda": [
+          2,
+          4,
+          3
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093,
+        "champion": "Rumble",
+        "role": "Top",
+        "kda": [
+          3,
+          2,
+          6
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380,
+        "champion": "Renekton",
+        "role": "Top",
+        "kda": [
+          3,
+          5,
+          6
+        ]
+      }
+    ]
+  },
+  "Yike": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660,
+        "champion": "Lee Sin",
+        "role": "Jungle",
+        "kda": [
+          2,
+          5,
+          2
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093,
+        "champion": "Pantheon",
+        "role": "Jungle",
+        "kda": [
+          9,
+          0,
+          5
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380,
+        "champion": "Wukong",
+        "role": "Jungle",
+        "kda": [
+          2,
+          2,
+          9
+        ]
+      }
+    ]
+  },
+  "Busio": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660,
+        "champion": "Leona",
+        "role": "Support",
+        "kda": [
+          0,
+          6,
+          4
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093,
+        "champion": "Lulu",
+        "role": "Support",
+        "kda": [
+          0,
+          1,
+          15
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380,
+        "champion": "Seraphine",
+        "role": "Support",
+        "kda": [
+          0,
+          2,
+          12
+        ]
+      }
+    ]
+  },
+  "Kyeahoo": {
+    "games": 19,
+    "wins": 14,
+    "gd15_observations": 19,
+    "ahead15": 12,
+    "mean_gd15": 1183.6,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Karmine Corp",
+        "opponent": "T1",
+        "win": false,
+        "gd15": 660,
+        "champion": "Syndra",
+        "role": "Mid",
+        "kda": [
+          2,
+          5,
+          2
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 4093,
+        "champion": "Viktor",
+        "role": "Mid",
+        "kda": [
+          1,
+          0,
+          8
+        ]
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "blue",
+        "team": "Karmine Corp",
+        "opponent": "Movistar KOI",
+        "win": true,
+        "gd15": 1380,
+        "champion": "Syndra",
+        "role": "Mid",
+        "kda": [
+          3,
+          2,
+          6
+        ]
+      }
+    ]
+  }
+}
+~~~~
+
+## assistant
+
+~~~~
+I have enough context to make a prediction.
+
+Key observations:
+- **T1** is 5-1 overall, won Game 1 of this series decisively (11/1/6 Peyz, 7/0/5 Faker). They're the stronger team with elite individual talent.
+- **Karmine Corp** is 14-5 overall but lost Game 1 badly (all lanes negative KDA). They're now on blue side in Game 2.
+- Game 1: T1 won despite being -660 gold at 15 (they were behind early but scaled/outplayed). KC actually had a gold lead at 15 in Game 1.
+- Draft: KC (blue) has Orianna, Pantheon, Ambessa, Rell, Tristana. T1 (red) has Cassiopeia, Olaf, Nautilus, Kai'Sa, Trundle. KC's comp has strong early skirmish (Pantheon, Ambessa, Rell) and scaling (Tristana, Orianna). T1's comp is more scaling/teamfight oriented (Cassiopeia, Kai'Sa, Trundle).
+
+KC tends to get early gold leads (12/19 ahead15, mean +1183), while T1 is more even early (3/6 ahead15). But T1's overall win rate and Game 1 dominance suggest they're the better team.
+
+Given KC's strong early-game tendency and blue side, they have a decent chance to be ahead at 15, but T1's superior teamfighting and macro favor them to win the game.
+~~~~
+
+`lookup_history({"kind": "team", "names": ["Movistar KOI"]})`
+
+## tool
+
+~~~~
+{
+  "Movistar KOI": {
+    "games": 8,
+    "wins": 2,
+    "gd15_observations": 8,
+    "ahead15": 3,
+    "mean_gd15": -1581.1,
+    "recent": [
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Movistar KOI",
+        "opponent": "Karmine Corp",
+        "win": false,
+        "gd15": -4093
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-1",
+        "game": 1,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Movistar KOI",
+        "opponent": "Karmine Corp",
+        "win": false,
+        "gd15": -1380
+      },
+      {
+        "series": "worlds-2026-main-event-round-4-1",
+        "game": 2,
+        "patch": "26.20",
+        "side": "red",
+        "team": "Movistar KOI",
+        "opponent": "T1",
+        "win": false,
+        "gd15": -3510
+      }
+    ]
+  }
+}
+~~~~
+
+## assistant
+
+~~~~
+Now I have a complete picture. Final assessment:
+
+- T1 is clearly the stronger team (5-1, dominant Game 1 win with 11/1/6 Peyz and 7/0/5 Faker).
+- KC has strong early-game tendencies (12/19 ahead15, mean +1183 gd15) and is on blue side, but they got crushed in Game 1 despite a gold lead at 15.
+- T1's Game 1 win came despite being -660 at 15, showing their superior mid-late game.
+- KC's comp (Pantheon, Ambessa, Rell, Tristana, Orianna) is early-game oriented, so they're likely to be ahead at 15 again, but T1's scaling (Cassiopeia, Kai'Sa, Trundle) and superior execution favor them to win.
+
+T1 is the favorite to win, but KC has a real chance to be ahead at 15 given their early-game profile and blue side.
+
+```json
+{"p_blue_win": 0.38, "p_blue_ahead_15": 0.55}
+```
+~~~~

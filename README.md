@@ -77,3 +77,9 @@ python3 scripts/live_series.py settle live/115660540726095121.json --receipt rec
 ```
 
 结算读取 Riot 已完赛结果。赛程变更、事件滚出该页面、缺失结果或哈希变化均会拒绝结算，应由组织者留档复核。
+
+## 已生成的 Harbor 题包与实跑示例
+
+[完整 v1 题包](datasets/lol-2026-replay-v1.tar.gz) 包含 198 个可直接交给 Harbor 的任务目录。用 `tar -xzf datasets/lol-2026-replay-v1.tar.gz` 解压。每道题对应一小局的一个观测时点，附带独立 verifier 和 oracle，参赛工具只应读取本题 environment 中的快照。题包内的结果仅供组织者侧使用。
+
+[KC–T1 第二局 DeepSeek 对照](examples/kc-t1-g2) 包含这两道题的展开目录、首次 API 会话、工具返回及预测文件。本机用 deepseek-v4-pro 的 function calling 读取当前局和查询命中的历史行；GitHub 上的 Harbor regrade workflow 可以在无需 API 密钥的情况下复评这两份预测。

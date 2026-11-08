@@ -1,0 +1,39 @@
+name: Regrade KC–T1 DeepSeek predictions
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        phase: [lobby, draft-lock]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install harbor==0.25.0
+      - name: Deliver the recorded API answer and run the archived Harbor verifier
+        env:
+          PHASE: ${{ matrix.phase }}
+        run: |
+          root=examples/kc-t1-g2
+          tar -xzf datasets/lol-2026-replay-v1.tar.gz
+          task="lol-2026-replay-v1/worlds-2026-main-event-quarterfinals-4-g2-$PHASE"
+          diff -r "$task" "$root/harbor/$(basename "$task")"
+          cp "$root/$PHASE/prediction.json" "$task/solution/submission.json"
+          printf '%s\n' '#!/bin/sh' 'set -eu' 'cp /solution/submission.json /app/prediction.json' > "$task/solution/solve.sh"
+          harbor run -a oracle -p "$task"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          phase = os.environ["PHASE"]
+          expected = json.loads(Path(f"examples/kc-t1-g2/{phase}/score.json").read_text())
+          paths = list(Path("jobs").rglob("reward.txt"))
+          assert len(paths) == 1
+          actual = float(paths[0].read_text())
+          assert actual == expected["reward"], (actual, expected)
+          print(phase, "reward", actual)
+          PY
