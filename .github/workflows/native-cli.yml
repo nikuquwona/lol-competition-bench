@@ -109,6 +109,12 @@ jobs:
           name: ${{ matrix.cli }}-${{ inputs.mode }}-${{ inputs.phase }}
           path: |
             output/*.json
+            output/report.md
+            output/traces/
+            output/jobs/**/agent/cli-events.log
+            output/jobs/**/agent/stderr.txt
+            output/jobs/**/agent/cli-run.json
+            output/jobs/**/artifacts/app/prediction.json
             output/boundary/
           retention-days: 7
       - if: always()
