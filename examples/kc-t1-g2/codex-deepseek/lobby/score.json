@@ -1,0 +1,16 @@
+{
+  "phase": "lobby",
+  "labels": {
+    "p_blue_win": 0,
+    "p_blue_ahead_15": 0
+  },
+  "prediction": {
+    "p_blue_win": 0.3,
+    "p_blue_ahead_15": 0.55
+  },
+  "brier": {
+    "p_blue_win": 0.09,
+    "p_blue_ahead_15": 0.30250000000000005
+  },
+  "reward": 0.80375
+}
