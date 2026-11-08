@@ -1,6 +1,5 @@
 """Remote acceptance check for an unlabeled game. All example data stays in a temporary store."""
 
-import json
 import os
 from pathlib import Path
 import subprocess

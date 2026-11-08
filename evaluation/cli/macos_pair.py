@@ -17,7 +17,7 @@ import threading
 from evaluation.cli.gateway import Handler, MAX_CALLS
 
 ROOT = Path(__file__).resolve().parents[2]
-TASKS = ROOT / "evaluation/examples/kc-t1-g2/harbor"
+TASKS = ROOT / "datasets/examples/replay-v1-kc-t1-g2"
 MODEL = "deepseek-v4-pro"
 PREFIX = "worlds-2026-main-event-quarterfinals-4-g2-"
 PROFILE = """

@@ -33,7 +33,7 @@ jobs:
           export RECORDS="$records"
           tar -xzf datasets/lol-2026-replay-v1.tar.gz
           task="lol-2026-replay-v1/worlds-2026-main-event-quarterfinals-4-g2-$PHASE"
-          diff -r "$task" "$root/harbor/$(basename "$task")"
+          diff -r "$task" "datasets/examples/replay-v1-kc-t1-g2/$(basename "$task")"
           cp "$records/$PHASE/prediction.json" "$task/solution/submission.json"
           printf '%s\n' '#!/bin/sh' 'set -eu' 'cp /solution/submission.json /app/prediction.json' > "$task/solution/solve.sh"
           harbor run -a oracle -p "$task"

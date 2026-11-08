@@ -3,8 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-from production.build import earlier, eligible, snapshot, write_task
+from production.build import ROOT, earlier, eligible, snapshot, write_task
 from production.score import score
 
 GAMES = json.loads((ROOT / "production/data/games.json").read_text())

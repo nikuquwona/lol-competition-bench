@@ -9,11 +9,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT))
 from evaluation.cli.gateway import validate
 from evaluation.cli.worker import READ_PREDICTION
-from production.build import snapshot
+from production.build import ROOT, snapshot
 from production.score import read_prediction
 
 
