@@ -1,0 +1,80 @@
+{
+  "cli": "2.1.270 (Claude Code)",
+  "mode": "live",
+  "model": "deepseek-v4-pro",
+  "phase": "draft-lock",
+  "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+  "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+  "upstream": [
+    {
+      "path": "/api/hello",
+      "status": 501,
+      "detail": "Unsupported method ('HEAD')"
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    }
+  ]
+}

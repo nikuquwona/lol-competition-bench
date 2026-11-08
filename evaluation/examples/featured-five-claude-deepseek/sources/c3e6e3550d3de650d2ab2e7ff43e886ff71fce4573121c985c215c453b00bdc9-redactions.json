@@ -1,0 +1,46 @@
+{
+  "report.json": {
+    "original_sha256": "c3e6e3550d3de650d2ab2e7ff43e886ff71fce4573121c985c215c453b00bdc9",
+    "public_sha256": "c3e6e3550d3de650d2ab2e7ff43e886ff71fce4573121c985c215c453b00bdc9"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/instruction.md": {
+    "original_sha256": "d437db6b0bc9499b1bc002f8752814740ea8797930136191df5c716fbb0bb2ac",
+    "public_sha256": "d437db6b0bc9499b1bc002f8752814740ea8797930136191df5c716fbb0bb2ac"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/prediction.json": {
+    "original_sha256": "8397e38b25cdf581baa34cfbac4f514f8e6f2ca6479dca3167ac96209900aae3",
+    "public_sha256": "8397e38b25cdf581baa34cfbac4f514f8e6f2ca6479dca3167ac96209900aae3"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/run.json": {
+    "original_sha256": "3359c56e5d744edce103d64c4f65fcd372ee13d30bbbe1fcda13f52beeb55abb",
+    "public_sha256": "3359c56e5d744edce103d64c4f65fcd372ee13d30bbbe1fcda13f52beeb55abb"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/trajectory.jsonl": {
+    "original_sha256": "710185912f1daeb79fdb5888c35b5c536c8b0644b4f15254140ec3263ed7c0f9",
+    "public_sha256": "3e09586e4bc2c5b7d47fb2ae65dab21128c5a873c223728438e5e9d590603f20"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-lobby/instruction.md": {
+    "original_sha256": "25c2e0d15a0dca619ede346b46170474011bf53212d2260ae3ae806ef125d3c4",
+    "public_sha256": "25c2e0d15a0dca619ede346b46170474011bf53212d2260ae3ae806ef125d3c4"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-lobby/prediction.json": {
+    "original_sha256": "35d5a9e79a6dd6122812282d684fa7a116351059a43a4bb3b039b6223c192f5e",
+    "public_sha256": "35d5a9e79a6dd6122812282d684fa7a116351059a43a4bb3b039b6223c192f5e"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-lobby/run.json": {
+    "original_sha256": "40a5fa06a9d113ebb86249a80a2ffffbe05f4a2553ef9fbd23b67167a15e2ae5",
+    "public_sha256": "40a5fa06a9d113ebb86249a80a2ffffbe05f4a2553ef9fbd23b67167a15e2ae5"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-lobby/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-main-event-round-5-2-g2-lobby/trajectory.jsonl": {
+    "original_sha256": "88b2926a1ae64dc270228003a549700de03f7a3f673f1a066b9485e6fc8e8ada",
+    "public_sha256": "83ef123bce7f81cc6158e168f99392c10ef27c3e44fadefecc8acb5925b6e39d"
+  }
+}

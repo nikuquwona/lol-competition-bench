@@ -1,0 +1,388 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "claude",
+  "model": "deepseek-v4-pro",
+  "mode": "live",
+  "backend": "macos",
+  "planned": [
+    "worlds-2026-play-in-round-1-2-g2-draft-lock",
+    "worlds-2026-play-in-round-1-2-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-draft-lock",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "6efb6d142b1e97e76e6d109dd2038a33323f9ead191dd440ae021e757a4228e7",
+      "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+      "status": "scored",
+      "runtime": {
+        "cli": "2.1.270 (Claude Code)",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/api/hello",
+            "status": 501,
+            "detail": "Unsupported method ('HEAD')"
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages/count_tokens?beta=true",
+            "status": 403,
+            "detail": "Forbidden"
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.6,
+        "p_blue_ahead_15": 0.57
+      },
+      "reward": 0.82755,
+      "brier": {
+        "p_blue_win": 0.16000000000000003,
+        "p_blue_ahead_15": 0.18490000000000004
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 4522,
+        "tool_calls": 2,
+        "token_usage": {
+          "input_tokens": 19530,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 28032,
+          "output_tokens": 5307
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/transcript.md"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-lobby",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "92d628f2eb8bc124998aab18fc1cb32d43543163868b1ac1ad292688379f322d",
+      "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+      "status": "scored",
+      "runtime": {
+        "cli": "2.1.270 (Claude Code)",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/api/hello",
+            "status": 501,
+            "detail": "Unsupported method ('HEAD')"
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/messages?beta=true",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.58,
+        "p_blue_ahead_15": 0.42
+      },
+      "reward": 0.7435999999999999,
+      "brier": {
+        "p_blue_win": 0.17640000000000003,
+        "p_blue_ahead_15": 0.3364000000000001
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 2811,
+        "tool_calls": 5,
+        "shell_commands": 4,
+        "token_usage": {
+          "input_tokens": 8065,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 37120,
+          "output_tokens": 3625
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-lobby/transcript.md"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "selected": 2,
+    "scored": 2,
+    "statuses": {
+      "scored": 2
+    },
+    "mean_reward": 0.7855749999999999,
+    "brier_on_scored": {
+      "p_blue_win": 0.16820000000000002,
+      "p_blue_ahead_15": 0.26065000000000005
+    }
+  },
+  "by_phase": {
+    "draft-lock": {
+      "selected": 1,
+      "scored": 1,
+      "statuses": {
+        "scored": 1
+      },
+      "mean_reward": 0.82755,
+      "brier_on_scored": {
+        "p_blue_win": 0.16000000000000003,
+        "p_blue_ahead_15": 0.18490000000000004
+      }
+    },
+    "lobby": {
+      "selected": 1,
+      "scored": 1,
+      "statuses": {
+        "scored": 1
+      },
+      "mean_reward": 0.7435999999999999,
+      "brier_on_scored": {
+        "p_blue_win": 0.17640000000000003,
+        "p_blue_ahead_15": 0.3364000000000001
+      }
+    }
+  },
+  "by_coverage": {
+    "all": {
+      "selected": 2,
+      "scored": 2,
+      "statuses": {
+        "scored": 2
+      },
+      "mean_reward": 0.7855749999999999,
+      "brier_on_scored": {
+        "p_blue_win": 0.16820000000000002,
+        "p_blue_ahead_15": 0.26065000000000005
+      }
+    }
+  },
+  "paired": {
+    "selected_games": 1,
+    "selected_pairs": 1,
+    "scored_pairs": 1,
+    "mean_brier_improvement": {
+      "p_blue_win": 0.016399999999999998,
+      "p_blue_ahead_15": 0.15150000000000005
+    },
+    "pairs": [
+      {
+        "series": "worlds-2026-play-in-round-1-2",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": 0.016399999999999998,
+          "p_blue_ahead_15": 0.15150000000000005
+        }
+      }
+    ]
+  }
+}

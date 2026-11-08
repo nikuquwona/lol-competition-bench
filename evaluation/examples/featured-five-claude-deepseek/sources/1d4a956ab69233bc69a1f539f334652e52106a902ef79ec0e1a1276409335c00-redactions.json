@@ -1,0 +1,46 @@
+{
+  "report.json": {
+    "original_sha256": "1d4a956ab69233bc69a1f539f334652e52106a902ef79ec0e1a1276409335c00",
+    "public_sha256": "1d4a956ab69233bc69a1f539f334652e52106a902ef79ec0e1a1276409335c00"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/instruction.md": {
+    "original_sha256": "580b2cff283a84f79767643921cae54157840a15702a283bb12a0b49997c1fb7",
+    "public_sha256": "580b2cff283a84f79767643921cae54157840a15702a283bb12a0b49997c1fb7"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/prediction.json": {
+    "original_sha256": "e334e2663c646ade44d29a22c0a43eda1abeace94033b6fbd550b9b267ef9136",
+    "public_sha256": "e334e2663c646ade44d29a22c0a43eda1abeace94033b6fbd550b9b267ef9136"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/run.json": {
+    "original_sha256": "ae169186a4ee1a7629b4316047e636bdaf45cb0e795ce9cad62ff968c6323d10",
+    "public_sha256": "ae169186a4ee1a7629b4316047e636bdaf45cb0e795ce9cad62ff968c6323d10"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/trajectory.jsonl": {
+    "original_sha256": "a07c89ad9f7cca9d7962db6bd888eac56a164b43ca999b56dcc1e06ffea789c3",
+    "public_sha256": "fc45aa7df191c6a5bc23292e9fe1e28ba03d7931f55b11c90dfd8772b331724d"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-lobby/instruction.md": {
+    "original_sha256": "836344212e4c9a5c3fb87f2a221b7dc19c4f68087c8f84f61bef9cd35cf59f93",
+    "public_sha256": "836344212e4c9a5c3fb87f2a221b7dc19c4f68087c8f84f61bef9cd35cf59f93"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-lobby/prediction.json": {
+    "original_sha256": "b0e5da0f288201cd655c2face81e11c53d622dbc62cfcba2f7723cbb27d5a330",
+    "public_sha256": "b0e5da0f288201cd655c2face81e11c53d622dbc62cfcba2f7723cbb27d5a330"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-lobby/run.json": {
+    "original_sha256": "674d04c1c148080fb8943125a8f0c572d400440d0175ce9cd04e89f478e46e9f",
+    "public_sha256": "674d04c1c148080fb8943125a8f0c572d400440d0175ce9cd04e89f478e46e9f"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-lobby/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-play-in-round-1-2-g2-lobby/trajectory.jsonl": {
+    "original_sha256": "ac59be587e02e88b266b549a84cb0fa1f75dc2002141e317b1f6819250d737e4",
+    "public_sha256": "9092126b7ff64640c807a573710594957c8fb7c2c8daf3406b86bda84a340092"
+  }
+}

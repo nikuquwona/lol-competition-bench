@@ -1,0 +1,46 @@
+{
+  "report.json": {
+    "original_sha256": "1cad1a3481bdbfb672e891a0087cf0b423eb5c44dc2ffb240d62168f1b0cec74",
+    "public_sha256": "1cad1a3481bdbfb672e891a0087cf0b423eb5c44dc2ffb240d62168f1b0cec74"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/instruction.md": {
+    "original_sha256": "ac09072dc540d23a3b4436f3addff316097085b2bf807d94fb3818434482309e",
+    "public_sha256": "ac09072dc540d23a3b4436f3addff316097085b2bf807d94fb3818434482309e"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/prediction.json": {
+    "original_sha256": "17e18d3bf52ede69e7da4acfc041f20968c872022aadb1b05b5508817afaab1c",
+    "public_sha256": "17e18d3bf52ede69e7da4acfc041f20968c872022aadb1b05b5508817afaab1c"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/run.json": {
+    "original_sha256": "79ec38df9397feff7a77fdfd722c1e957ba0f5aaf564c59540518f6b615b42fa",
+    "public_sha256": "79ec38df9397feff7a77fdfd722c1e957ba0f5aaf564c59540518f6b615b42fa"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/trajectory.jsonl": {
+    "original_sha256": "8a968249365789e0755254e6a0d47c2ca6c4346c7f85ec8ff932699805218b79",
+    "public_sha256": "2de2141ad3963ccd0f64691815fd9c5c973ba54654f708ba7dc59d7d6d8a65a2"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/instruction.md": {
+    "original_sha256": "b1f8499fa2059404c68735945a7b76daba06210f721466ed4b85c30a50edde65",
+    "public_sha256": "b1f8499fa2059404c68735945a7b76daba06210f721466ed4b85c30a50edde65"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/prediction.json": {
+    "original_sha256": "ba900bcf9771c783a4503c231923db14ba54e6f36d1b49dde434b49f282279ec",
+    "public_sha256": "ba900bcf9771c783a4503c231923db14ba54e6f36d1b49dde434b49f282279ec"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/run.json": {
+    "original_sha256": "1de8e334bafededa70bba059d048f12f2282cf25469476079c89c9dae4f7ae05",
+    "public_sha256": "1de8e334bafededa70bba059d048f12f2282cf25469476079c89c9dae4f7ae05"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/trajectory.jsonl": {
+    "original_sha256": "24b8f948683a884feaa969119d66245ede95cd05dc63ecf69052260b216d2ad5",
+    "public_sha256": "699c586ac16bcf7bdac09f02e8f57d88f341a013bd9de948b27906d58544043e"
+  }
+}

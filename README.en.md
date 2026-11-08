@@ -10,7 +10,7 @@ A Harbor benchmark for forecasting professional League of Legends. A model uses 
 
 ## Five-game comparison
 
-Start the local model scoreboard with `./bench serve`. The five games cover IG–TES, MVK–FURIA, Movistar KOI–BLG, LØS–LYON and KC–T1. Select a model and CLI, then open a prediction to see the evidence it queried, probability revisions and the submission the verifier scored. [Fixed selection](evaluation/suites/featured-five.json) · [Ten DeepSeek × Codex forecasts](evaluation/examples/featured-five-deepseek/report.md) · [Free OpenRouter run and quota record](evaluation/examples/featured-five-openrouter/report.md)
+Start the local model scoreboard with `./bench serve`. The five games cover IG–TES, MVK–FURIA, Movistar KOI–BLG, LØS–LYON and KC–T1. Select a model and CLI, then open a prediction to see the evidence it queried, probability revisions and the submission the verifier scored. [Fixed selection](evaluation/suites/featured-five.json) · [Ten DeepSeek × Codex forecasts](evaluation/examples/featured-five-deepseek/report.md) · [Ten DeepSeek × Claude Code forecasts](evaluation/examples/featured-five-claude-deepseek/report.md) · [Free OpenRouter run and quota record](evaluation/examples/featured-five-openrouter/report.md)
 
 ```sh
 ./bench e2e --suite featured-five --list

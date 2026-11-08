@@ -39,10 +39,10 @@ function trialTimeline(trial, files, url, signal) {
         phase(trial) === "draft-lock" ? "20 手 BP 已锁定" : phase(trial) === "lobby" ? "本局 BP 未公开" : null].filter(Boolean);
       if (info.length) head.append(span("tl-label", "观测范围"), node("p", "", info.join(" · ")));
       if (tags.length) head.append(span("tl-label", "成功查询涉及的快照字段"), div("tl-tags", tags.map(v => span("", v))));
-      const readings = data.readbacks || [];
-      if (readings.length) head.append(span("tl-label", "预测文件相关命令的数值回显"),
-        div("tl-readbacks", readings.map((p,i) => span("", (i ? "→ " : "") +
-          pct(p.p_blue_win) + " / " + pct(p.p_blue_ahead_15)))),
+      const readings = data.checkpoints || [];
+      if (readings.length) head.append(span("tl-label", "预测文件的已记录数值"),
+        div("tl-readbacks", readings.map(({values:p,source},i) => span("", (i ? "→ " : "") +
+          (source === "write_tool" ? "写入 " : "回显 ") + pct(p.p_blue_win) + " / " + pct(p.p_blue_ahead_15)))),
         node("small","meta","依次为蓝方胜率与 15′ 领先概率。最终交卷以保存的预测文件为准。"));
       area.replaceChildren(head);
       if (data.availability === "truncated") area.append(empty("原始日志或时间线读取范围已截断。可用事件仍按记录顺序展示。"));
@@ -50,7 +50,7 @@ function trialTimeline(trial, files, url, signal) {
         area.append(empty(trial.status === "scored" ? "此记录没有可展示的原生执行步骤。评分和已保存文件仍可查看。" : "此次运行未留下可展示的原生执行步骤。"));
       } else {
         const bar = div("tl-bar"), body = div("tl-body");
-        const filters = [["all","全部"],["tool","工具"],["message","模型消息"],["prediction","预测回显"],["error","异常"]];
+        const filters = [["all","全部"],["tool","工具"],["message","模型消息"],["prediction","预测记录"],["error","异常"]];
         let selected = "all", limit = 12;
         const filterButtons = new Map();
         function draw() {

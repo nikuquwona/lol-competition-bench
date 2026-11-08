@@ -1,0 +1,46 @@
+{
+  "report.json": {
+    "original_sha256": "f947e10ee515daa3685bbaf72a3225045b08e4eb6f308f1787a2e87ca9f6e32c",
+    "public_sha256": "f947e10ee515daa3685bbaf72a3225045b08e4eb6f308f1787a2e87ca9f6e32c"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/instruction.md": {
+    "original_sha256": "dee336fd6e39e885d4eec363396c5fc466c862ab249a0846ab1d70ff995222d4",
+    "public_sha256": "dee336fd6e39e885d4eec363396c5fc466c862ab249a0846ab1d70ff995222d4"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/prediction.json": {
+    "original_sha256": "5912621d73c7849b520e05dc46bda2ece1bbdc811e2a17698bc8070bde243e62",
+    "public_sha256": "5912621d73c7849b520e05dc46bda2ece1bbdc811e2a17698bc8070bde243e62"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/run.json": {
+    "original_sha256": "d3ebdb58672590cbc91ae7a6dddc258eaa7b75add6cc77dec2718f308eb9ffc1",
+    "public_sha256": "d3ebdb58672590cbc91ae7a6dddc258eaa7b75add6cc77dec2718f308eb9ffc1"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/trajectory.jsonl": {
+    "original_sha256": "329dac844a32a4d07a838643e77c372ef5a1560d520c7bbf729bc5c360129c2e",
+    "public_sha256": "bf14cddcd8f906bf8a71144626dd1c0ee05af683326978264d39ade09c09547e"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/instruction.md": {
+    "original_sha256": "dd325a4dd1c0304d101b7254ae16e3d37991e1645dcc3e2b3859e403e52065d9",
+    "public_sha256": "dd325a4dd1c0304d101b7254ae16e3d37991e1645dcc3e2b3859e403e52065d9"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/prediction.json": {
+    "original_sha256": "42c42d5ff41403837bed7c509d8010705d08410d3a746c58f1c061223d2b2670",
+    "public_sha256": "42c42d5ff41403837bed7c509d8010705d08410d3a746c58f1c061223d2b2670"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/run.json": {
+    "original_sha256": "7081ae31d7d7a0b11146df7c0a3f275c959bf321ed298d0ea66190433599d342",
+    "public_sha256": "7081ae31d7d7a0b11146df7c0a3f275c959bf321ed298d0ea66190433599d342"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/stderr.txt": {
+    "original_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
+    "public_sha256": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c"
+  },
+  "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/trajectory.jsonl": {
+    "original_sha256": "e45987e85634561b10d064ef157bca646e5dc345e016edc53c3aa5ee293b23c1",
+    "public_sha256": "10712c7799a24c9bd3bbc12db8424f74799431b8466bcf5f41da629069c9cea7"
+  }
+}

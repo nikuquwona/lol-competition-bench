@@ -1,0 +1,30 @@
+{
+  "cli": "2.1.270 (Claude Code)",
+  "mode": "live",
+  "model": "deepseek-v4-pro",
+  "phase": "lobby",
+  "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+  "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+  "upstream": [
+    {
+      "path": "/api/hello",
+      "status": 501,
+      "detail": "Unsupported method ('HEAD')"
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    }
+  ]
+}

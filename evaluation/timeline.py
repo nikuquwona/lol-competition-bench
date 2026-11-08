@@ -33,6 +33,14 @@ def clipped(value, limit):
     return value if len(value) <= limit else value[:limit] + "…"
 
 
+def forecast_object(value):
+    return (
+        isinstance(value, dict)
+        and set(value) == set(FIELDS)
+        and all(type(v) in (int, float) and 0 <= v <= 1 for v in value.values())
+    )
+
+
 def seen_prediction(output):
     """Recognize only complete forecast objects actually printed by the tool."""
     for candidate in reversed(re.findall(r"\{[^{}]{1,240}\}", output)):
@@ -40,11 +48,7 @@ def seen_prediction(output):
             value = ast.literal_eval(candidate)
         except (ValueError, SyntaxError):
             continue
-        if (
-            isinstance(value, dict)
-            and set(value) == set(FIELDS)
-            and all(type(v) in (int, float) and 0 <= v <= 1 for v in value.values())
-        ):
+        if forecast_object(value):
             return value
     return None
 
@@ -94,6 +98,7 @@ def build_timeline(events_path, *, phase, prediction=None, outcome=None):
         "steps": [],
         "evidence": [],
         "readbacks": [],
+        "checkpoints": [],
         "submission": prediction,
         "outcome": outcome,
         "omitted": 0,
@@ -180,6 +185,30 @@ def build_timeline(events_path, *, phase, prediction=None, outcome=None):
                     step["prediction"] = pair
                     if not data["readbacks"] or pair != data["readbacks"][-1]:
                         data["readbacks"].append(pair)
+                source = "output"
+                if label == "工具调用 · Write" and isinstance(body, dict):
+                    target = body.get("file_path")
+                    if target in (
+                        "./prediction.json",
+                        "prediction.json",
+                        "/app/prediction.json",
+                        "[ephemeral]/app/prediction.json",
+                    ) and isinstance(body.get("content"), str):
+                        # Claude's Write can confirm a full file write without
+                        # echoing its contents. Bind its call ID to the success
+                        # result and retain the successfully written arguments.
+                        try:
+                            payload = json.loads(body["content"])
+                        except ValueError:
+                            payload = None
+                        pair = payload if forecast_object(payload) else None
+                        if pair:
+                            step.update(title="写入预测文件", prediction=pair)
+                            source = "write_tool"
+                if pair and (
+                    not data["checkpoints"] or data["checkpoints"][-1]["values"] != pair
+                ):
+                    data["checkpoints"].append({"source": source, "values": pair})
         else:
             kind = (
                 "message"

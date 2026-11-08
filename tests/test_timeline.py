@@ -69,6 +69,42 @@ class TimelineTests(unittest.TestCase):
                     build_timeline(path, phase="lobby")["availability"], "truncated"
                 )
 
+    def test_successful_claude_file_revisions_are_distinct_from_stdout(self):
+        with tempfile.TemporaryDirectory() as d:
+            path = Path(d) / "events.jsonl"
+            lines = []
+            for i, p in enumerate((0.26, 0.9, 0.31)):
+                identifier = str(i)
+                values = {"p_blue_win": p, "p_blue_ahead_15": 0.58}
+                call = {
+                    "type": "tool_use",
+                    "id": identifier,
+                    "name": "Write",
+                    "input": {
+                        "file_path": "[ephemeral]/app/prediction.json",
+                        "content": json.dumps(values),
+                    },
+                }
+                result = {
+                    "type": "tool_result",
+                    "tool_use_id": identifier,
+                    "is_error": i == 1,
+                    "content": "denied" if i == 1 else "file saved",
+                }
+                lines.extend(
+                    [
+                        {"type": "assistant", "message": {"content": [call]}},
+                        {"type": "user", "message": {"content": [result]}},
+                    ]
+                )
+            path.write_text("".join(json.dumps(e) + "\n" for e in lines))
+            timeline = build_timeline(path, phase="draft-lock")
+            self.assertEqual(timeline["readbacks"], [])
+            self.assertEqual(
+                [e["values"]["p_blue_win"] for e in timeline["checkpoints"]],
+                [0.26, 0.31],
+            )
+
     def test_no_record_and_partial_log(self):
         self.assertEqual(
             build_timeline(None, phase="lobby")["availability"], "unavailable"

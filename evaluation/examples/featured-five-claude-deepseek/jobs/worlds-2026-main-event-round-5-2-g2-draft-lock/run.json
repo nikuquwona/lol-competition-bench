@@ -1,0 +1,105 @@
+{
+  "cli": "2.1.270 (Claude Code)",
+  "mode": "live",
+  "model": "deepseek-v4-pro",
+  "phase": "draft-lock",
+  "snapshot_sha256": "9b619f8991d737098fc5ee8ef25e867e67765b2a131ab25f0e6f55d6cb021dad",
+  "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+  "upstream": [
+    {
+      "path": "/api/hello",
+      "status": 501,
+      "detail": "Unsupported method ('HEAD')"
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages/count_tokens?beta=true",
+      "status": 403,
+      "detail": "Forbidden"
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/messages?beta=true",
+      "status": 200,
+      "detail": null
+    }
+  ]
+}
