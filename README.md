@@ -83,3 +83,33 @@ python3 scripts/live_series.py settle live/115660540726095121.json --receipt rec
 [完整 v1 题包](datasets/lol-2026-replay-v1.tar.gz) 包含 198 个可直接交给 Harbor 的任务目录。用 `tar -xzf datasets/lol-2026-replay-v1.tar.gz` 解压。每道题对应一小局的一个观测时点，附带独立 verifier 和 oracle，参赛工具只应读取本题 environment 中的快照。题包内的结果仅供组织者侧使用。
 
 [KC–T1 第二局 DeepSeek 对照](examples/kc-t1-g2) 包含这两道题的展开目录、首次 API 会话、工具返回及预测文件。本机用 deepseek-v4-pro 的 function calling 读取当前局和查询命中的历史行；GitHub 上的 Harbor regrade workflow 可以在无需 API 密钥的情况下复评这两份预测。
+
+## 五款原生 CLI 的隔离评测
+
+在私有仓库的 [Isolated native CLI trial](https://github.com/nikuquwona/lol-competition-bench/actions/workflows/native-cli.yml) 选择 main、赛局、时点、harness 和模型。每款 CLI 使用独立 GitHub 托管 Ubuntu runner、全新容器和 HOME。本机无需安装 CLI、启动 Docker、登录供应商账号或修改 shell 配置。
+
+| harness 参数 | 实际程序 | 固定版本 | 模型通道 |
+|---|---|---|---|
+| claude | Claude Code CLI | 2.1.319 | Anthropic Messages 协议 → DeepSeek |
+| codex | Codex CLI | 0.167.0 | Responses 协议 → DeepSeek |
+| pi | Pi CLI | 1.5.0 | Chat Completions → DeepSeek |
+| kimi | Kimi Code CLI（@moonshot-ai/kimi-code） | 2.5.2 | Chat Completions → DeepSeek |
+| cursor | Cursor Agent CLI | 2026.11.05-86047df | Cursor 账号支持的模型；单列 vendor 结果 |
+
+```sh
+# 无密钥的集成验收。四款 CLI 由协议测试服务要求写入固定预测，Cursor 检查启动、服务连接与未授权行为。
+gh workflow run native-cli.yml --ref main -f harness=all -f mode=smoke
+
+# 真实预测。事先在仓库配备专用 Actions secret BENCH_DEEPSEEK_KEY。
+gh workflow run native-cli.yml --ref main -f harness=all -f mode=live \
+  -f model=deepseek-v4-pro -f phase=draft-lock -f series=worlds-2026-main-event-quarterfinals-4 -f game=2
+
+# Cursor 的 vendor 预测需要专用 BENCH_CURSOR_KEY 和该账号可用的明确模型 ID。
+gh workflow run native-cli.yml --ref main -f harness=cursor -f mode=vendor -f model="$CURSOR_MODEL"
+```
+
+smoke 的固定提交仅验证真实 CLI 能否调用本地工具、向 Harbor 交付 JSON、由独立 verifier 评分。live 的 all 包含前四款。供应商要求和默认系统提示词、上下文压缩等依旧会随 harness 变化。输出 artifact 只保存运行标识、模型与 CLI 版本、两个概率和评分。网关不会记录密钥和请求正文。基础设施错误作为失败单列，汇总时同时报告成功完成数与总题数。
+
+**隔离在哪里生效。** Harbor 将当题 snapshot 和 instruction 交给一个单独的 CLI 容器。CLI 使用普通用户、只读根文件系统、临时工作区，Docker 配置为 network_mode=none，运行时验证只存在 lo。仓库、Docker socket、个人 HOME、其他会话、oracle 和真值均不进入这个容器。四款 DeepSeek CLI 只能通过 Unix socket 接触本次专属推理网关，使用占位密钥。网关持有真实凭证，把请求转给固定 HTTPS 主机，仅接收指定模型、指定推理路径和本地函数工具；跨会话引用、托管搜索、远程 MCP、远程文件、任意 URL 转发均被拒绝。每题网关限 40 次请求。CLI 退出时只读取小于等于 4096 字节的常规预测文件，拒绝符号链接、FIFO、重复 JSON 字段和额外字段。评分在独立 Harbor verifier 中完成。每次运行使用唯一资源名，在 finally 中回收并复查容器、socket 卷和镜像；即使任务失败也执行资源检查。GitHub 回收整台 runner 及 Docker 构建缓存。强制终止或机器宕机时，最终回收依赖托管 runner 生命周期。
+
+**时间边界和仍然存在的作弊空间。** 模型只能向前翻同系列的小局；其他系列必须在目标系列开始前已有完整回放。累计评分与当前赛季总榜不进入输入。测试主动篡改后续赛果、经济差和赛季评分，要求两个预测时点的输入都不变。历史快照使用今天整理的归档，可能包含后续勘误；真实队名和阵容也可能唤起模型权重中记住的结果。严谨的盲测采用赛前实际冻结、带可信时间戳的首次预测，再于赛后结算；组织者须核对服务器回执，不能信任自填时间或挑选多次预测中的最好一次。Cursor 的 TLS 在供应商侧终止，网关只约束客户端可连接的后端主机，无法证明其服务端没有检索。vendor 分数与四款受控成绩分开。仓库管理员或自带评分器的参赛者不在隔离信任边界内。

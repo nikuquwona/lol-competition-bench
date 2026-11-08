@@ -163,7 +163,8 @@ def main():
         if sys.argv[3:] == ["--check"]:
             # Probe only the vendor backends, over the same pinned TCP relays as a paid run.
             tls = ssl.create_default_context()
-            for host in ("api2.cursor.sh", "api5.cursor.sh"):
+            tls.set_alpn_protocols(["h2", "http/1.1"])
+            for host in ("api2.cursor.sh", "agent.api5.cursor.sh"):
                 with socket.create_connection((host, 443), timeout=10) as conn:
                     with tls.wrap_socket(conn, server_hostname=host):
                         pass
