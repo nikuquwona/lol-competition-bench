@@ -1,0 +1,490 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "codex",
+  "model": "deepseek-v4-pro",
+  "mode": "live",
+  "backend": "macos",
+  "planned": [
+    "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+    "worlds-2026-main-event-quarterfinals-4-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "68dac889a49706e24acfc74ab4a60080a77e39a08f04984a4b5ed1c148d2e223",
+      "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.23,
+        "p_blue_ahead_15": 0.52
+      },
+      "reward": 0.8383499999999999,
+      "brier": {
+        "p_blue_win": 0.0529,
+        "p_blue_ahead_15": 0.27040000000000003
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 46,
+        "shell_commands": 17,
+        "failed_commands": 1,
+        "token_usage": {
+          "input_tokens": 458302,
+          "cached_input_tokens": 446848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 21627,
+          "reasoning_output_tokens": 12300
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/transcript.md"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "4c7bb5e75c3e77dbc38dd1b0b8fac939faa0d8cafdf59b8f7d4049ccabc909d0",
+      "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.44,
+        "p_blue_ahead_15": 0.6
+      },
+      "reward": 0.7232000000000001,
+      "brier": {
+        "p_blue_win": 0.1936,
+        "p_blue_ahead_15": 0.36
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 33,
+        "shell_commands": 12,
+        "token_usage": {
+          "input_tokens": 252719,
+          "cached_input_tokens": 246016,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 15858,
+          "reasoning_output_tokens": 11170
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/transcript.md"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "selected": 2,
+    "scored": 2,
+    "statuses": {
+      "scored": 2
+    },
+    "mean_reward": 0.780775,
+    "brier_on_scored": {
+      "p_blue_win": 0.12325,
+      "p_blue_ahead_15": 0.31520000000000004
+    }
+  },
+  "by_phase": {
+    "draft-lock": {
+      "selected": 1,
+      "scored": 1,
+      "statuses": {
+        "scored": 1
+      },
+      "mean_reward": 0.8383499999999999,
+      "brier_on_scored": {
+        "p_blue_win": 0.0529,
+        "p_blue_ahead_15": 0.27040000000000003
+      }
+    },
+    "lobby": {
+      "selected": 1,
+      "scored": 1,
+      "statuses": {
+        "scored": 1
+      },
+      "mean_reward": 0.7232000000000001,
+      "brier_on_scored": {
+        "p_blue_win": 0.1936,
+        "p_blue_ahead_15": 0.36
+      }
+    }
+  },
+  "by_coverage": {
+    "all": {
+      "selected": 2,
+      "scored": 2,
+      "statuses": {
+        "scored": 2
+      },
+      "mean_reward": 0.780775,
+      "brier_on_scored": {
+        "p_blue_win": 0.12325,
+        "p_blue_ahead_15": 0.31520000000000004
+      }
+    }
+  },
+  "paired": {
+    "selected_games": 1,
+    "selected_pairs": 1,
+    "scored_pairs": 1,
+    "mean_brier_improvement": {
+      "p_blue_win": 0.1407,
+      "p_blue_ahead_15": 0.08959999999999996
+    },
+    "pairs": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": 0.1407,
+          "p_blue_ahead_15": 0.08959999999999996
+        }
+      }
+    ]
+  }
+}

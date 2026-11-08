@@ -1,0 +1,40 @@
+{
+  "cli": "codex-cli 0.167.0",
+  "mode": "live",
+  "model": "deepseek-v4-pro",
+  "phase": "draft-lock",
+  "snapshot_sha256": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0",
+  "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+  "upstream": [
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    },
+    {
+      "path": "/v1/responses",
+      "status": 200,
+      "detail": null
+    }
+  ]
+}

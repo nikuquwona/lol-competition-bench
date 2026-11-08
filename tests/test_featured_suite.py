@@ -12,6 +12,42 @@ from production.store import digest, read
 
 
 class FeaturedSuiteTests(unittest.TestCase):
+    def test_official_deepseek_run_scores_all_ten_fresh_native_forecasts(self):
+        out = ROOT / "evaluation/examples/featured-five-deepseek"
+        report = read(out / "report.json")
+        self.assertEqual(
+            (report["model"], report["harness"], report["mode"], report["backend"]),
+            ("deepseek-v4-pro", "codex", "live", "macos"),
+        )
+        self.assertEqual(report["summary"]["scored"], 10)
+        self.assertEqual(report["paired"]["scored_pairs"], 5)
+        self.assertFalse(report["unstarted"])
+        self.assertEqual(len({r["origin"]["trial_id"] for r in report["trials"]}), 10)
+        manifest, rows = select(
+            DEFAULT_RELEASE, suite_ids(report["suite"], DEFAULT_RELEASE)
+        )
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            unpack(DEFAULT_RELEASE, manifest, rows, root)
+            for r in report["trials"]:
+                origin = r["origin"]
+                src = out / origin["source_report"]
+                self.assertEqual(digest(src), origin["source_report_sha256"])
+                job = out / "jobs" / r["task"]
+                for name, h in origin["files_sha256"].items():
+                    artifact = (
+                        out / r["trajectory"]["files"]["snapshot"]
+                        if name == "snapshot.json"
+                        else job / name
+                    )
+                    self.assertEqual(digest(artifact), h)
+                grade = report_row(root / r["task"], read(job / "prediction.json"))
+                self.assertEqual({k: r[k] for k in grade}, grade)
+                self.assertEqual(r["runtime"]["cli"], "codex-cli 0.167.0")
+                self.assertTrue(
+                    any(e["status"] == 200 for e in r["runtime"]["upstream"])
+                )
+
     def test_fixed_set_and_selection_rule_from_model_visible_inputs(self):
         ids = suite_ids("featured-five", DEFAULT_RELEASE)
         self.assertEqual(len(ids), 10)

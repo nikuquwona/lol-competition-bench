@@ -1,0 +1,2022 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "codex",
+  "model": "deepseek-v4-pro",
+  "mode": "live",
+  "backend": "macos",
+  "suite": "featured-five",
+  "planned": [
+    "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+    "lpl-2026-regional-finals-round-1-1-g2-lobby",
+    "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+    "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+    "worlds-2026-main-event-round-1-3-g1-draft-lock",
+    "worlds-2026-main-event-round-1-3-g1-lobby",
+    "worlds-2026-main-event-round-5-2-g2-draft-lock",
+    "worlds-2026-main-event-round-5-2-g2-lobby",
+    "worlds-2026-play-in-round-1-2-g2-draft-lock",
+    "worlds-2026-play-in-round-1-2-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "prompt_sha256": "42876f6f1f87de8bcc456f44117a5a8fee705399b84cdcd72941163178fdd5a0",
+      "snapshot_sha256": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.52,
+        "p_blue_ahead_15": 0.28
+      },
+      "reward": 0.8256,
+      "brier": {
+        "p_blue_win": 0.27040000000000003,
+        "p_blue_ahead_15": 0.07840000000000001
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 15,
+        "shell_commands": 4,
+        "token_usage": {
+          "input_tokens": 69322,
+          "cached_input_tokens": 65536,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5678,
+          "reasoning_output_tokens": 4362
+        },
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/prediction.json",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "3f6b355b84b2bcb2b525821df5f42fb3bf0992662988d7d089e0c64f4d89a295",
+        "source_report_sha256": "e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce",
+        "source_report": "sources/e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce.json",
+        "files_sha256": {
+          "instruction.md": "ac09072dc540d23a3b4436f3addff316097085b2bf807d94fb3818434482309e",
+          "prediction.json": "9c4592ffbc90098e802de1df2bdcf7f72a85ebe5ba54fb6736d475bff0a9293d",
+          "run.json": "e32a8e579212dc45886fef1ec9fdbf99555c24cfd0a497c623a81e734ae584fb",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "42cd4d225beea8d66d20fe2b0590fb99702e3dd85a771bfaf966a20a130e8e6b",
+          "snapshot.json": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134"
+        }
+      }
+    },
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-lobby",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.17",
+      "prompt_sha256": "f208a2d6f7ee0a6cb85b9672d7b09b5a6ef6e08b6cdc326274f93aee97c2ac34",
+      "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.54,
+        "p_blue_ahead_15": 0.46
+      },
+      "reward": 0.7484,
+      "brier": {
+        "p_blue_win": 0.2916,
+        "p_blue_ahead_15": 0.2116
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 11,
+        "shell_commands": 2,
+        "token_usage": {
+          "input_tokens": 32699,
+          "cached_input_tokens": 29696,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3097,
+          "reasoning_output_tokens": 2325
+        },
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/stderr.txt",
+          "prediction": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/prediction.json",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "1ae25b48d11273a594fe5c5b8a2b45dbf1ef6115740e3d4f759c91c1ec84dfc1",
+        "source_report_sha256": "e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce",
+        "source_report": "sources/e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce.json",
+        "files_sha256": {
+          "instruction.md": "b1f8499fa2059404c68735945a7b76daba06210f721466ed4b85c30a50edde65",
+          "prediction.json": "50efc41b19785cdd5185963cdf974be5b224a32d6124012e455ee26f66dbe854",
+          "run.json": "f4e6aa3b1175555371d93dc4e147954bf6e95c0baf8bdcc9faa047bf49b5e19a",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "7660b6bf166ac533e37d486293676ca1d2ec0d4d912b1904033c86c07e437cf1",
+          "snapshot.json": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "68dac889a49706e24acfc74ab4a60080a77e39a08f04984a4b5ed1c148d2e223",
+      "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.23,
+        "p_blue_ahead_15": 0.52
+      },
+      "reward": 0.8383499999999999,
+      "brier": {
+        "p_blue_win": 0.0529,
+        "p_blue_ahead_15": 0.27040000000000003
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 46,
+        "shell_commands": 17,
+        "failed_commands": 1,
+        "token_usage": {
+          "input_tokens": 458302,
+          "cached_input_tokens": 446848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 21627,
+          "reasoning_output_tokens": 12300
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "cdfd97ecec6c34ac631916d0c86725cd7c86aefa536ded1446432ea699698a7d",
+        "source_report_sha256": "42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7",
+        "source_report": "sources/42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7.json",
+        "files_sha256": {
+          "instruction.md": "dee336fd6e39e885d4eec363396c5fc466c862ab249a0846ab1d70ff995222d4",
+          "prediction.json": "53fd03d613b18830f7867f68d7c18fa8aec11fe08965c8b7cccfd2e6f2d49aac",
+          "run.json": "6a613cc4281e1a91fe08e8c996e0a27a156e0e46482a7009fb1dfb5064aea087",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "342ee0136c2edfdf22e662372fc71c9117767a19ca16840701ab2c9c514366cb",
+          "snapshot.json": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "4c7bb5e75c3e77dbc38dd1b0b8fac939faa0d8cafdf59b8f7d4049ccabc909d0",
+      "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.44,
+        "p_blue_ahead_15": 0.6
+      },
+      "reward": 0.7232000000000001,
+      "brier": {
+        "p_blue_win": 0.1936,
+        "p_blue_ahead_15": 0.36
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 33,
+        "shell_commands": 12,
+        "token_usage": {
+          "input_tokens": 252719,
+          "cached_input_tokens": 246016,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 15858,
+          "reasoning_output_tokens": 11170
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "bd22f5f00813956c2b1c9c1c91e324c3954a17beb0ae74d36bff5ce657005e67",
+        "source_report_sha256": "42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7",
+        "source_report": "sources/42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7.json",
+        "files_sha256": {
+          "instruction.md": "dd325a4dd1c0304d101b7254ae16e3d37991e1645dcc3e2b3859e403e52065d9",
+          "prediction.json": "17010069a9316814d316a8af5a6ec0e3c942dfc4deb0c25fbf40d243152c766f",
+          "run.json": "85a6339e67b94e3cc165ca33902bce4b9cde37fc3f71a413fb0b090d619db680",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "8d04630a0852b41b793abde6cc17fb4503d628f6bccaacd7e234e60a39d657bd",
+          "snapshot.json": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-1-3-g1-draft-lock",
+      "coverage": {
+        "history_games": 34,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Alvaro",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Elyoya",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Jojopyun",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Myrwn",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Supa",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Bin",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Knight",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "ON",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Viper",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Xun",
+            "games": 0,
+            "same_patch_games": 0
+          }
+        ],
+        "starters_with_history": 0,
+        "coverage_group": "none",
+        "previous_series_games": [],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "a07d3b798d1a89569595a4091b1f5801eac336139d7b3725e5b5b2c9b62e5ed6",
+      "snapshot_sha256": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.14,
+        "p_blue_ahead_15": 0.18
+      },
+      "reward": 0.29400000000000004,
+      "brier": {
+        "p_blue_win": 0.7395999999999999,
+        "p_blue_ahead_15": 0.6724000000000001
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 15,
+        "shell_commands": 5,
+        "token_usage": {
+          "input_tokens": 91698,
+          "cached_input_tokens": 84992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5214,
+          "reasoning_output_tokens": 3208
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-round-1-3-g1-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-round-1-3-g1-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-round-1-3-g1-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-round-1-3-g1-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-round-1-3-g1-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-round-1-3-g1-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "e9eb3b9e4256b0fd90d1e22b3481f1b2201375955b6ffd144bd9ea8a53ca9db9",
+        "source_report_sha256": "1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80",
+        "source_report": "sources/1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80.json",
+        "files_sha256": {
+          "instruction.md": "13b7e9fb1e9a34189b61a100df6e3c346042153983cb96db53c0d71880e49724",
+          "prediction.json": "c4815d7c8684f102b634824a860e2e805fd0919b8d04e53aad9d984d4813be2d",
+          "run.json": "1072ad645ff3f2e9b22f191f675a5875b903cf7542a9f800fbbe363572c697a0",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "45c34a2c4f331fc680b1131f889a2be49c3240f36fb4145ef3a3d0efeb661b27",
+          "snapshot.json": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-1-3-g1-lobby",
+      "coverage": {
+        "history_games": 34,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Alvaro",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Elyoya",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Jojopyun",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Myrwn",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "blue",
+            "name": "Supa",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Bin",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Knight",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "ON",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Viper",
+            "games": 0,
+            "same_patch_games": 0
+          },
+          {
+            "side": "red",
+            "name": "Xun",
+            "games": 0,
+            "same_patch_games": 0
+          }
+        ],
+        "starters_with_history": 0,
+        "coverage_group": "none",
+        "previous_series_games": [],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "3e5a070b67b196ce2594a96609abd5d1ffaf3ba00f4dc64a2c4ffc293e7d75b2",
+      "snapshot_sha256": "1d43d90c7353c0c990151f2df97d610f9359bf37b35536dcae33be0ff3e6124c",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "1d43d90c7353c0c990151f2df97d610f9359bf37b35536dcae33be0ff3e6124c",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.19,
+        "p_blue_ahead_15": 0.24
+      },
+      "reward": 0.3831499999999999,
+      "brier": {
+        "p_blue_win": 0.6561000000000001,
+        "p_blue_ahead_15": 0.5776
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 13,
+        "shell_commands": 4,
+        "token_usage": {
+          "input_tokens": 61408,
+          "cached_input_tokens": 56832,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2930,
+          "reasoning_output_tokens": 1626
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-round-1-3-g1-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-round-1-3-g1-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-round-1-3-g1-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-round-1-3-g1-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-round-1-3-g1-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-round-1-3-g1-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "47901e5f0d465bbe524e0b03496d28b8472f1cfc1b50aa69de19e172299066ef",
+        "source_report_sha256": "1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80",
+        "source_report": "sources/1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80.json",
+        "files_sha256": {
+          "instruction.md": "e4b834adf2176daa62712973a28d1e97a9be63f01bcbbb1456e60343105fada1",
+          "prediction.json": "deadad52f68a5c15023c730fa108368c1235bb0e80e5188cb03aaa2d4d9c736f",
+          "run.json": "695057126debcb15a0a38fead2844625bd51456d9a4359b0f49ec16347c84a3f",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "cd166ca1e1cd584580a2f0e407bad19f10fa2e82366f45fc1bfde2d71ebd8c28",
+          "snapshot.json": "1d43d90c7353c0c990151f2df97d610f9359bf37b35536dcae33be0ff3e6124c"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-5-2-g2-draft-lock",
+      "coverage": {
+        "history_games": 79,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Ackerman",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Curse",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Duduhh",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Feisty",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Zest",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "red",
+            "name": "Berserker",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Dhokla",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Inspired",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Isles",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Saint",
+            "games": 9,
+            "same_patch_games": 9
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "7bb03cb56fcf15bffa1cf7886a331d99cb21b9b876b1e046cfa1c96b887e1713",
+      "snapshot_sha256": "9b619f8991d737098fc5ee8ef25e867e67765b2a131ab25f0e6f55d6cb021dad",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "9b619f8991d737098fc5ee8ef25e867e67765b2a131ab25f0e6f55d6cb021dad",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.6,
+        "p_blue_ahead_15": 0.68
+      },
+      "reward": 0.7688,
+      "brier": {
+        "p_blue_win": 0.36,
+        "p_blue_ahead_15": 0.10239999999999996
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 31,
+        "shell_commands": 11,
+        "token_usage": {
+          "input_tokens": 286218,
+          "cached_input_tokens": 273408,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 17582,
+          "reasoning_output_tokens": 10724
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-round-5-2-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-round-5-2-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-round-5-2-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-round-5-2-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "d58bd644502890cc3e6b46e8460e72cd01aa142826070351ffe6275262580ada",
+        "source_report_sha256": "67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b",
+        "source_report": "sources/67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b.json",
+        "files_sha256": {
+          "instruction.md": "d437db6b0bc9499b1bc002f8752814740ea8797930136191df5c716fbb0bb2ac",
+          "prediction.json": "e42a8ed09c93e786b7a50dc911f4fc5bc0504954aa813e64083c6182ffd09ba2",
+          "run.json": "2e705ca3d35586d5415dd59b02a27a0ed74ea4bdb6b949a0299c76f25678a003",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "06b4a86666fbe0938d5808f921ad878f8cc0bc55e1579ea977e11f9971f9908c",
+          "snapshot.json": "9b619f8991d737098fc5ee8ef25e867e67765b2a131ab25f0e6f55d6cb021dad"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-5-2-g2-lobby",
+      "coverage": {
+        "history_games": 79,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Ackerman",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Curse",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Duduhh",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Feisty",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "blue",
+            "name": "Zest",
+            "games": 8,
+            "same_patch_games": 8
+          },
+          {
+            "side": "red",
+            "name": "Berserker",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Dhokla",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Inspired",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Isles",
+            "games": 9,
+            "same_patch_games": 9
+          },
+          {
+            "side": "red",
+            "name": "Saint",
+            "games": 9,
+            "same_patch_games": 9
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "a952a02187c857d6e0e1518e705adc7f37a659917bc4e7ad8a6d52b3a0aaa561",
+      "snapshot_sha256": "1a8fbea764e4c51d4bb2d8d723b88f0a026fb8716496265ba70ad4c3ec58b673",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "1a8fbea764e4c51d4bb2d8d723b88f0a026fb8716496265ba70ad4c3ec58b673",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.67,
+        "p_blue_ahead_15": 0.66
+      },
+      "reward": 0.71775,
+      "brier": {
+        "p_blue_win": 0.4489000000000001,
+        "p_blue_ahead_15": 0.11559999999999998
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 41,
+        "shell_commands": 17,
+        "failed_commands": 1,
+        "token_usage": {
+          "input_tokens": 460201,
+          "cached_input_tokens": 447488,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 23522,
+          "reasoning_output_tokens": 15379
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-round-5-2-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-round-5-2-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-round-5-2-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-round-5-2-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-round-5-2-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-round-5-2-g2-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "bbc3df2f555a67040a386c38e088556d1cce9bb963990794b37b604b1e029c06",
+        "source_report_sha256": "67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b",
+        "source_report": "sources/67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b.json",
+        "files_sha256": {
+          "instruction.md": "25c2e0d15a0dca619ede346b46170474011bf53212d2260ae3ae806ef125d3c4",
+          "prediction.json": "45a083718c22a1b47bb4271c647d4611f250121e973ab1b3b1fa6ca76f254a75",
+          "run.json": "87b4ac9a8df60684b90ecd1cdf1e4cbe6b5a3e8be700627eb34138297fafb855",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "e722edb24b5b55fd7ba78ac4a4a3317a088a60bb87a599f8817dc70c629a44c4",
+          "snapshot.json": "1a8fbea764e4c51d4bb2d8d723b88f0a026fb8716496265ba70ad4c3ec58b673"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-draft-lock",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "6efb6d142b1e97e76e6d109dd2038a33323f9ead191dd440ae021e757a4228e7",
+      "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.58,
+        "p_blue_ahead_15": 0.53
+      },
+      "reward": 0.80135,
+      "brier": {
+        "p_blue_win": 0.17640000000000003,
+        "p_blue_ahead_15": 0.22089999999999999
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 20,
+        "shell_commands": 6,
+        "token_usage": {
+          "input_tokens": 125771,
+          "cached_input_tokens": 117760,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 8966,
+          "reasoning_output_tokens": 7861
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "f34ee19e9f6378435ed21e5418247c99884991c189e9b0e9c4b3d241a13c674e",
+        "source_report_sha256": "ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d",
+        "source_report": "sources/ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d.json",
+        "files_sha256": {
+          "instruction.md": "580b2cff283a84f79767643921cae54157840a15702a283bb12a0b49997c1fb7",
+          "prediction.json": "86dcf8572eb58cb301764267be407ce8a4a4d7835e75257045e4a0ca9f54d947",
+          "run.json": "eba6b7900b875caebd62a96ed801e32a2c71d7e42b20716fa8ad15fcc06071ec",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "28da499b2ef7a6064a8dbda549d15512345840b9e597dc4a160ec8695bb5e7ac",
+          "snapshot.json": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-lobby",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "92d628f2eb8bc124998aab18fc1cb32d43543163868b1ac1ad292688379f322d",
+      "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "live",
+        "model": "deepseek-v4-pro",
+        "phase": "lobby",
+        "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.6,
+        "p_blue_ahead_15": 0.38
+      },
+      "reward": 0.7278,
+      "brier": {
+        "p_blue_win": 0.16000000000000003,
+        "p_blue_ahead_15": 0.3844
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 16,
+        "shell_commands": 5,
+        "token_usage": {
+          "input_tokens": 94027,
+          "cached_input_tokens": 87552,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6553,
+          "reasoning_output_tokens": 4809
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "42177131097b15032b04aa75fe0f7c5c5f8dd476f7dbf12faa34040017c75fa9",
+        "source_report_sha256": "ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d",
+        "source_report": "sources/ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d.json",
+        "files_sha256": {
+          "instruction.md": "836344212e4c9a5c3fb87f2a221b7dc19c4f68087c8f84f61bef9cd35cf59f93",
+          "prediction.json": "4decd63485b1e48efda76bd9295da304cb7c5160c71ee64db176aaafa4c9cfb0",
+          "run.json": "79eb34c50e30a6d5d791d3058d2da50c73c62e2ec5d66766f66212677ca351d8",
+          "stderr.txt": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "trajectory.jsonl": "9185ada9aad46b88a3dfa10e3ed5433a824ac3cd4d9ab74acbd347908b0c3dad",
+          "snapshot.json": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106"
+        }
+      }
+    }
+  ],
+  "provenance": {
+    "source_runs": [
+      {
+        "sha256": "e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce",
+        "file": "sources/e7ce20cdf8f21f4284532e5d4d4d236dc849d52e01615d90d57eb29ea5daadce.json",
+        "planned": [
+          "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+          "lpl-2026-regional-finals-round-1-1-g2-lobby"
+        ]
+      },
+      {
+        "sha256": "42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7",
+        "file": "sources/42b456bd5c465d7c88b24b6001f3280767426ccfdf6801911c855802e8e0b0d7.json",
+        "planned": [
+          "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+          "worlds-2026-main-event-quarterfinals-4-g2-lobby"
+        ]
+      },
+      {
+        "sha256": "1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80",
+        "file": "sources/1d0587e15fa72db00d9cbc5df36a66016e0507e49712ec58900a898fe3cdcd80.json",
+        "planned": [
+          "worlds-2026-main-event-round-1-3-g1-draft-lock",
+          "worlds-2026-main-event-round-1-3-g1-lobby"
+        ]
+      },
+      {
+        "sha256": "67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b",
+        "file": "sources/67a3fd06ac3fa1d61309c7e635db38b6eb056b8261e24b0efcaee480c9da681b.json",
+        "planned": [
+          "worlds-2026-main-event-round-5-2-g2-draft-lock",
+          "worlds-2026-main-event-round-5-2-g2-lobby"
+        ]
+      },
+      {
+        "sha256": "ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d",
+        "file": "sources/ec05d4d745d8550e7818a700f8c0352aa5b7443bd178d6ddc98bb0d1caa53b2d.json",
+        "planned": [
+          "worlds-2026-play-in-round-1-2-g2-draft-lock",
+          "worlds-2026-play-in-round-1-2-g2-lobby"
+        ]
+      }
+    ],
+    "authentication_diagnostics": [],
+    "trial_id_fields": [
+      "release",
+      "archive_sha256",
+      "harness",
+      "model",
+      "mode",
+      "backend",
+      "task",
+      "trajectory.jsonl SHA-256"
+    ],
+    "trial_id_encoding": "SHA-256 of a UTF-8 JSON array with compact separators",
+    "provider_host": "api.deepseek.com",
+    "billing": "metered; provider invoice amount not recorded"
+  },
+  "unstarted": [],
+  "progress": {
+    "planned": 10,
+    "attempted": 10,
+    "scored": 10,
+    "failed": 0,
+    "not_started": 0
+  },
+  "summary": {
+    "selected": 10,
+    "scored": 10,
+    "statuses": {
+      "scored": 10
+    },
+    "mean_reward": 0.68284,
+    "brier_on_scored": {
+      "p_blue_win": 0.33495,
+      "p_blue_ahead_15": 0.29937
+    }
+  },
+  "by_phase": {
+    "draft-lock": {
+      "selected": 5,
+      "scored": 5,
+      "statuses": {
+        "scored": 5
+      },
+      "mean_reward": 0.70562,
+      "brier_on_scored": {
+        "p_blue_win": 0.31986,
+        "p_blue_ahead_15": 0.26890000000000003
+      }
+    },
+    "lobby": {
+      "selected": 5,
+      "scored": 5,
+      "statuses": {
+        "scored": 5
+      },
+      "mean_reward": 0.66006,
+      "brier_on_scored": {
+        "p_blue_win": 0.35004,
+        "p_blue_ahead_15": 0.32984
+      }
+    }
+  },
+  "by_coverage": {
+    "all": {
+      "selected": 8,
+      "scored": 8,
+      "statuses": {
+        "scored": 8
+      },
+      "mean_reward": 0.76890625,
+      "brier_on_scored": {
+        "p_blue_win": 0.24422500000000003,
+        "p_blue_ahead_15": 0.2179625
+      }
+    },
+    "none": {
+      "selected": 2,
+      "scored": 2,
+      "statuses": {
+        "scored": 2
+      },
+      "mean_reward": 0.33857499999999996,
+      "brier_on_scored": {
+        "p_blue_win": 0.6978500000000001,
+        "p_blue_ahead_15": 0.625
+      }
+    }
+  },
+  "paired": {
+    "selected_games": 5,
+    "selected_pairs": 5,
+    "scored_pairs": 5,
+    "mean_brier_improvement": {
+      "p_blue_win": 0.030180000000000057,
+      "p_blue_ahead_15": 0.06093999999999997
+    },
+    "pairs": [
+      {
+        "series": "lpl-2026-regional-finals-round-1-1",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": 0.021199999999999997,
+          "p_blue_ahead_15": 0.13319999999999999
+        }
+      },
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": 0.1407,
+          "p_blue_ahead_15": 0.08959999999999996
+        }
+      },
+      {
+        "series": "worlds-2026-main-event-round-1-3",
+        "game": 1,
+        "brier_improvement": {
+          "p_blue_win": -0.0834999999999998,
+          "p_blue_ahead_15": -0.0948000000000001
+        }
+      },
+      {
+        "series": "worlds-2026-main-event-round-5-2",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": 0.08890000000000009,
+          "p_blue_ahead_15": 0.013200000000000017
+        }
+      },
+      {
+        "series": "worlds-2026-play-in-round-1-2",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": -0.016399999999999998,
+          "p_blue_ahead_15": 0.16350000000000003
+        }
+      }
+    ]
+  }
+}

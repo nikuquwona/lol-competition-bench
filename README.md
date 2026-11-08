@@ -10,7 +10,7 @@
 
 ## 五场对照
 
-用 `./bench serve` 打开本地模型成绩页。五场覆盖 IG–TES、MVK–FURIA、Movistar KOI–BLG、LØS–LYON、KC–T1，同一模型可通过不同 CLI 对照。点击任一阶段的预测，可以查看它检索了哪些证据、怎样修订概率，以及实际向裁判提交的文件。[固定题单](evaluation/suites/featured-five.json) · [OpenRouter 免费运行及配额记录](evaluation/examples/featured-five-openrouter/report.md)
+用 `./bench serve` 打开本地模型成绩页。五场覆盖 IG–TES、MVK–FURIA、Movistar KOI–BLG、LØS–LYON、KC–T1，同一模型可通过不同 CLI 对照。点击任一阶段的预测，可以查看它检索了哪些证据、怎样修订概率，以及实际向裁判提交的文件。[固定题单](evaluation/suites/featured-five.json) · [DeepSeek × Codex 十题实测](evaluation/examples/featured-five-deepseek/report.md) · [OpenRouter 免费运行及配额记录](evaluation/examples/featured-five-openrouter/report.md)
 
 ```sh
 ./bench e2e --suite featured-five --list

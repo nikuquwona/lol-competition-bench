@@ -537,11 +537,8 @@ async function leaderboard(root, signal) {
       ...groups.flatMap((g) => g.entries.map((e) => e.harness)),
     ]),
   ];
-  const lead = pageHeading(
-    "模型预测成绩",
-    null,
-    link("导出成绩 CSV", "/api/leaderboard.csv", "btn", true),
-  );
+  const download = link("导出题单 CSV", "/api/leaderboard.csv", "btn", true);
+  const lead = pageHeading("模型预测成绩", null, download);
   root.replaceChildren(lead);
   if (!groups.length) {
     root.append(
@@ -578,6 +575,15 @@ async function leaderboard(root, signal) {
   filters.append(selectedGroup, meta);
   let latest = 0;
   function draw(g) {
+    const params = new URLSearchParams();
+    if (g.sampling) params.set("view", "featured");
+    else {
+      params.set("selection_sha256", g.selection_sha256);
+      params.set("archive_sha256", g.archive_sha256);
+    }
+    for (const name of ["backend", "track", "protocol"])
+      if (g[name]) params.set(name, g[name]);
+    download.href = "/api/leaderboard.csv?" + params.toString();
     const entries = g.entries || [],
       keys = new Map(entries.map((e) => [e.model + "\n" + e.harness, e]));
     const otherModels = (board.lineup || [])

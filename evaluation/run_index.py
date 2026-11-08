@@ -102,26 +102,41 @@ def release_truth(archive, modified, size, expected, manifest_path, manifest_sta
     return result
 
 
-def reached_model(runtime):
-    return bool(
-        runtime.get("accepted_requests")
-        or any(event.get("status") == 200 for event in runtime.get("upstream", []))
-    )
-
-
 def run_kind(doc, root):
-    if doc.get("mode") not in ("live", "openrouter-free", "vendor"):
+    mode = doc.get("mode")
+    if mode not in ("live", "openrouter-free", "vendor"):
         return "diagnostic"
+    interacted = False
     for trial in doc["trials"]:
-        if trial.get("status") == "scored" or reached_model(trial.get("runtime") or {}):
-            return "prediction"
-        # The native worker can retain a real inference trace even when the CLI never submits.
-        task = trial.get("task", "")
-        if re.fullmatch(r"[a-z0-9-]+", task):
-            receipt = root / "jobs" / task / "run.json"
+        runtime = trial.get("runtime")
+        # A failed CLI can still have made real upstream calls.
+        if not runtime and re.fullmatch(r"[a-z0-9-]+", trial.get("task", "")):
+            receipt = root / "jobs" / trial["task"] / "run.json"
             if receipt.is_file() and receipt.resolve().is_relative_to(root):
-                if reached_model(read_doc(receipt)):
-                    return "prediction"
+                runtime = read_doc(receipt)
+        if not isinstance(runtime, dict):
+            continue
+        if (
+            runtime.get("mode", mode) != mode
+            or runtime.get("requested_model", runtime.get("model", doc["model"]))
+            != doc["model"]
+        ):
+            return "diagnostic"
+        accepted = runtime.get("accepted_requests")
+        interacted |= (
+            (type(accepted) is int and accepted > 0)
+            or any(
+                isinstance(e, dict) and e.get("status") == 200
+                for e in runtime.get("upstream", [])
+            )
+            or (
+                mode == "vendor"
+                and trial.get("status") == "scored"
+                and runtime.get("mode") == "vendor"
+            )
+        )
+    if interacted:
+        return "prediction"
     if not doc.get("summary") and any(
         t.get("status") == "started" for t in doc["trials"]
     ):
@@ -155,19 +170,49 @@ def mirror_key(report):
     return hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).digest()
 
 
+@lru_cache(maxsize=128)
+def file_sha(path, modified, size):
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def report_digest(folder):
+    path = folder / "report.json"
+    st = path.stat()
+    return file_sha(path, st.st_mtime_ns, st.st_size)
+
+
 def visible_runs(runs, view):
     if view == "diagnostics":
         return {k: v for k, v in runs.items() if v[0]["kind"] == "diagnostic"}
-    local_copies = {
-        mirror_key(doc)
+    # Source shards stay accessible by their original links. Once published as a
+    # suite, they are evidence for its score rather than additional model runs.
+    incorporated = {
+        t["origin"]["source_report_sha256"]
         for rec, doc, _ in runs.values()
-        if rec["origin"] != "example" and rec["kind"] == "prediction"
+        if rec["kind"] == "prediction" and doc.get("suite")
+        for t in doc["trials"]
+        if isinstance(t.get("origin"), dict)
+        and isinstance(t["origin"].get("source_report_sha256"), str)
     }
-    return {
+    candidates = {
         k: v
         for k, v in runs.items()
         if v[0]["kind"] in ("prediction", "pending")
-        and (v[0]["origin"] != "example" or mirror_key(v[1]) not in local_copies)
+        and report_digest(v[2]) not in incorporated
+    }
+    local_copies = {
+        mirror_key(doc)
+        for rec, doc, folder in candidates.values()
+        if rec["origin"] != "example" and not (folder / "redactions.json").is_file()
+    }
+    return {
+        k: v
+        for k, v in candidates.items()
+        if (
+            (v[0]["origin"] != "example" and not (v[2] / "redactions.json").is_file())
+            or mirror_key(v[1]) not in local_copies
+        )
     }
 
 
@@ -210,6 +255,11 @@ class RunIndex:
                     doc = read_doc(path)
                     if not isinstance(doc, dict) or not isinstance(
                         doc.get("trials"), list
+                    ):
+                        continue
+                    if not all(
+                        isinstance(t, dict) and isinstance(t.get("task"), str)
+                        for t in doc["trials"]
                     ):
                         continue
                     boundary = is_boundary(doc)

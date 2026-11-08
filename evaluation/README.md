@@ -129,3 +129,5 @@ macOS 已安装同版本 Codex 时，可用 `--backend macos --harness codex --m
 [Codex 免费模型的原生轨迹与覆盖记录](examples/featured-five-openrouter/report.md)分别列出成功交卷、上游拒绝和未启动的任务。每个真实试验都有事件文件指纹、来源报告指纹和冻结输入指纹。可用 `python -m unittest discover -s tests -p test_featured_suite.py` 离线验证，含逐题重算成功提交的分数。
 
 如需合并同配置、同题集、互不重叠的小批次，可在组织者侧用 `python -m evaluation.assemble --suite featured-five --source <第一批运行目录> --source <第二批运行目录> --out <新的目录>`。汇集器会核验发布包、CLI 回执、各题指纹和赛后真值，并拒绝重复尝试。全新复跑整组则用上面的 `--suite featured-five` 命令。
+
+[Codex CLI × DeepSeek 官方五场完整实跑](examples/featured-five-deepseek/report.md)使用 `replay-v3`，十个新会话全部交卷。每题都可查看实际题面、原始 JSONL、命令输出、两项概率与独立 verifier 校验结果。使用 `--mode live --model deepseek-v4-pro` 复跑同一题组。原生推理使用操作者的 DeepSeek API，运行日志没有返回账单金额。

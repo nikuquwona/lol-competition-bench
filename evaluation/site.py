@@ -121,6 +121,33 @@ def write_bundle(target, folder, doc):
             included.add(overview)
         for trial in [*doc["trials"], *doc.get("unstarted", [])]:
             included.update(artifacts(folder, trial).values())
+        # Include organizer evidence explicitly named by an assembled public report.
+        evidence = doc.get("provenance", {})
+        for receipt in [
+            *evidence.get("source_runs", []),
+            *evidence.get("authentication_diagnostics", []),
+        ]:
+            sha = receipt.get("sha256", "")
+            if not isinstance(sha, str) or not re.fullmatch(r"[0-9a-f]{64}", sha):
+                continue
+            for name in (f"sources/{sha}.json", f"sources/{sha}-redactions.json"):
+                if name not in (receipt.get("file"), receipt.get("redactions")):
+                    continue
+                file = folder / name
+                if (
+                    file.resolve().is_relative_to(folder)
+                    and file.is_file()
+                    and not file.is_symlink()
+                ):
+                    included.add(file)
+        if evidence.get("quota_response") == "sources/quota-response.json":
+            file = folder / evidence["quota_response"]
+            if (
+                file.resolve().is_relative_to(folder)
+                and file.is_file()
+                and not file.is_symlink()
+            ):
+                included.add(file)
         for file in sorted(included):
             archive.write(file, file.relative_to(folder).as_posix())
 
@@ -211,6 +238,42 @@ def make_handler(index):
             if path in ("/api/leaderboard", "/api/leaderboard.csv"):
                 ranks = index.ranks(visible_runs(runs, "predictions"))
                 if path.endswith(".csv"):
+                    filters = {
+                        k: values[0]
+                        for k, values in parse_qs(urlsplit(self.path).query).items()
+                    }
+                    if filters.pop("view", "") == "featured":
+                        featured = ranks["featured"] or {}
+                        rows = (
+                            dict(e, release=featured["release"], suite="featured-five")
+                            for e in featured.get("entries", [])
+                            if all(str(e.get(k)) == v for k, v in filters.items())
+                        )
+                        columns = (
+                            "release",
+                            "suite",
+                            "backend",
+                            "track",
+                            "protocol",
+                            "model",
+                            "harness",
+                            "selected",
+                            "attempted",
+                            "scored",
+                            "mean_scored_reward",
+                            "mean_reward",
+                            "run_id",
+                        )
+                        return self.reply(
+                            csv_bytes(columns, rows),
+                            "text/csv",
+                            "five-game-results.csv",
+                        )
+                    groups = [
+                        g
+                        for g in ranks["groups"]
+                        if all(str(g.get(k)) == v for k, v in filters.items())
+                    ]
                     fields = (
                         "release",
                         "archive_sha256",
@@ -233,7 +296,7 @@ def make_handler(index):
                     return self.reply(
                         csv_bytes(
                             fields,
-                            ({**g, **e} for g in ranks["groups"] for e in g["entries"]),
+                            ({**g, **e} for g in groups for e in g["entries"]),
                         ),
                         "text/csv",
                         "leaderboard.csv",
