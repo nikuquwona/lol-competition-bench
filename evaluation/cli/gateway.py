@@ -1,8 +1,11 @@
-"""Unix-socket inference relay. Only this process holds the DeepSeek credential."""
+"""Unix-socket inference relay. Keep upstream credentials outside the CLI sandbox."""
 
 import http.client
 import json
 import os
+import re
+import urllib.error
+import urllib.request
 import socketserver
 import threading
 from http.server import BaseHTTPRequestHandler
@@ -82,9 +85,43 @@ def validate(data, model):
         visit(data.get(key))
 
 
+def free_model(model):
+    return bool(re.fullmatch(r"[A-Za-z0-9._-]+/[A-Za-z0-9._-]+:free", model))
+
+
+def credential_name(mode):
+    if mode == "openrouter-free":
+        return (
+            "OPENROUTER_API_KEY"
+            if not os.getenv("OPEN_ROUTER_API_KEY") and os.getenv("OPENROUTER_API_KEY")
+            else "OPEN_ROUTER_API_KEY"
+        )
+    return {"live": "DEEPSEEK_API_KEY", "vendor": "CURSOR_API_KEY"}.get(mode)
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *args):
+        return None
+
+
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args):
         pass
+
+    def stream_upstream(self, response, url):
+        print(
+            json.dumps(
+                {"route": url, "model": self.server.model, "status": response.status}
+            ),
+            flush=True,
+        )
+        self.send_response(response.status)
+        self.send_header(
+            "Content-Type", response.headers.get("Content-Type", "application/json")
+        )
+        self.end_headers()
+        while chunk := response.read1(65536):
+            self.wfile.write(chunk)
 
     def do_POST(self):
         url = self.path.split("?", 1)[0]
@@ -120,6 +157,33 @@ class Handler(BaseHTTPRequestHandler):
                 from fixture import respond
 
             return respond(self, url, body)
+        if getattr(self.server, "openrouter_free", False):
+            if not free_model(self.server.model):
+                return self.send_error(403, "A pinned :free model is required")
+            key = os.environ[credential_name("openrouter-free")]
+            body["provider"] = {"max_price": {"prompt": 0, "completion": 0}}
+            if url == "/v1/responses":
+                body["store"] = False
+            request = urllib.request.Request(
+                "https://openrouter.ai/api" + url,
+                data=json.dumps(body).encode(),
+                headers={
+                    "Authorization": "Bearer " + key,
+                    "Content-Type": "application/json",
+                    "anthropic-version": "2023-06-01",
+                },
+            )
+            try:
+                response = urllib.request.build_opener(NoRedirect).open(
+                    request, timeout=100
+                )
+            except urllib.error.HTTPError as exc:
+                response = exc
+            except (TimeoutError, OSError):
+                return self.send_error(502, "OpenRouter connection failed")
+            with response:
+                self.stream_upstream(response, url)
+            return
         conn = http.client.HTTPSConnection("api.deepseek.com", timeout=100)
         key = os.environ["DEEPSEEK_API_KEY"]
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
@@ -127,24 +191,8 @@ class Handler(BaseHTTPRequestHandler):
             headers.update({"x-api-key": key, "anthropic-version": "2023-06-01"})
         try:
             conn.request("POST", ROUTES[url], json.dumps(body).encode(), headers)
-            response = conn.getresponse()
-            print(
-                json.dumps(
-                    {
-                        "route": url,
-                        "model": self.server.model,
-                        "status": response.status,
-                    }
-                ),
-                flush=True,
-            )
-            self.send_response(response.status)
-            self.send_header(
-                "Content-Type", response.getheader("Content-Type", "application/json")
-            )
-            self.end_headers()
-            while chunk := response.read1(65536):
-                self.wfile.write(chunk)
+            with conn.getresponse() as response:
+                self.stream_upstream(response, url)
         finally:
             conn.close()
 
@@ -161,6 +209,7 @@ if __name__ == "__main__":
     Path(path).chmod(0o666)
     server.model = sys.argv[1]
     server.fixture = sys.argv[2] == "fixture"
+    server.openrouter_free = sys.argv[2] == "openrouter-free"
     server.remaining = MAX_CALLS
     server.lock = threading.Lock()
     server.serve_forever()

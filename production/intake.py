@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from production.build import snapshot, write_task
+from production.evidence import add_pack_option, load_packs
 from production.score import FIELDS, read_prediction, score
+from production.specs import DEFAULT, load_spec
 from production.schema import (
     SIDES,
     exact,
@@ -37,12 +39,14 @@ def now():
     return datetime.now(timezone.utc)
 
 
-def freeze(o, store):
+def freeze(o, store, *, task_spec=DEFAULT, evidence_packs=()):
     with store_lock(store):
-        return _freeze(o, store)
+        return _freeze(
+            o, store, spec=load_spec(task_spec), evidence_packs=evidence_packs
+        )
 
 
-def _freeze(o, store):
+def _freeze(o, store, *, spec, evidence_packs):
     validate_observation(o)
     frozen = now()
     if instant(o["observed_at"]) > frozen:
@@ -60,8 +64,18 @@ def _freeze(o, store):
     }
     other_phase = "lobby" if o["phase"] == "draft-lock" else "draft-lock"
     sibling = store / task_id({**o, "phase": other_phase})
+    pack_meta = [pack.metadata() for pack in evidence_packs]
+    cutoff = o["observed_at"]
     if sibling.exists():
-        trusted_case(sibling)
+        sibling_meta = trusted_case(sibling)
+        if sibling_meta.get("evidence_packs", []) != pack_meta:
+            raise ValueError("Both phases must use the same evidence packs")
+        cutoff = sibling_meta["observed_at"]
+        sibling_profile = trusted_case(sibling).get("task_spec")
+        if (sibling_profile is None and spec.metadata["id"] != DEFAULT) or (
+            sibling_profile is not None and sibling_profile != spec.metadata
+        ):
+            raise ValueError("Both phases must use the same task protocol")
         other = read(sibling / "task/environment/snapshot.json")["current"]
         keys = (
             "event",
@@ -82,17 +96,32 @@ def _freeze(o, store):
             raise ValueError("Cannot freeze a pre-draft lobby after draft lock")
         if instant(trusted_case(sibling)["observed_at"]) > instant(o["observed_at"]):
             raise ValueError("Draft lock precedes lobby observation")
+        first_bp = sibling / "cutoff.json"
+        if first_bp.exists() and instant(read(first_bp)["at"]) > instant(
+            o["observed_at"]
+        ):
+            raise ValueError("Draft lock precedes the first public BP action")
     records = history(store)
     validate_predecessors(o, records)
-    view = snapshot(records, g, o["phase"])
+    view = snapshot(
+        records, g, o["phase"], evidence_packs=evidence_packs, evidence_cutoff=cutoff
+    )
+    if evidence_packs and sibling.exists():
+        old_evidence = read(sibling / "task/environment/snapshot.json")["evidence"]
+        if view["evidence"] != old_evidence:
+            raise ValueError("Visible evidence changed since the lobby froze")
     view["observed_at_utc"] = instant(o["observed_at"]).isoformat()
     with tempfile.TemporaryDirectory(dir=store) as temp:
         stage = Path(temp) / "case"
-        write_task(stage / "task", view)
+        write_task(stage / "task", view, spec=spec)
+        for pack in evidence_packs:
+            put_once(stage / "evidence-packs" / (pack.sha256 + ".json"), pack.document)
         put_once(
             stage / "observation.json",
             dict(
                 id=task_id(o),
+                task_spec=spec.metadata,
+                evidence_packs=pack_meta,
                 source=o["source"],
                 frozen_at=frozen.isoformat(),
                 observed_at=view["observed_at_utc"],
@@ -104,6 +133,49 @@ def _freeze(o, store):
     return case
 
 
+def close_window(case, at, evidence):
+    """Record the actual public event time on the organizer's side, including delayed reports."""
+    with store_lock(case.parent):
+        trusted_case(case)
+        if result_path(case).exists():
+            raise ValueError("Already settled")
+        recorded = now()
+        occurred = instant(at)
+        if occurred > recorded:
+            raise ValueError("Cannot record a future cutoff")
+        lobby = case.name.endswith("-lobby")
+        if lobby:
+            locked = case.with_name(case.name.removesuffix("-lobby") + "-draft-lock")
+            if locked.exists() and occurred > instant(
+                trusted_case(locked)["observed_at"]
+            ):
+                raise ValueError(
+                    "First public BP action must precede or equal draft lock"
+                )
+        elif occurred <= instant(trusted_case(case)["observed_at"]):
+            raise ValueError("Game start must follow draft lock")
+        event = dict(
+            case=case.name,
+            event="first_public_bp" if lobby else "game_start",
+            at=occurred.isoformat(),
+            recorded_at=recorded.isoformat(),
+            source=source(evidence),
+        )
+        put_once(case / "cutoff.json", event)
+        return event
+
+
+def require_open(case):
+    if result_path(case).exists():
+        raise ValueError("Already settled")
+    if (case / "cutoff.json").exists():
+        raise ValueError("Submission window is closed")
+    if case.name.endswith("-lobby"):
+        locked = case.with_name(case.name.removesuffix("-lobby") + "-draft-lock")
+        if locked.exists():
+            raise ValueError("Lobby submission window is closed at draft lock")
+
+
 def submit(case, entrant, prediction):
     with store_lock(case.parent):
         return _submit(case, entrant, prediction)
@@ -111,8 +183,7 @@ def submit(case, entrant, prediction):
 
 def _submit(case, entrant, prediction):
     meta = trusted_case(case)
-    if result_path(case).exists():
-        raise ValueError("Already settled")
+    require_open(case)
     if (
         not isinstance(prediction, dict)
         or set(prediction) != set(FIELDS)
@@ -157,6 +228,7 @@ def _settle(case, r):
     view = read(case / "task/environment/snapshot.json")
     c = view["current"]
     captures = {}
+    cutoffs = {}
     actual_bp = r.get("bp", [])
     for phase in ("lobby", "draft-lock"):
         sibling = case.parent / task_id({**c, "phase": phase})
@@ -166,6 +238,14 @@ def _settle(case, r):
         if instant(observation["frozen_at"]) >= start:
             raise ValueError("An observation was frozen after game start")
         captures[sibling.name] = observation["snapshot_sha256"]
+        if (sibling / "cutoff.json").exists():
+            cutoff = read(sibling / "cutoff.json")
+            occurred = instant(cutoff["at"])
+            if (phase == "draft-lock" and occurred != start) or (
+                phase == "lobby" and occurred >= start
+            ):
+                raise ValueError("Recorded phase cutoff conflicts with game start")
+            cutoffs[phase] = cutoff
         if phase == "draft-lock":
             locked = read(sibling / "task/environment/snapshot.json")["current"]["bp"]
             if actual_bp and actual_bp != locked:
@@ -204,6 +284,7 @@ def _settle(case, r):
     result = {
         **r,
         "observations": captures,
+        "cutoffs": cutoffs,
         "bp": actual_bp,
         "players": players,
         "published_at": published.isoformat(),
@@ -220,20 +301,33 @@ def standings(case):
     labels = dict(
         p_blue_win=int(r["winner"] == "blue"), p_blue_ahead_15=int(r["blue_gd15"] > 0)
     )
+    if case.name.endswith("-lobby"):
+        cutoff = r.get("cutoffs", {}).get("lobby", {}).get("at")
+    else:
+        cutoff = r["game_started_at"]
     rows = []
     for path in sorted((case / "receipts").glob("*.json")):
         receipt = read(path)
         valid = (
-            receipt["snapshot_sha256"] == meta["snapshot_sha256"]
+            cutoff is not None
+            and receipt["snapshot_sha256"] == meta["snapshot_sha256"]
             and receipt["prompt_sha256"] == meta["prompt_sha256"]
             and instant(meta["frozen_at"])
             <= instant(receipt["submitted_at"])
-            < instant(r["game_started_at"])
+            < instant(cutoff)
         )
         rows.append(
             dict(
                 entrant=receipt["entrant"],
-                status="scored" if valid else "ineligible",
+                status=(
+                    "unverified"
+                    if cutoff is None
+                    else "scored"
+                    if valid
+                    else "ineligible"
+                ),
+                cutoff_at=cutoff,
+                submitted_at=receipt["submitted_at"],
                 reward=score(receipt["prediction"], labels) if valid else None,
             )
         )
@@ -313,7 +407,19 @@ def main():
     init.add_argument("--out", type=Path, required=True)
     f = sub.add_parser("freeze")
     f.add_argument("observation", type=Path)
+    f.add_argument("--task-spec", default=DEFAULT)
+    add_pack_option(f)
     f.add_argument("--store", type=Path, default=DEFAULT_STORE)
+    closing = sub.add_parser(
+        "close", help="Record the actual first BP action or game start"
+    )
+    closing.add_argument("case", type=Path)
+    closing.add_argument(
+        "--at", required=True, help="Public event timestamp with UTC offset"
+    )
+    closing.add_argument(
+        "--source", required=True, help="HTTPS source for the event time"
+    )
     s = sub.add_parser("submit")
     s.add_argument("case", type=Path)
     s.add_argument("entrant")
@@ -328,7 +434,16 @@ def main():
         put_once(a.out, template(a.series, a.game, a.bo, a.phase, a.first_pick))
         print(a.out)
     elif a.cmd == "freeze":
-        print(freeze(read(a.observation), a.store))
+        print(
+            freeze(
+                read(a.observation),
+                a.store,
+                task_spec=a.task_spec,
+                evidence_packs=load_packs(a.evidence_pack),
+            )
+        )
+    elif a.cmd == "close":
+        print(json.dumps(close_window(a.case, a.at, a.source)))
     elif a.cmd == "history-add":
         print(history_add(read(a.record), a.store))
     elif a.cmd == "submit":

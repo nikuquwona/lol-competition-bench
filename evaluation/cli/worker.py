@@ -1,17 +1,19 @@
 """Run on a disposable Linux Docker host. No host home or workspace inside either container."""
 
 import argparse
+import base64
 import json
 import os
 import re
 import signal
 import subprocess
 import sys
-from collections import deque
-import threading
+from concurrent.futures import ThreadPoolExecutor
 import uuid
 from pathlib import Path
+from urllib.parse import quote
 from evaluation.cli.client import BIN, CURSOR_HOSTS
+from evaluation.cli.gateway import credential_name, free_model
 
 HERE = Path(__file__).resolve().parent
 READ_PREDICTION = """
@@ -39,17 +41,77 @@ def docker(*args, capture=False, timeout=300, check=True):
         timeout=timeout,
         text=True,
         stdout=subprocess.PIPE if capture else None,
+        # Absence is the expected result of the final per-resource cleanup check.
+        stderr=subprocess.PIPE if capture and not check else None,
     )
 
 
-def run(name, model, mode, snapshot, instruction, out):
-    if not re.fullmatch(r"[a-zA-Z0-9._-]{1,90}", model):
+TRACE_LIMIT = 8 * 1024 * 1024
+TRUNCATED = b'{"type":"trace.truncated","reason":"native log size limit reached"}\n'
+
+
+def capture_stream(stream, path, redactions, limit=TRACE_LIMIT):
+    """Persist whole native records, with bounded storage even for an unbroken line."""
+    with path.open("xb") as log:
+        while record := stream.readline(limit + 1):
+            if len(record) <= limit:
+                for secret in redactions:
+                    record = record.replace(secret, b"[REDACTED]")
+                if log.tell() + len(record) + len(TRUNCATED) <= limit:
+                    log.write(record)
+                    log.flush()
+                    continue
+            log.write(TRUNCATED)
+            break
+    # Keep the child moving after overflow, without allocating in proportion to its output.
+    while stream.read(65536):
+        pass
+
+
+def run_cli_process(cmd, out, secret, timeout=570):
+    redactions = set()
+    if secret and (key := os.environ.get(secret)):
+        raw = key.encode()
+        redactions.update(
+            (
+                raw,
+                json.dumps(key)[1:-1].encode(),
+                quote(key, safe="").encode(),
+                base64.b64encode(raw),
+                base64.urlsafe_b64encode(raw),
+            )
+        )
+    tokens = sorted(redactions, key=len, reverse=True)
+    with subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as proc:
+        with ThreadPoolExecutor(max_workers=2) as readers:
+            stdout = readers.submit(
+                capture_stream, proc.stdout, out / "cli-events.log", tokens
+            )
+            stderr = readers.submit(
+                capture_stream, proc.stderr, out / "stderr.txt", tokens
+            )
+            try:
+                return proc.wait(timeout=timeout)
+            finally:
+                if proc.poll() is None:
+                    proc.kill()
+                stdout.result()
+                stderr.result()
+
+
+def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None):
+    if boundary_command and mode not in ("fixture", "check"):
+        raise ValueError("Boundary probes require a credential-free trial")
+    if mode == "openrouter-free":
+        if not free_model(model) or name == "cursor":
+            raise ValueError("A pinned :free model and controlled harness are required")
+    elif not re.fullmatch(r"[a-zA-Z0-9._-]{1,90}", model):
         raise ValueError("Use an explicit model ID")
     if name == "cursor" and mode == "fixture":
         raise ValueError("Cursor requires vendor service; use check or vendor mode")
     if mode == "vendor" and name != "cursor" or mode == "live" and name == "cursor":
         raise ValueError("Cursor vendor trials are a separate, unranked mode")
-    secret = {"live": "DEEPSEEK_API_KEY", "vendor": "CURSOR_API_KEY"}.get(mode)
+    secret = credential_name(mode)
     if secret and not os.getenv(secret):
         raise ValueError(f"Missing dedicated runner secret {secret}")
     tag = "lolbench-" + uuid.uuid4().hex[:12]
@@ -93,11 +155,9 @@ def run(name, model, mode, snapshot, instruction, out):
             "/tmp:rw,size=128m",
         ]
         if name != "cursor" and mode != "check":
-            params = (
-                ["--network", "none"]
-                if mode == "fixture"
-                else ["-e", "DEEPSEEK_API_KEY"]
-            )
+            params = ["--network", "none"] if mode == "fixture" else ["-e", secret]
+            if boundary_command:
+                params.extend(["-e", "BENCH_FIXTURE_COMMAND=" + boundary_command])
             docker(
                 "run",
                 "-d",
@@ -187,6 +247,10 @@ def run(name, model, mode, snapshot, instruction, out):
                     check=True,
                     timeout=20,
                 )
+        if boundary_command and mode == "check":
+            # Cursor has a vendor-only control plane. Exercise the worker explicitly,
+            # keeping this observation separate from a CLI-originated shell call.
+            docker("exec", worker, "sh", "-ec", boundary_command, timeout=30)
         # The API credential for the four strict clients exists only on the gateway.
         cmd = [
             "docker",
@@ -199,37 +263,24 @@ def run(name, model, mode, snapshot, instruction, out):
         cmd += [worker, "python3", "/opt/bench/client.py", name, model]
         if mode == "check":
             cmd += ["--check"]
-        # Never let untrusted CLI stdout fill the host disk.
-        tail = deque(maxlen=3)
-        with subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-        ) as proc:
-
-            def drain():
-                while chunk := proc.stdout.read(4096):
-                    tail.append(chunk)
-
-            reader = threading.Thread(target=drain, daemon=True)
-            reader.start()
-            try:
-                rc = proc.wait(timeout=570)
-            finally:
-                proc.kill()
-                reader.join(timeout=2)
-            if rc:
-                if mode in ("fixture", "check"):
-                    print(b"".join(tail)[-6400:].decode(errors="replace"), flush=True)
-                    if name != "cursor":
-                        docker("logs", "--tail", "12", gateway, check=False)
-                raise RuntimeError(f"{name} exited with status {rc}")
+        rc = run_cli_process(cmd, out, secret)
+        if rc:
+            if mode in ("fixture", "check"):
+                with (out / "stderr.txt").open("rb") as diagnostics:
+                    length = diagnostics.seek(0, os.SEEK_END)
+                    diagnostics.seek(max(0, length - 6400))
+                    print(diagnostics.read().decode(errors="replace"), flush=True)
+                if name != "cursor":
+                    docker("logs", "--tail", "12", gateway, check=False)
+            raise RuntimeError(f"{name} exited with status {rc}")
         api_calls = None
-        if mode in ("fixture", "live"):
+        if mode in ("fixture", "live", "openrouter-free"):
             lines = docker("logs", gateway, capture=True).stdout.splitlines()
             events = [json.loads(line) for line in lines if line.startswith("{")]
             api_calls = sum(e.get("stage") == "accepted" for e in events)
             if (
                 not api_calls
-                or mode == "live"
+                or mode in ("live", "openrouter-free")
                 and not any(e.get("status") == 200 for e in events)
             ):
                 raise RuntimeError(
@@ -238,6 +289,17 @@ def run(name, model, mode, snapshot, instruction, out):
         version = docker(
             "exec", worker, BIN[name], "--version", capture=True
         ).stdout.strip()
+        if boundary_command:
+            reader = """
+import json, os, stat
+fd = os.open('/app/boundary.json', os.O_NOFOLLOW | os.O_RDONLY | os.O_NONBLOCK)
+assert stat.S_ISREG(os.fstat(fd).st_mode)
+raw = os.read(fd, 16385)
+assert len(raw) <= 16384
+print(json.dumps(json.loads(raw)))
+"""
+            result = docker("exec", worker, "python3", "-I", "-c", reader, capture=True)
+            (out / "boundary.json").write_text(result.stdout)
         if mode != "check":
             pred = json.loads(
                 docker(
@@ -286,7 +348,9 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("name", choices=BIN)
     p.add_argument("model")
-    p.add_argument("mode", choices=["check", "fixture", "live", "vendor"])
+    p.add_argument(
+        "mode", choices=["check", "fixture", "live", "openrouter-free", "vendor"]
+    )
     p.add_argument("snapshot", type=Path)
     p.add_argument("instruction", type=Path)
     p.add_argument("out", type=Path)

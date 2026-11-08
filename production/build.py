@@ -6,6 +6,10 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 
+from production.coverage import history_card
+from production.evidence import add_pack_option, emit_evidence, load_packs
+from production.specs import DEFAULT, load_spec
+
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = """schema_version = "1.4"
 artifacts = ["/app/prediction.json"]
@@ -30,13 +34,13 @@ RUN useradd --create-home agent && mkdir -p /app && chown agent:agent /app
 WORKDIR /app
 COPY snapshot.json /app/snapshot.json
 """
-PROMPT = Path(__file__).with_name("prompts") / "forecast.md"
 
 
-def instruction(view):
+def instruction(view, spec=None):
+    spec = spec or load_spec()
     c = view["current"]
     locked = view["phase"] == "draft-lock"
-    return PROMPT.read_text().format(
+    prompt = spec.template.format(
         game=c["n"],
         blue=c["blue"],
         red=c["red"],
@@ -51,6 +55,12 @@ def instruction(view):
         else "The target game's picks and bans are still unknown.",
         history_count=len(view["history"]),
     )
+    additions = [spec.background, spec.example]
+    if view.get("evidence"):
+        additions.append(
+            "The optional evidence object contains reviewed observations about these starters in earlier games. Interpret each entry at its stated game and publication time."
+        )
+    return prompt + "".join("\n" + text.rstrip() + "\n" for text in additions if text)
 
 
 def eligible(g):
@@ -72,7 +82,7 @@ def earlier(h, target):
     return past < published < cutoff
 
 
-def snapshot(records, target, phase):
+def snapshot(records, target, phase, *, evidence_packs=(), evidence_cutoff=None):
     current = {
         k: target[k]
         for k in ("event", "stage", "series", "n", "patch", "bo", "blue", "red")
@@ -115,21 +125,30 @@ def snapshot(records, target, phase):
             for p in h["players"]
         ]
         history.append(row)
-    return dict(
+    view = dict(
         phase=phase,
         series_time_utc=target["series_time"],
         current=current,
         history=history,
+        coverage=history_card(current, history),
     )
+    if evidence_packs:
+        cutoff = evidence_cutoff or target.get("observed_at", target["series_time"])
+        view["evidence"] = emit_evidence(view, evidence_packs, cutoff)
+    return view
 
 
-def _write_task(out, context, target):
+def _write_task(out, context, target, spec):
     out.mkdir(parents=True, exist_ok=True)
     for d in (
         ("environment",) if target is None else ("environment", "tests", "solution")
     ):
         (out / d).mkdir()
-    (out / "instruction.md").write_text(instruction(context))
+    (out / "instruction.md").write_text(instruction(context, spec))
+    if spec.metadata["id"] != DEFAULT:
+        (out / "task-profile.json").write_text(
+            json.dumps(spec.metadata, indent=2) + "\n"
+        )
     (out / "task.toml").write_text(CONFIG)
     (out / "environment/Dockerfile").write_text(AGENT_IMAGE)
     # Do not rely on a phase-specific firewall for historical replay isolation.
@@ -161,7 +180,7 @@ def _write_task(out, context, target):
         (out / file).chmod(0o755)
 
 
-def write_task(out, context, target=None):
+def write_task(out, context, target=None, *, spec=None):
     """Publish a complete directory atomically. Existing tasks are immutable."""
     import tempfile
 
@@ -170,7 +189,7 @@ def write_task(out, context, target=None):
         raise FileExistsError(out)
     with tempfile.TemporaryDirectory(dir=out.parent) as staging:
         task = Path(staging) / "task"
-        _write_task(task, context, target)
+        _write_task(task, context, target, spec or load_spec())
         task.rename(out)
 
 
@@ -182,7 +201,11 @@ def main():
     )
     parser.add_argument("--series")
     parser.add_argument("--game", type=int)
+    parser.add_argument("--task-spec", default=DEFAULT)
+    add_pack_option(parser)
     args = parser.parse_args()
+    spec = load_spec(args.task_spec)
+    packs = load_packs(args.evidence_pack)
     records = json.loads((ROOT / "production/data/games.json").read_text())
     targets = [
         r
@@ -195,7 +218,12 @@ def main():
         parser.error("No eligible games match this selection.")
     for t in targets:
         directory = args.out / f"{t['series']}-g{t['n']}-{args.phase}"
-        write_task(directory, snapshot(records, t, args.phase), t)
+        write_task(
+            directory,
+            snapshot(records, t, args.phase, evidence_packs=packs),
+            t,
+            spec=spec,
+        )
     print(f"{len(targets)} {args.phase} tasks under {args.out}")
 
 

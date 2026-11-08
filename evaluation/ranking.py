@@ -34,6 +34,14 @@ def same(a, b):
 
 def check_trial(t, trusted=None):
     status = t.get("status")
+    if status == "environment_error" or (
+        status == "failed"
+        and not t.get("runtime")
+        and str(t.get("error", "")).startswith(
+            "Boundary test failed: sandbox-exec: sandbox_apply: Operation not permitted"
+        )
+    ):
+        raise ValueError("CLI 启动前隔离检查失败，整轮仅保留为环境诊断")
     if status in ("failed", "interrupted"):
         if not same(t.get("reward", 0), 0):
             raise ValueError("失败题 reward 非零")

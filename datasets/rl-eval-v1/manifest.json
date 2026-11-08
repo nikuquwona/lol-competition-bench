@@ -1,0 +1,34 @@
+{
+  "format": "lol-competition-bench/rl-eval-v1",
+  "data_source": "lol-competition-bench/game-forecast-v1",
+  "release": "replay-v3",
+  "source_archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "validation_from": "2026-10-28T00:00:00+00:00",
+  "test_from": "2026-11-03T00:00:00+00:00",
+  "split_unit": "series",
+  "tasks_by_split": {
+    "train": 126,
+    "validation": 44,
+    "test": 28
+  },
+  "series_by_split": {
+    "train": 33,
+    "test": 4,
+    "validation": 9
+  },
+  "unique_snapshots": 198,
+  "pyarrow_version": "26.0.1",
+  "files_sha256": {
+    "README.md": "b08aa5e77940574f7d937f55d7c8594acdd641ec02d8b48730301b90fed7e0c5",
+    "eval/test.jsonl.gz": "0b7465a4cf9d4947854ac4e99f65a3ab07473c246a9e3e7379beb4595b6f5149",
+    "eval/train.jsonl.gz": "1c66f716eb40a0a6033ec9fa8b43bbaa48be85d639d0c0edaee246bfcd21eee1",
+    "eval/validation.jsonl.gz": "9ac29e9ba647430f7ad654a307714a45b1509269e568d547dab25ff06ce9cc5a",
+    "rl/train-workspace.jsonl.gz": "ff9c73b8535c1b7ff3200ef68b042edae2109b0657ef6c324c1582401456058a",
+    "rl/train.jsonl.gz": "966cf38ef93784c9c3bd467a672f63b117738ccb155a4694eb537007ace3e430",
+    "rl/train.parquet": "704e3878d7a08f8a205b96bc3d776feeb848974ac843f6d674283f63403f5470",
+    "snapshots.zip": "50808d2daa43aee394d03682719f86408a66df85c73605ee264c2ef8509c1cd0",
+    "verifier/test.jsonl.gz": "3a3adb5c9461bfeae4dafde5c3d7bf88528186d51d6abcbfaa6d693276b18ce6",
+    "verifier/train.jsonl.gz": "3a2b60fe4cca41f1ab6479255e4e18d65c9e40e48c35dd22f15b3fd285cb1bb5",
+    "verifier/validation.jsonl.gz": "a8b5d0185070662ac9bed501d7f22319bfc1d1ce99ca0b2b4358d7f8f8994f7b"
+  }
+}

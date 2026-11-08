@@ -40,6 +40,9 @@ def command(name, model, prompt):
         return [
             "claude",
             "-p",
+            "--output-format",
+            "stream-json",
+            "--verbose",
             "--model",
             model,
             "--tools",
@@ -54,6 +57,7 @@ def command(name, model, prompt):
         return [
             "codex",
             "exec",
+            "--json",
             "--skip-git-repo-check",
             "--ephemeral",
             "--dangerously-bypass-approvals-and-sandbox",
@@ -104,6 +108,8 @@ def command(name, model, prompt):
             "--model",
             model,
             "--no-session",
+            "--mode",
+            "json",
             "--tools",
             "read,bash,write,edit",
             "--print",
@@ -135,13 +141,23 @@ def command(name, model, prompt):
 
 def main():
     name, model = sys.argv[1:3]
-    assert {p.name for p in Path("/sys/class/net").iterdir()} == {"lo"}
+    # Docker Desktop may create DOWN tunnel devices even with --network none.
+    # IFF_UP (bit 0) distinguishes an enabled interface from a dormant device.
+    interfaces = {
+        p.name
+        for p in Path("/sys/class/net").iterdir()
+        if int((p / "flags").read_text(), 16) & 1
+    }
+    if interfaces != {"lo"}:
+        raise RuntimeError(
+            f"Unexpected enabled network interfaces: {sorted(interfaces)}"
+        )
     if any(
         Path(p).exists()
         for p in ("/tests", "/solution", "/var/run/docker.sock", "/app/.git")
     ):
         raise RuntimeError("unexpected mount in CLI environment")
-    subprocess.run([BIN[name], "--version"], check=True, timeout=25)
+    subprocess.run([BIN[name], "--version"], stdout=sys.stderr, check=True, timeout=25)
     relays = []
     if name == "cursor":
         routes = [

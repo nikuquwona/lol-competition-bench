@@ -1,14 +1,14 @@
-from contextlib import closing
 import csv
 import io
 import json
-from http.client import HTTPConnection
-from http.server import ThreadingHTTPServer
-from pathlib import Path
 import tempfile
 import threading
 import unittest
 import zipfile
+from contextlib import closing
+from http.client import HTTPConnection
+from http.server import ThreadingHTTPServer
+from pathlib import Path
 
 from evaluation.site import RunIndex, make_handler
 from evaluation.suite import ROOT

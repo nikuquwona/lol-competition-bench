@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LoL Competition Bench player evidence pack v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "owner",
+    "attribution",
+    "license",
+    "records"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "owner": {
+      "$ref": "#/$defs/credit"
+    },
+    "attribution": {
+      "$ref": "#/$defs/credit"
+    },
+    "license": {
+      "$ref": "#/$defs/credit"
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/record"
+      }
+    },
+    "feature_definitions": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {
+        "pattern": "^community\\.[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,47}\\.v[1-9][0-9]{0,2}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/feature_definition"
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,100}$"
+    },
+    "credit": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100
+    },
+    "stat": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 999
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entity_type",
+        "entity_id",
+        "feature_type",
+        "anchor",
+        "value",
+        "published_at",
+        "source",
+        "reviewed_by"
+      ],
+      "properties": {
+        "entity_type": {
+          "const": "player"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/name"
+        },
+        "feature_type": {
+          "oneOf": [
+            {
+              "enum": [
+                "player.scoreline.v1",
+                "player.role.v1",
+                "player.style.v1"
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^community\\.[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,47}\\.v[1-9][0-9]{0,2}$"
+            }
+          ]
+        },
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "series",
+            "game"
+          ],
+          "properties": {
+            "series": {
+              "$ref": "#/$defs/slug"
+            },
+            "game": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 7
+            }
+          }
+        },
+        "value": {},
+        "published_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "reviewed_by": {
+          "$ref": "#/$defs/name"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "feature_type": {
+                "const": "player.scoreline.v1"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "k",
+                  "d",
+                  "a"
+                ],
+                "properties": {
+                  "k": {
+                    "$ref": "#/$defs/stat"
+                  },
+                  "d": {
+                    "$ref": "#/$defs/stat"
+                  },
+                  "a": {
+                    "$ref": "#/$defs/stat"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "feature_type": {
+                "const": "player.role.v1"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "enum": [
+                  "Top",
+                  "Jungle",
+                  "Mid",
+                  "Bot",
+                  "Support"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "feature_type": {
+                "const": "player.style.v1"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "enum": [
+                  "roaming",
+                  "lane-focused",
+                  "engage",
+                  "peel",
+                  "split-push",
+                  "teamfight-carry"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "feature_type": {
+                "pattern": "^community\\.[a-z][a-z0-9-]{0,31}\\.[a-z][a-z0-9-]{0,47}\\.v[1-9][0-9]{0,2}$"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": -1000000,
+                    "maximum": 1000000
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9-]{0,31}$"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "feature_definition": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "boolean"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            }
+          },
+          "required": [
+            "kind",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "enum"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "choices": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 16,
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,31}$"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "description",
+            "choices"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "integer"
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 240
+            },
+            "minimum": {
+              "type": "integer",
+              "minimum": -1000000,
+              "maximum": 1000000
+            },
+            "maximum": {
+              "type": "integer",
+              "minimum": -1000000,
+              "maximum": 1000000
+            },
+            "unit": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9-]{0,31}$"
+            }
+          },
+          "required": [
+            "kind",
+            "description",
+            "minimum",
+            "maximum",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

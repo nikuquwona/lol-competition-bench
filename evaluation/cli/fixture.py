@@ -1,13 +1,14 @@
 """Credential-free protocol fixture: ask the real CLI to write a known prediction."""
 
 import json
+import os
 
 COMMAND = """printf '%s' '{"p_blue_win":0.41,"p_blue_ahead_15":0.57}' > ./prediction.json"""
 FINAL = "Forecast written."
 MODEL = "deepseek-v4-pro"
 
 
-def command_for(tools):
+def command_for(tools, command=COMMAND):
     for t in tools:
         entry = t.get("function", t)
         name = entry.get("name", "")
@@ -26,9 +27,9 @@ def command_for(tools):
             key = next((k for k in ("command", "cmd", "script") if k in props), None)
             if key:
                 args = {
-                    key: ["/bin/sh", "-c", COMMAND]
+                    key: ["/bin/sh", "-c", command]
                     if props[key].get("type") == "array"
-                    else COMMAND
+                    else command
                 }
                 if "description" in schema.get("required", []):
                     args["description"] = "Write the benchmark forecast"
@@ -58,7 +59,9 @@ def respond(handler, url, body):
         for m in body.get("messages", body.get("input", []))
     )
     try:
-        name, args = ("unused", {}) if finished else command_for(body.get("tools", []))
+        name, args = ("unused", {}) if finished else command_for(
+            body.get("tools", []), os.environ.get("BENCH_FIXTURE_COMMAND", COMMAND)
+        )
     except ValueError as exc:
         print(str(exc), flush=True)
         return handler.send_error(422)

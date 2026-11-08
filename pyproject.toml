@@ -8,6 +8,7 @@ dependencies = []
 [project.optional-dependencies]
 harbor = ["harbor==0.25.0"]
 collect = ["beautifulsoup4==4.14.2"]
+datasets = ["datasets==5.1.0", "pyarrow==26.0.1"]
 
 [tool.uv]
 package = false

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LoL Competition Bench task registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "categories", "backgrounds", "instructions", "tasks"],
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+    "asset": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*\\.md$"}
+  },
+  "properties": {
+    "schema_version": {"const": 1},
+    "categories": {
+      "type": "object", "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {"type": "string", "minLength": 1}
+    },
+    "backgrounds": {
+      "type": "object", "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {"$ref": "#/$defs/asset"}
+    },
+    "instructions": {
+      "type": "object", "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false, "required": ["template", "example"],
+        "properties": {
+          "template": {"$ref": "#/$defs/asset"},
+          "example": {"anyOf": [{"$ref": "#/$defs/asset"}, {"type":"null"}]}
+        }
+      }
+    },
+    "tasks": {
+      "type": "object", "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["category", "background", "instruction", "grader"],
+        "properties": {
+          "category": {"$ref": "#/$defs/id"},
+          "background": {"anyOf": [{"$ref": "#/$defs/id"}, {"type":"null"}]},
+          "instruction": {"$ref": "#/$defs/id"},
+          "grader": {"const": "binary-brier-pair-v1"}
+        }
+      }
+    }
+  }
+}

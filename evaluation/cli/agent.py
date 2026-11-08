@@ -2,6 +2,7 @@
 
 import asyncio
 import os
+import shutil
 import signal
 import sys
 import tempfile
@@ -27,7 +28,7 @@ class CompetitionCLI(BaseAgent):
         if name not in BIN:
             raise ValueError("Unsupported CLI")
         mode = os.environ["BENCH_MODE"]
-        if mode not in ("live", "vendor", "fixture"):
+        if mode not in ("live", "openrouter-free", "vendor", "fixture"):
             raise ValueError("Unsupported trial mode")
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -55,7 +56,11 @@ class CompetitionCLI(BaseAgent):
                 if proc.returncode is None:
                     proc.send_signal(signal.SIGTERM)
                     await proc.wait()
-            self.logs_dir.mkdir(parents=True, exist_ok=True)
+                self.logs_dir.mkdir(parents=True, exist_ok=True)
+                for filename in ("cli-events.log", "stderr.txt"):
+                    captured = root / "out" / filename
+                    if captured.is_file():
+                        shutil.copyfile(captured, self.logs_dir / filename)
             self.logs_dir.joinpath("cli-run.json").write_bytes(
                 (root / "out/run.json").read_bytes()
             )

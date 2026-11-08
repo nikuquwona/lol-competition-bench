@@ -1,6 +1,7 @@
 """Select tasks from one pinned release, run a model/harness pair, and account for every trial."""
 
 import argparse
+from production.catalog import resolve_release
 import fcntl
 import math
 import hashlib
@@ -16,12 +17,16 @@ import tempfile
 from collections import Counter
 from pathlib import Path, PurePosixPath
 
+from evaluation.traces import attach, overview
 from evaluation.baseline import predict
 from evaluation.cli.client import BIN
+from evaluation.cli.gateway import credential_name, free_model
+from evaluation.cli.macos_pair import SandboxUnavailable
 from production.build import ROOT
+from production.coverage import history_card
 from production.score import FIELDS, read_prediction, score
 
-DEFAULT_RELEASE = ROOT / "datasets/replay-v2"
+DEFAULT_RELEASE = resolve_release("worlds-lpl-2026")
 SAMPLE = "worlds-2026-main-event-quarterfinals-4-g2-draft-lock"
 
 
@@ -116,6 +121,56 @@ def report_row(task, prediction):
     )
 
 
+def paired_summary(tasks, trials):
+    """Compare phases within the same game, keeping unscored pairs in the counts."""
+    results = {r["task"]: r for r in trials}
+    groups = {}
+    for task in tasks:
+        phases = groups.setdefault((task["series"], task["game"]), {})
+        phases[task["phase"]] = results.get(task["id"], {})
+    pairs = []
+    planned = 0
+    for (series, game), phases in sorted(groups.items()):
+        if set(phases) != {"lobby", "draft-lock"}:
+            continue
+        planned += 1
+        if any(phase.get("status") != "scored" for phase in phases.values()):
+            continue
+        delta = {
+            k: phases["lobby"]["brier"][k] - phases["draft-lock"]["brier"][k]
+            for k in FIELDS
+        }
+        pairs.append(dict(series=series, game=game, brier_improvement=delta))
+    return dict(
+        selected_games=len(groups),
+        selected_pairs=planned,
+        scored_pairs=len(pairs),
+        mean_brier_improvement={
+            k: sum(p["brier_improvement"][k] for p in pairs) / len(pairs)
+            if pairs
+            else None
+            for k in FIELDS
+        },
+        pairs=pairs,
+    )
+
+
+def summarize_report(report, rows):
+    report["summary"] = summary(report["trials"])
+    report["by_phase"] = {
+        phase: summary([r for r in report["trials"] if r["phase"] == phase])
+        for phase in sorted({r["phase"] for r in rows})
+    }
+    buckets = {}
+    for trial in report["trials"]:
+        bucket = trial.get("coverage", {}).get("coverage_group", "unrecorded")
+        buckets.setdefault(bucket, []).append(trial)
+    report["by_coverage"] = {
+        bucket: summary(group) for bucket, group in buckets.items()
+    }
+    report["paired"] = paired_summary(rows, report["trials"])
+
+
 def write_report(out, doc):
     path = out / "report.tmp"
     path.write_text(json.dumps(doc, indent=2) + "\n")
@@ -163,14 +218,18 @@ def evaluate(a):
         if not a.harness or not a.model:
             raise ValueError("Provide --harness and --model")
         if a.backend == "macos" and (
-            a.harness != "codex" or mode not in ("live", "fixture")
+            a.harness != "codex" or mode not in ("live", "fixture", "openrouter-free")
         ):
-            raise ValueError("macos backend supports Codex in live or fixture mode")
+            raise ValueError(
+                "macos backend supports Codex in live, openrouter-free or fixture mode"
+            )
         if a.backend == "harbor" and not shutil.which("harbor"):
             raise ValueError("Install harbor==0.25.0 on the isolated runner")
         if (a.harness == "cursor") != (mode == "vendor"):
             raise ValueError("Cursor requires its separate vendor mode")
-        secret = {"live": "DEEPSEEK_API_KEY", "vendor": "CURSOR_API_KEY"}.get(mode)
+        if mode == "openrouter-free" and not free_model(a.model):
+            raise ValueError("Provide a pinned OpenRouter model ending in :free")
+        secret = credential_name(mode)
         if secret and not os.getenv(secret):
             raise ValueError("Missing runner credential: " + secret)
     a.out = a.out.resolve()
@@ -193,6 +252,9 @@ def run_selection(a, manifest, rows):
         planned=[r["id"] for r in rows],
         trials=[],
     )
+    if "protocol_sha256" in manifest:
+        report["protocol_sha256"] = manifest["protocol_sha256"]
+        report["task_spec_id"] = manifest["task_spec"]["id"]
     if a.resume:
         saved = json.loads((a.out / "report.json").read_text())
         if any(report[k] != saved.get(k) for k in report if k != "trials"):
@@ -222,8 +284,10 @@ def run_selection(a, manifest, rows):
         unpack(a.release, manifest, remaining, directory)
         for r in remaining:
             task = directory / r["id"]
+            view = json.loads((task / "environment/snapshot.json").read_text())
             record = {
                 "task": r["id"],
+                "coverage": history_card(view["current"], view["history"]),
                 "phase": r["phase"],
                 "patch": r["patch"],
                 "prompt_sha256": r["prompt_sha256"],
@@ -234,9 +298,7 @@ def run_selection(a, manifest, rows):
             write_report(a.out, report)
             try:
                 if mode == "baseline":
-                    pred = predict(
-                        json.loads((task / "environment/snapshot.json").read_text())
-                    )
+                    pred = predict(view)
                 elif a.backend == "macos":
                     from evaluation.cli.macos_pair import run
 
@@ -253,6 +315,7 @@ def run_selection(a, manifest, rows):
                         task=task,
                         model=a.model,
                         fixture=mode == "fixture",
+                        openrouter_free=mode == "openrouter-free",
                     )
                     record["runtime"] = json.loads((cli_dir / "run.json").read_text())
                     pred = read_prediction(cli_dir / "prediction.json")
@@ -298,6 +361,8 @@ def run_selection(a, manifest, rows):
                     ):
                         raise ValueError("Harbor reward mismatch")
                 record.update(measured)
+            except SandboxUnavailable as exc:
+                record.update(status="environment_error", reward=0, error=str(exc))
             except (
                 OSError,
                 RuntimeError,
@@ -305,13 +370,13 @@ def run_selection(a, manifest, rows):
                 subprocess.SubprocessError,
             ) as exc:
                 record.update(status="failed", reward=0, error=str(exc))
+            if mode != "baseline":
+                attach(a.out, record, task)
             write_report(a.out, report)
-    report["summary"] = summary(report["trials"])
-    report["by_phase"] = {
-        phase: summary([r for r in report["trials"] if r["phase"] == phase])
-        for phase in sorted({r["phase"] for r in rows})
-    }
+    summarize_report(report, rows)
     write_report(a.out, report)
+    overview(a.out, report)
+    print(f"Read: {a.out / 'report.md'}")
     print(json.dumps(report["summary"], indent=2))
     print(f"Report: {a.out / 'report.json'}")
     if report["summary"]["scored"] != len(rows):
@@ -320,7 +385,7 @@ def run_selection(a, manifest, rows):
 
 def main(simple=False):
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--release", type=Path, default=DEFAULT_RELEASE)
+    p.add_argument("--release", type=resolve_release, default=DEFAULT_RELEASE)
     p.add_argument("--out", type=Path)
     p.add_argument(
         "--resume",
@@ -335,15 +400,26 @@ def main(simple=False):
     p.add_argument("--limit", type=int)
     p.add_argument("--list", action="store_true")
     if simple:
+        p.add_argument(
+            "--all",
+            action="store_true",
+            help="Run the baseline over the entire release",
+        )
         p.set_defaults(mode="baseline", harness=None, model=None, backend="local")
     else:
-        p.add_argument("--mode", choices=["live", "vendor", "fixture"], default="live")
+        p.add_argument(
+            "--mode",
+            choices=["live", "openrouter-free", "vendor", "fixture"],
+            default="live",
+        )
         p.add_argument("--backend", choices=["harbor", "macos"], default="harbor")
         p.add_argument("--harness", choices=BIN)
         p.add_argument("--model")
     a = p.parse_args()
-    if simple and not any(
-        (a.task, a.series, a.game, a.phase, a.patch, a.limit, a.list)
+    if (
+        simple
+        and not a.all
+        and not any((a.task, a.series, a.game, a.phase, a.patch, a.limit, a.list))
     ):
         a.task = [SAMPLE]
     evaluate(a)

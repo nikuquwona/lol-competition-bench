@@ -48,7 +48,7 @@ docker compose version
 
 ### 选择任务与读取报告
 
-默认版本为 `datasets/replay-v2`。simple 默认选 KC–T1 第二局 BP 后；e2e 默认选整套。先用 `--list` 查看范围。可多次指定 `--task`，也可组合 `--phase`、`--series`、`--game`、`--patch` 与 `--limit`。同一系列赛、同一局号且不指定 phase，即为一组 BP 前后对照。
+默认版本为 `datasets/replay-v3`。simple 默认选 KC–T1 第二局 BP 后；e2e 默认选整套。先用 `--list` 查看范围。可多次指定 `--task`，也可组合 `--phase`、`--series`、`--game`、`--patch` 与 `--limit`。同一系列赛、同一局号且不指定 phase，即为一组 BP 前后对照。
 
 ```sh
 ./bench simple --phase lobby --out .work/baseline-lobby
@@ -72,3 +72,45 @@ macOS 已安装同版本 Codex 时，可用 `--backend macos --harness codex --m
 ### 旧版整场系列赛前瞻
 
 小局 intake 以 BP 锁定后的两项概率评分。另保留原有 **整场 BO5 胜率** 入口：`python -m evaluation.live_series freeze …`、[GitHub 封存工作流](https://github.com/nikuquwona/lol-competition-bench/actions/workflows/seal.yml) 及 `python -m evaluation.live_series settle …`。整场赛道的回执按可信 GitHub run 时间验真，成绩与小局分开。
+
+### 按覆盖度和 BP 阶段读分
+
+逐题报告内的 `coverage` 与模型能查阅的历史一致。汇总 `by_coverage` 按十人都有历史（all）、部分有历史（partial）、全员无记录（none）分组。组内平均 reward 计入交卷失败，Brier 只统计成功提交。
+
+`paired` 按系列赛和局号配对。`selected_pairs` 是两个阶段都已选择的小局数，`scored_pairs` 是两个阶段都成功交卷的小局数。`brier_improvement` 按 BP 前 Brier 减去 BP 后 Brier 计算，正值表示看到 BP 后该事件预测更准。全体均值按完整配对的小局等权计算。只跑单一阶段时，均值为 null。
+
+## 验证 CLI 能查历史、读不到未来
+
+`./bench boundary --out .work/kc-t1-boundary` 在临时 Docker 容器中运行 KC 对 T1 第二局的两个观测时点。指定 `--harness codex pi` 或 `--phase lobby` 可以缩小范围。四个可接本地网关的原生 CLI 用固定协议响应执行攻击命令，免用模型密钥。Cursor 走厂商服务，免密钥检查覆盖同一 worker 内的 shell、CLI 版本和未登录启动；认证后的 Cursor 工具执行另需厂商服务。
+
+每次验收分别在一次性管理端副本的本局标签、另一阶段快照和系列第三局快照植入随机标记。攻击方知道这些文件的位置和标记格式，只收到本阶段原始快照与题面。它尝试打开指定文件，扫描工作区、会话目录等位置，记录可用网络接口、外部 TCP 与凭证变量，并从合法历史提取 Faker 的出场局数和第一局双方全部选人。报告包含标记哈希、实际观察值、差异及每个时点执行的 shell 命令。扫描有明确范围，每个文件最多检查前 2 MiB。测试 `tests/test_cli_boundary.py` 故意暴露管理端副本，验证三个标记都能被找回并触发失败。
+
+## 阅读和恢复执行轨迹
+
+每轮运行会输出一份适合阅读的 `report.md` 和一份用于分析的 `report.json`。从报告中点开某个时点的「逐步轨迹」，即可对照模型收到的题面、允许检索的完整快照、原生 CLI 消息、实际工具输入与回显、异常、最终交卷和两项 Brier。Codex 会报告命令退出码和 token 用量。其他 CLI 按各自支持的事件格式记录。报告中赛后观测仅供组织者复核，预测运行期间不提供给模型。
+
+旧运行可以在本地补建报告。例如下面的命令会关联该轮保留的事件，不会发起模型请求：
+
+```sh
+./bench report .work/kc-t1-pair-test
+```
+
+对于未保存原生日志的旧运行，报告会注明轨迹不可用。Linux worker 分别保留 CLI 的 stdout 和 stderr，每份上限 8 MiB，超限会写明截断。原始 JSONL 和 Markdown 之间的链接使用相对路径，可以把整个运行目录一并移动。
+
+## 使用 OpenRouter 免费模型
+
+在宿主的登录 shell 导出 `OPEN_ROUTER_API_KEY` 或 `OPENROUTER_API_KEY` 后运行：
+
+```sh
+./bench e2e --backend macos --mode openrouter-free --harness codex \
+  --model nvidia/nemotron-3.5-lightning:free \
+  --series worlds-2026-main-event-quarterfinals-4 --game 2
+```
+
+网关限制为显式选定的 `:free` 模型，路由价格上限为输入、输出均为零。模型提供方仍可限制并发或返回限流错误；一次试验使用同一模型标识。真实凭证只交给宿主侧网关，模型工具仅能查询当前任务的本地证据。Cursor 的厂商通道另行运行。
+
+## 本地站点、排名和导出
+
+运行 `./bench serve`，在浏览器打开 `http://127.0.0.1:8765`。服务绑定本机回环地址；可用 `--port` 换端口，重复使用 `--runs-dir` 索引自己的报告根目录。新题集若保存在仓库外，用 `--datasets-dir <发布包父目录>` 加入组织者信任的归档，榜单会核对摘要并重算得分。首页按发布包、题号集合、执行后端和赛道展示排名。运行记录可以打开每道题的模型输入、工具命令与回显、预测和评分。边界探测与固定回复验收会标明类型。
+
+每次评测写出 `report.json` 后，站点下一次读取即可看到。支持导出全榜 CSV、单轮 JSON、逐题 CSV、单项证据文件和该轮的完整 ZIP 包。ZIP 保留相对路径，可以离线打开 `report.md` 继续浏览。要生成完整 198 题的离线参照，运行 `./bench simple --all`。题目覆盖、失败计分、重复运行与新榜单的接入规则见[榜单规范](RANKING.md)。

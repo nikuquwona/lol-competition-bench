@@ -2,19 +2,19 @@
 
 import argparse
 import csv
-from datetime import datetime, timezone
-from functools import lru_cache
 import hashlib
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import io
 import json
 import os
-from pathlib import Path
 import re
 import shutil
 import tarfile
 import tempfile
 import zipfile
+from datetime import UTC, datetime
+from functools import lru_cache
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 from production.build import ROOT
@@ -125,7 +125,9 @@ def release_truth(archive, modified, size, expected, manifest_path, manifest_sta
 class RunIndex:
     def __init__(self, roots, datasets=ROOT / "datasets"):
         self.roots = [(label, path.resolve()) for label, path in roots]
-        self.datasets = datasets
+        self.dataset_roots = (
+            [datasets] if isinstance(datasets, Path) else list(datasets)
+        )
 
     def runs(self):
         found = {}
@@ -169,28 +171,28 @@ class RunIndex:
                     time = (
                         doc.get("started_at")
                         or datetime.fromtimestamp(
-                            getattr(stat, "st_birthtime", stat.st_mtime), timezone.utc
+                            getattr(stat, "st_birthtime", stat.st_mtime), UTC
                         ).isoformat()
                     )
-                    rec = dict(
-                        id=key,
-                        name=rel,
-                        origin=label,
-                        release=doc["release"],
-                        backend=doc.get("backend", "docker"),
-                        harness=doc.get("harness")
+                    rec = {
+                        "id": key,
+                        "name": rel,
+                        "origin": label,
+                        "release": doc["release"],
+                        "backend": doc.get("backend", "docker"),
+                        "harness": doc.get("harness")
                         or (
                             " / ".join(sorted({t["harness"] for t in trials}))
                             if boundary
                             else "baseline"
                         ),
-                        model=doc.get("model"),
-                        mode=doc.get("mode", "boundary"),
-                        selected=selected,
-                        scored=scored,
-                        mean_reward=summary.get("mean_reward"),
-                        coverage=scored / selected if selected else None,
-                        status=(
+                        "model": doc.get("model"),
+                        "mode": doc.get("mode", "boundary"),
+                        "selected": selected,
+                        "scored": scored,
+                        "mean_reward": summary.get("mean_reward"),
+                        "coverage": scored / selected if selected else None,
+                        "status": (
                             "completed"
                             if scored == selected
                             else "partial"
@@ -199,8 +201,8 @@ class RunIndex:
                         )
                         if finished
                         else "unfinished",
-                        created_at=time,
-                    )
+                        "created_at": time,
+                    }
                     rec.update(display_names(doc["release"]))
                     found[key] = (rec, doc, path.parent)
                 except (OSError, TypeError, KeyError, ValueError):
@@ -219,25 +221,27 @@ class RunIndex:
             if isinstance(release, str) and re.fullmatch(
                 r"[a-z0-9][a-z0-9-]*", release
             ):
-                try:
-                    manifest = read_doc(self.datasets / release / "manifest.json")
-                    if (
-                        manifest["sha256"] == doc.get("archive_sha256")
-                        and manifest["version"] == release
-                    ):
-                        archive = self.datasets / release / "tasks.tar.gz"
-                        manifest_file = archive.with_name("manifest.json")
-                        stat = archive.stat()
-                        ids = release_truth(
-                            archive,
-                            stat.st_mtime_ns,
-                            stat.st_size,
-                            manifest["sha256"],
-                            manifest_file,
-                            manifest_file.stat().st_mtime_ns,
-                        )
-                except (OSError, KeyError, ValueError, tarfile.TarError):
-                    pass
+                for base in self.dataset_roots:
+                    try:
+                        manifest = read_doc(base / release / "manifest.json")
+                        if (
+                            manifest["sha256"] == doc.get("archive_sha256")
+                            and manifest["version"] == release
+                        ):
+                            archive = base / release / "tasks.tar.gz"
+                            manifest_file = archive.with_name("manifest.json")
+                            stat = archive.stat()
+                            ids = release_truth(
+                                archive,
+                                stat.st_mtime_ns,
+                                stat.st_size,
+                                manifest["sha256"],
+                                manifest_file,
+                                manifest_file.stat().st_mtime_ns,
+                            )
+                            break
+                    except (OSError, KeyError, ValueError, tarfile.TarError):
+                        continue
             inputs.append((key, doc, ids))
         ranks = leaderboard(inputs)
         for group in ranks["groups"]:
@@ -472,6 +476,13 @@ def main():
         type=Path,
         help="Root containing run reports; repeat to add more",
     )
+    p.add_argument(
+        "--datasets-dir",
+        action="append",
+        type=Path,
+        default=[],
+        help="Additional trusted directories containing release manifests and archives",
+    )
     a = p.parse_args()
     roots = [
         (f"local-{i + 1}", root.resolve())
@@ -479,7 +490,8 @@ def main():
     ]
     roots.append(("example", ROOT / "evaluation/examples"))
     with ThreadingHTTPServer(
-        ("127.0.0.1", a.port), make_handler(RunIndex(roots))
+        ("127.0.0.1", a.port),
+        make_handler(RunIndex(roots, [ROOT / "datasets", *a.datasets_dir])),
     ) as server:
         print(
             f"LoL Competition Bench  http://127.0.0.1:{server.server_port}", flush=True

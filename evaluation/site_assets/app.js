@@ -546,7 +546,7 @@ async function rules(root, signal) {
             node(
               "pre",
               "code files-preview",
-              "./bench simple\n./bench e2e --release datasets/replay-v3 --backend harbor \\\n  --harness codex --model deepseek-v4-pro",
+              "./bench simple\n./bench e2e --release worlds-lpl-2026 --backend harbor \\\n  --harness codex --model deepseek-v4-pro",
             ),
           ),
         ),

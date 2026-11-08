@@ -52,7 +52,7 @@ def blocked(endpoint):
         try: s.connect(endpoint)
         except PermissionError: return True
         return False
-assert 'DEEPSEEK_API_KEY' not in os.environ
+assert not {'DEEPSEEK_API_KEY', 'OPEN_ROUTER_API_KEY', 'OPENROUTER_API_KEY'} & os.environ.keys()
 assert Path('snapshot.json').is_file()
 assert denied(sys.argv[1]) and denied(sys.argv[2])
 assert blocked(('1.1.1.1',443)) and blocked(('127.0.0.1',int(sys.argv[3])))
@@ -60,12 +60,25 @@ print('snapshot accessible; labels, personal shell config, public IP and second 
 """
 
 
+class SandboxUnavailable(RuntimeError):
+    """The preflight failed before the native CLI could start."""
+
+
 def save(path, data):
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
 def run(
-    phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL, fixture=False
+    phase,
+    out,
+    binary,
+    check_only,
+    budget_prompt,
+    *,
+    task=None,
+    model=MODEL,
+    fixture=False,
+    openrouter_free=False,
 ):
     out.mkdir(parents=True, exist_ok=False)
     task = task or TASKS / (PREFIX + phase)
@@ -87,6 +100,7 @@ def run(
         http.server.ThreadingHTTPServer(("127.0.0.1", 0), Relay) as srv,
     ):
         root = Path(temp)
+        srv.openrouter_free = openrouter_free
         srv.fixture = fixture
         srv.remaining = MAX_CALLS
         srv.lock = threading.Lock()
@@ -134,7 +148,7 @@ def run(
                 timeout=20,
             )
         if probe.returncode:
-            raise RuntimeError("Boundary test failed: " + probe.stderr[-700:])
+            raise SandboxUnavailable("Boundary test failed: " + probe.stderr[-700:])
         version = subprocess.check_output(
             [*seat, str(exe), "--version"], cwd=work, env=env, text=True, timeout=20
         ).strip()
@@ -216,7 +230,9 @@ def run(
                 out / "run.json",
                 dict(
                     cli=version,
-                    mode="fixture" if fixture else "live",
+                    mode="fixture"
+                    if fixture
+                    else ("openrouter-free" if openrouter_free else "live"),
                     model=model,
                     phase=phase,
                     snapshot_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),

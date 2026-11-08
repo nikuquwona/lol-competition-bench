@@ -7,15 +7,23 @@ import sys
 
 COMMANDS = {
     "simple": "Run a credential-free baseline against a released task",
+    "serve": "Browse local rankings, trial trajectories and exports",
+    "specs": "Validate and inspect task categories, background and instruction profiles",
+    "build": "Build standalone Harbor tasks from archived games",
+    "report": "Rebuild readable run reports and link native trajectories offline",
     "e2e": "Evaluate one native CLI and model on a release selection",
+    "boundary": "Probe the isolated CLI workers on the two KC–T1 game-two snapshots",
     "init-game": "Create an editable lobby or ordered BP observation form",
     "freeze": "Create a label-free task from an observed lobby or draft",
     "forecast": "Run an isolated CLI on an unlabeled task and seal its prediction",
     "submit": "Record the first forecast for an entrant on a trusted clock",
+    "close": "Seal a stage at its first public BP action or game start",
     "settle": "Attach a published result to an immutable observation",
     "scores": "View eligible receipts for one settled observation",
     "history-add": "Import a completed game as dated historical evidence",
     "release": "Package scored tasks with a reproducible manifest",
+    "export": "Export a release as chronological RL and evaluation datasets",
+    "validate-pack": "Validate contributors' versioned player evidence packs",
 }
 
 if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
@@ -32,8 +40,43 @@ try:
 
         del sys.argv[1]
         main(simple=cmd == "simple")
+    elif cmd == "specs":
+        from production.specs import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "build":
+        from production.build import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "serve":
+        from evaluation.site import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "report":
+        from evaluation.traces import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "boundary":
+        from evaluation.cli.boundary import main
+
+        del sys.argv[1]
+        main()
     elif cmd == "forecast":
         from evaluation.pending import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "validate-pack":
+        from production.evidence import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "export":
+        from production.export import main
 
         del sys.argv[1]
         main()

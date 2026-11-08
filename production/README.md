@@ -17,7 +17,7 @@
 
 `freeze` 创建 `.work/intake/next-final-g1-draft-lock/`。其中 `task/` 是可运行的无标签 Harbor 任务，`observation.json` 是管理端的来源、冻结时间和指纹。重复冻结同一标识会失败。BP 前与 BP 后属于两个不同标识，各自独立冻结。
 
-**2 · 在真实开赛前提交预测。** 可从冻结任务运行原生 CLI 并封存结果；已在其他合规环境完成推理时，也可提交模型实际生成的文件。由同一受信任时钟记录首份提交，参赛者不能自行填写时间。下面两种方式任选其一。
+**2 · 在对应阶段的窗口内提交预测。** 两个窗口均从各自快照冻结起算，截止点本身算迟交。lobby 在首手选禁公开时截止，draft-lock 在游戏开局时截止。可从冻结任务运行原生 CLI 并封存结果，也可提交已在合规环境中生成的文件。组织者的时钟记录首次提交时间。
 
 ```sh
 CASE=.work/intake/next-final-g1-draft-lock
@@ -29,6 +29,17 @@ CASE=.work/intake/next-final-g1-draft-lock
 ```
 
 `forecast` 使用 Harbor 的 `--disable-verification`。此时没有胜负标签，不能返回预测质量分数。开赛窗口很短时，模型可能来不及交卷；迟交不能作为前瞻成绩。多人赛事应将提交入口部署在组织者控制的机器上，参赛者仅获得允许字段，自行编辑的本地回执不能作为公开存证。
+
+组织者在事件发生时执行 `close`，将示例时间和链接换为真实值。事件延迟上报时，`--at` 仍取来源中首手 BP 或开局的实际时间。`cutoff.json` 在组织者侧同时保留事件时间、入库时间和证据来源，首次登记后即锁定。
+
+```sh
+./bench close .work/intake/next-final-g1-lobby \
+  --at 2026-11-08T21:56:00Z --source https://example.org/first-public-ban
+./bench close .work/intake/next-final-g1-draft-lock \
+  --at 2026-11-08T22:05:00Z --source https://example.org/game-start
+```
+
+关窗后，`submit` 立即拒收，`forecast` 在启动模型前检查一次，交卷时再检查一次。组织者即使忘记录入第一手，冻结完整 BP 后也会停止接受 lobby 提交。赛后按实际截止时间复核已收回执。缺少第一手时间证据的 lobby（包括旧记录）显示 `unverified`，分数留空。应在 `settle` 前补录可靠的关窗证据。draft-lock 也可以使用赛果中的 `game_started_at` 结算，若已有实时关窗记录，两处时间必须一致。
 
 **3 · 赛后结算。** 将真实结果写入一个单独的 JSON。下方仅表示字段格式，日期、赛果和来源均要替换。
 
@@ -50,7 +61,7 @@ CASE=.work/intake/next-final-g1-draft-lock
 ./bench e2e --release .work/releases/replay-next --list --series next-final
 ```
 
-胜局用 `winner: blue/red`，`blue_gd15` 始终是蓝方减红方。可选 `players` 包含十行实名单局技术统计，每行使用 name、side、role、champion、k、d、a；缺失时只收录已知事实。有效时间顺序为 **冻结 ≤ 提交 < 实际开赛 ≤ 结果公布**，且公布时间不能在未来。一个小局只录入一次赛果；已冻结的 lobby 和 draft-lock 共用这条不可覆盖的结果，各自用原快照评分。如果只冻结过 lobby，可在赛果的可选 bp 字段中补上已经公开的完整禁选，供下一局 Fearless 校验；该信息不会写回 lobby 快照。结算会把迟交标成 ineligible。新发布包只纳入已结算的任务，并逐字沿用观测时冻结的题面及快照。新增版本不会改变原版。
+胜局用 `winner: blue/red`，`blue_gd15` 始终是蓝方减红方。可选 `players` 包含十行实名单局技术统计，每行使用 name、side、role、champion、k、d、a。有效回执满足 **冻结 ≤ 提交 < 对应阶段的截止时间**，且赛果公布时间不早于开局、不晚于采集机当前时间。一个小局只录入一次赛果，两个阶段分别用冻结快照和各自的截止时间评分。如果只冻结过 lobby，可在赛果的可选 bp 字段中补入已经公开的完整禁选，供下一局 Fearless 校验。结算把迟交标成 `ineligible`。新发布包纳入已结算的任务，并逐字沿用观测时冻结的题面及快照。
 
 ## 历史从哪里来
 
@@ -64,3 +75,7 @@ CASE=.work/intake/next-final-g1-draft-lock
 - 游戏内 BP 顺序按 Leaguepedia 手工记录核对两侧英雄和单局胜者，衍生 BP 数据按 [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) 署名共享。[世界赛 BP](https://lol.fandom.com/wiki/2026_Season_World_Championship/Main_Event/Picks_and_Bans)
 - [RiftWise](https://riftwise.gg/stats/data) 冻结版本 20261108041551 提供赛事名单、K/D/A、15 分钟经济差；按其公式重算的赛后表现分保存在归档中。21 家俱乐部、107 名实际出场选手，共 990 条选手场次评分。102 局中有 3 局技术字段不足，99 局进入回放评测。[来源与摘要](data/sources.json)
 - 重新采集该批数据使用 `python -m pip install -r production/requirements-collect.txt`、`python -m production.fetch`、`python -m production.collect`。上游页面会修订，采集脚本面向该批赛事；新增观测使用上述 intake 入口。赛季归档和缓存不交给参赛 CLI。
+
+## 社区选手证据
+
+使用 `./bench validate-pack` 检查贡献者的 JSON 文件，再在 `build`、`freeze` 或 `release` 添加 `--with-pack PATH`。已发布的回放可用新版本名合并证据包做配对实验。[证据定义、贡献规则和 KC–T1 示例](evidence-packs/README.md)

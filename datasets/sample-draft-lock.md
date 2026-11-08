@@ -6,6 +6,8 @@ You are forecasting one professional League of Legends game at **draft lock**. K
 
 Open `/app/snapshot.json`. The `current` object identifies the teams, starters, format and draft rules. Read current.bp in turn order; each action names its side, champion and ban or pick. The `history` array contains 96 earlier games available at the cutoff. Each record identifies its patch, sides and game number. Where recorded, it includes the draft, winner, blue-minus-red gold at 15:00, and each player's role, champion and K/D/A. A missing observation is unknown.
 
+The `coverage` object counts earlier games with a recorded appearance for each starter, including the subset on the current patch. It also lists any missing earlier games from this series. A count of zero means the snapshot has no matching appearance.
+
 You may search, filter and aggregate this file with local shell tools or Python's standard library. Use general League knowledge to interpret it. External search, other sessions, remembered outcomes of this game and evidence from later games are outside the forecast. Compare opponents, patch and sample size when weighing past performances. In Fearless series, picks from earlier games in that series are unavailable to both teams.
 
 ## Forecast

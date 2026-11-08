@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "categories": {
+    "match-outcomes": "Forecast the winner and the 15-minute gold leader of a single professional game."
+  },
+  "backgrounds": {
+    "competition-brief-v1": "competition-brief-v1.md"
+  },
+  "instructions": {
+    "forecast-v1": {"template": "forecast.md", "example": null},
+    "forecast-with-example-v1": {"template": "forecast.md", "example": "two-events-example-v1.md"}
+  },
+  "tasks": {
+    "forecast-v1": {"category": "match-outcomes", "background": null, "instruction": "forecast-v1", "grader": "binary-brier-pair-v1"},
+    "scout-one-shot-v1": {"category": "match-outcomes", "background": "competition-brief-v1", "instruction": "forecast-with-example-v1", "grader": "binary-brier-pair-v1"}
+  }
+}

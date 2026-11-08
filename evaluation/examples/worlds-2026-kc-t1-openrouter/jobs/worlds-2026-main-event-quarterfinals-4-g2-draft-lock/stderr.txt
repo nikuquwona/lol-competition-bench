@@ -1,0 +1,3 @@
+Reading additional input from stdin...
+2026-11-08T16:57:01.105899Z ERROR codex_core::tools::router: error=unable to process image: invalid or unsupported image data
+2026-11-08T17:00:52.525932Z ERROR codex_core::tools::router: error=Goal tools require a persistent thread.

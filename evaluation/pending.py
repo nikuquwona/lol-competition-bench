@@ -8,11 +8,12 @@ import shutil
 import subprocess
 
 from production.build import ROOT
-from production.intake import submit
+from production.intake import require_open, submit
 from production.schema import slug
-from production.store import trusted_case, result_path
+from production.store import trusted_case
 from production.score import read_prediction
 from evaluation.cli.client import BIN
+from evaluation.cli.gateway import credential_name, free_model
 
 
 def main():
@@ -21,17 +22,20 @@ def main():
     parser.add_argument("--entrant", required=True)
     parser.add_argument("--harness", choices=BIN, required=True)
     parser.add_argument("--model", required=True)
+    parser.add_argument("--mode", choices=("live", "vendor", "openrouter-free"))
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     trusted_case(args.case)
+    require_open(args.case)
     entrant = slug(args.entrant)
-    if (
-        result_path(args.case).exists()
-        or (args.case / "receipts" / (entrant + ".json")).exists()
-    ):
-        raise ValueError("Case has settled or entrant has already submitted")
-    mode = "vendor" if args.harness == "cursor" else "live"
-    credential = "CURSOR_API_KEY" if mode == "vendor" else "DEEPSEEK_API_KEY"
+    if (args.case / "receipts" / (entrant + ".json")).exists():
+        raise ValueError("Entrant has already submitted")
+    mode = args.mode or ("vendor" if args.harness == "cursor" else "live")
+    if (args.harness == "cursor") != (mode == "vendor"):
+        raise ValueError("Cursor requires vendor mode")
+    if mode == "openrouter-free" and not free_model(args.model):
+        raise ValueError("Provide a pinned OpenRouter model ending in :free")
+    credential = credential_name(mode)
     if not shutil.which("harbor") or not os.environ.get(credential):
         raise ValueError(f"Requires Harbor 0.25.0, Docker and {credential}")
     out = args.out.resolve()

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "worlds-player-boxscore",
+  "version": "1.0.0",
+  "owner": "LoL Competition Bench",
+  "attribution": "T1 vs LOS, Worlds 2026 Swiss round one. Tencent match detail 13627 records the full replay publication time. The K/D/A is cross-checked against the RiftWise box score in this repository.",
+  "license": "Source-specific; see the evidence pack data card",
+  "records": [
+    {
+      "entity_type": "player",
+      "entity_id": "Faker",
+      "feature_type": "player.scoreline.v1",
+      "anchor": {"series":"worlds-2026-main-event-round-1-7", "game":1},
+      "value": {"k":6,"d":0,"a":7},
+      "published_at": "2026-10-24T12:14:41Z",
+      "source": "https://lpl.qq.com/web201612/data/LOL_MATCH_DETAIL_13627.js",
+      "reviewed_by": "lol-competition-bench-archive-crosscheck"
+    }
+  ]
+}

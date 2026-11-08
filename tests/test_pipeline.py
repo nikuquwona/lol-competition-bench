@@ -10,6 +10,7 @@ from unittest.mock import patch
 from evaluation.suite import DEFAULT_RELEASE, SAMPLE, select, unpack, summary
 from production.build import ROOT
 from production.intake import (
+    close_window,
     freeze,
     history,
     history_add,
@@ -154,8 +155,14 @@ class Pipeline(unittest.TestCase):
         lobby = {k: v for k, v in locked.items() if k != "bp"}
         lobby["phase"] = "lobby"
         a = freeze(lobby, self.store)
-        b = freeze(locked, self.store)
         submit(a, "same-entrant", {"p_blue_win": 0.4, "p_blue_ahead_15": 0.5})
+        self.clock.return_value += timedelta(seconds=10)
+        close_window(a, self.clock.return_value.isoformat(), lobby["source"])
+        with self.assertRaisesRegex(ValueError, "closed"):
+            submit(a, "late", {"p_blue_win": 0.5, "p_blue_ahead_15": 0.5})
+        self.clock.return_value += timedelta(seconds=10)
+        locked["observed_at"] = self.clock.return_value.isoformat()
+        b = freeze(locked, self.store)
         submit(b, "same-entrant", {"p_blue_win": 0.3, "p_blue_ahead_15": 0.5})
         self.clock.return_value = NOW + timedelta(hours=2)
         settle(b, self.result(b))
@@ -166,6 +173,27 @@ class Pipeline(unittest.TestCase):
         self.assertEqual(
             len([g for g in history(self.store) if g["series"] == locked["series"]]), 1
         )
+
+    def test_lobby_missing_public_time_never_earns_a_score(self):
+        locked = observation()
+        lobby = {**locked, "phase": "lobby"}
+        del lobby["bp"]
+        a = freeze(lobby, self.store)
+        pred = {"p_blue_win": 0.5, "p_blue_ahead_15": 0.5}
+        submit(a, "early", pred)
+        self.clock.return_value += timedelta(seconds=20)
+        locked["observed_at"] = self.clock.return_value.isoformat()
+        b = freeze(locked, self.store)
+        with self.assertRaisesRegex(ValueError, "closed"):
+            submit(a, "after-lock", pred)
+        self.clock.return_value += timedelta(seconds=10)
+        with self.assertRaisesRegex(ValueError, "precede"):
+            close_window(a, self.clock.return_value.isoformat(), lobby["source"])
+        self.clock.return_value = NOW + timedelta(hours=2)
+        settle(b, self.result(b))
+        unverified = standings(a)[0]
+        self.assertEqual(unverified["status"], "unverified")
+        self.assertIsNone(unverified["reward"])
 
     def test_history_backfill_embargo(self):
         for n in (1, 2):

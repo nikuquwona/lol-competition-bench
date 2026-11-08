@@ -77,6 +77,17 @@ class RankingTests(unittest.TestCase):
             next(g["official"] for g in out["groups"] if g["scope"] == "subset")
         )
 
+    def test_preflight_without_a_cli_is_not_a_model_attempt(self):
+        doc = report()
+        doc["trials"][0].update(
+            status="failed",
+            reward=0,
+            error="Boundary test failed: sandbox-exec: sandbox_apply: Operation not permitted",
+        )
+        result = leaderboard([("preflight", doc, set(doc["planned"]))])
+        self.assertFalse(result["groups"])
+        self.assertIn("隔离检查失败", result["excluded"][0]["reason"])
+
     def test_reject_invalid_and_unfinished_old_records(self):
         variations = []
         for change in (
