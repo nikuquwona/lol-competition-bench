@@ -1,0 +1,24 @@
+name: Harbor smoke test
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  oracle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests
+      - run: pip install harbor==0.25.0
+      - run: python scripts/build.py --series worlds-2026-main-event-quarterfinals-4 --game 2
+      - run: harbor run -a oracle -p tasks/worlds-2026-main-event-quarterfinals-4-g2-draft-lock
+      - name: Check verifier reward
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          paths = list(Path("jobs").rglob("reward.txt"))
+          assert len(paths) == 1 and float(paths[0].read_text()) == 1.0, paths
+          PY
