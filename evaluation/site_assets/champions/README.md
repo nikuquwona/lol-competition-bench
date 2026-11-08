@@ -1,0 +1,7 @@
+# Champion portraits
+
+The dashboard uses Riot Games champion square art from the Data Dragon versions corresponding to each tournament patch. Tournament 26.17 uses 16.17.1 and tournament 26.20 uses 16.20.1. English catalogs resolve observed champion names and internal asset IDs (including Wukong → MonkeyKing, Renata Glasc → Renata and Kai'Sa → Kaisa). Chinese champion names use the official zh_CN catalog's title field. [Data Dragon documentation](https://developer.riotgames.com/docs/lol#data-dragon) · [Official version list](https://ddragon.leagueoflegends.com/api/versions.json) · [Riot's 26.20 patch notes](https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-20-notes/)
+
+[sources.json](sources.json) records each source catalog URL, source PNG filename, identifier, observed spelling, localized name and SHA-256 of both the downloaded PNG and the local portrait. Combine the patch's `source_template` with `source_png` to locate an original. Identical 96-pixel WebP images share one file. The runtime performs no network fetch. A champion absent from the local catalog keeps its recorded name.
+
+To regenerate from the pinned Harbor release, run `python -m evaluation.portraits` with Python 3.12+ and `cwebp` installed. The command reads the frozen draft-lock snapshots. It only downloads the champions present in that edition from Riot’s HTTPS CDN. Original art belongs to Riot Games.

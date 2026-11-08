@@ -10,6 +10,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from evaluation.cli.client import BIN
+from evaluation.draft import draft_view
 from evaluation.selections import SUITES, suite_ids
 from production.build import ROOT
 from production.catalog import display_names
@@ -81,7 +82,9 @@ def release_truth(archive, modified, size, expected, manifest_path, manifest_sta
                         or "match" in row
                     ):
                         raise ValueError("Invalid release snapshot")
-                    current = json.loads(data)["current"]
+                    snapshot = json.loads(data)
+                    row["draft"] = draft_view(snapshot, row["phase"])
+                    current = snapshot["current"]
                     row["match"] = {
                         key: current[key]
                         for key in (

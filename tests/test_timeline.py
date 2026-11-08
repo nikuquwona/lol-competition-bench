@@ -69,6 +69,41 @@ class TimelineTests(unittest.TestCase):
                     build_timeline(path, phase="lobby")["availability"], "truncated"
                 )
 
+    def test_claude_checkpoints_link_to_original_write_and_matching_reply(self):
+        root = ROOT / "evaluation/examples/featured-five-claude-deepseek/jobs"
+        path = next(root.glob("*quarterfinals-4-g2-draft-lock/trajectory.jsonl"))
+        lines = path.read_bytes().splitlines()
+        timeline = build_timeline(path, phase="draft-lock")
+        steps = {s["id"]: s for s in timeline["steps"]}
+        self.assertEqual(
+            [m["values"] for m in timeline["checkpoints"]],
+            [
+                {"p_blue_win": 0.26, "p_blue_ahead_15": 0.57},
+                {"p_blue_win": 0.31, "p_blue_ahead_15": 0.58},
+            ],
+        )
+        for checkpoint in timeline["checkpoints"]:
+            step = steps[checkpoint["step_id"]]
+            call = json.loads(lines[step["source"]["line"] - 1])["message"]["content"]
+            result = json.loads(lines[step["result_source"]["line"] - 1])["message"][
+                "content"
+            ]
+            (write,) = [
+                b
+                for b in call
+                if b.get("type") == "tool_use"
+                and b.get("id") == step["source"]["call_id"]
+            ]
+            self.assertEqual(
+                json.loads(write["input"]["content"]), checkpoint["values"]
+            )
+            self.assertTrue(
+                any(
+                    b.get("tool_use_id") == write["id"] and not b.get("is_error")
+                    for b in result
+                )
+            )
+
     def test_successful_claude_file_revisions_are_distinct_from_stdout(self):
         with tempfile.TemporaryDirectory() as d:
             path = Path(d) / "events.jsonl"

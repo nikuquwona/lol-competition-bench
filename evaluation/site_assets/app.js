@@ -313,6 +313,7 @@ function asGames(report, fixtures) {
           red_logo: m.red_logo,
           patch: t.patch,
           stage: m.stage,
+          bo: m.bo,
         }).filter(([, v]) => v != null),
       ),
     );
@@ -320,66 +321,90 @@ function asGames(report, fixtures) {
   }
   return [...games.values()];
 }
-function actual(g) {
-  const label =
+function gameResult(g) {
+  return (
     g.pair.lobby?.observed_outcome ||
     g.pair["draft-lock"]?.observed_outcome ||
     g.observed_outcome ||
-    {};
-  const winner =
-    label.p_blue_win === 1
-      ? g.blue || "蓝方"
-      : label.p_blue_win === 0
-        ? g.red || "红方"
-        : null;
-  const ahead =
-    label.p_blue_ahead_15 === 1
+    {}
+  );
+}
+function actual(g) {
+  const result = gameResult(g),
+    side =
+      result.p_blue_win === 1 ? "blue" : result.p_blue_win === 0 ? "red" : null;
+  const leader =
+    result.p_blue_ahead_15 === 1
       ? "蓝方领先"
-      : label.p_blue_ahead_15 === 0
+      : result.p_blue_ahead_15 === 0
         ? "蓝方未领先"
-        : "—";
+        : "未记录";
   return div(
     "actual",
-    span("strong", winner || "—"),
-    span("secondary", "15′ " + ahead),
+    span(
+      "winner " + (side || ""),
+      side ? g[side] || (side === "blue" ? "蓝方" : "红方") : "—",
+    ),
+    span("secondary", "15′ " + leader),
+  );
+}
+function stageName(g) {
+  const s = String(g.series || "");
+  const event = s.startsWith("lpl-")
+    ? "LPL 区域资格赛"
+    : s.includes("-play-in-")
+      ? "世界赛入围赛"
+      : s.startsWith("worlds-")
+        ? "世界赛"
+        : "";
+  const round = /^Round (\d+)$/i.exec(g.stage || "");
+  const stage = round
+    ? "第 " + round[1] + " 轮"
+    : { Quarterfinals: "八强赛", Semifinals: "半决赛", Finals: "决赛" }[
+        g.stage
+      ] || g.stage;
+  return [event, stage].filter(Boolean).join(" · ");
+}
+function teamLine(g, side) {
+  const name = g[side] || (side === "blue" ? "蓝方" : "红方"),
+    src = g[side + "_logo"];
+  const symbol = span("team-emblem", "");
+  if (typeof src === "string" && /^\/teams\/[a-zA-Z0-9_-]+\.png$/.test(src)) {
+    const img = node("img", "team-logo");
+    img.alt = "";
+    img.width = 32;
+    img.height = 32;
+    img.src = src;
+    img.addEventListener("error", () => img.remove(), { once: true });
+    symbol.append(img);
+  }
+  return div(
+    "club " + side + "-team",
+    symbol,
+    span(
+      "club-copy",
+      span("club-side", side === "blue" ? "蓝方" : "红方"),
+      span("club-name", name),
+    ),
   );
 }
 function matchName(g) {
-  if (!g.blue || !g.red)
-    return div(
-      "",
-      span("strong", g.series || "比赛"),
-      span("secondary", g.game ? "第 " + g.game + " 局" : "—"),
-    );
-  function team(side) {
-    const row = span(side + "-team", g[side]),
-      src = g[side + "_logo"];
-    if (typeof src === "string" && /^\/teams\/[a-zA-Z0-9_-]+\.png$/.test(src)) {
-      const img = node("img", "team-logo");
-      img.alt = "";
-      img.width = 22;
-      img.height = 22;
-      img.addEventListener(
-        "error",
-        () => {
-          img.remove();
-          row.classList.remove("with-logo");
-        },
-        { once: true },
-      );
-      row.classList.add("with-logo");
-      row.prepend(img);
-      img.src = src;
-    }
-    return row;
-  }
   return div(
     "match-name",
-    team("blue"),
-    team("red"),
-    span(
-      "secondary",
-      ["G" + g.game, g.stage, g.patch && "Patch " + g.patch]
+    div(
+      "match-stage",
+      span("", stageName(g) || g.series || "赛事"),
+      span("game-tag", "G" + (g.game || g.n || "—")),
+    ),
+    div(
+      "faceoff",
+      teamLine(g, "blue"),
+      span("versus", "vs"),
+      teamLine(g, "red"),
+    ),
+    div(
+      "match-format",
+      [g.bo && "BO" + g.bo, g.patch && "Patch " + g.patch]
         .filter(Boolean)
         .join(" · "),
     ),
@@ -406,14 +431,25 @@ function phaseResult(runId, t) {
       : link(title, taskPath(runId, trialKey(t)), "problem-link");
   }
   const a = link("", taskPath(runId, trialKey(t)), "forecast-link");
+  const p = t.prediction || {};
+  const band = span("win-band", span(""));
+  band.style.setProperty(
+    "--blue-share",
+    Number.isFinite(p.p_blue_win) ? 100 * p.p_blue_win + "%" : "0%",
+  );
+  band.setAttribute("aria-hidden", "true");
   a.append(
-    span(
-      "forecast-numbers",
-      pct(t.prediction?.p_blue_win),
-      " / ",
-      pct(t.prediction?.p_blue_ahead_15),
+    div(
+      "forecast-top",
+      span("win-figure", pct(p.p_blue_win)),
+      span("phase-arrow", "↗"),
     ),
-    span("secondary", "得分 " + fixed(t.reward) + " ↗"),
+    band,
+    div(
+      "forecast-aux",
+      span("", "15′ 领先 ", span("forecast-gold", pct(p.p_blue_ahead_15))),
+      span("", "得分 ", span("forecast-reward", fixed(t.reward))),
+    ),
   );
   a.setAttribute("aria-label", display(phase(t)) + " 预测及轨迹：" + t.task);
   return a;
@@ -444,18 +480,18 @@ function matchTable(games, runId) {
   if (!games.length) return empty("这轮运行尚无可展示的对局。");
   const box = table(
     [
-      ["对局 · 蓝 / 红"],
-      ["实际胜方"],
-      ["BP 前 · 蓝胜率 / 15′ 领先"],
-      ["BP 后 · 蓝胜率 / 15′ 领先"],
+      ["对阵 · 蓝方 / 红方"],
+      ["BP 前 · 蓝方胜率"],
+      ["BP 后 · 蓝方胜率"],
       ["胜率变化"],
+      ["实际胜方"],
     ],
     games.map((g) => [
       matchName(g),
-      actual(g),
       phaseResult(runId, g.pair.lobby),
       phaseResult(runId, g.pair["draft-lock"]),
       bpChange(g.pair),
+      actual(g),
     ]),
     "逐场预测",
   );
@@ -513,6 +549,72 @@ function predictionGroups(board) {
     ...verified.filter((g) => g.is_featured || g.scope === "full"),
   ];
 }
+function seasonVisual() {
+  const img = node("img", "season-art");
+  img.src = "/media/worlds-2026.webp";
+  img.alt = "2026 全球总决赛官方主视觉，亚索越过蓝紫色城市上空";
+  img.width = 1440;
+  img.height = 605;
+  img.fetchPriority = "high";
+  const credit = link(
+    "全球总决赛",
+    "https://lolesports.com/en-GB/news/worlds-2026-primer",
+    "season-title",
+  );
+  credit.title = "Riot Games / LoL Esports 官方主视觉与赛事资料";
+  return node(
+    "figure",
+    "event-visual",
+    img,
+    node("figcaption", "", span("season-year", "2026"), credit),
+  );
+}
+function quarterfinalWalkout() {
+  const figure = node("figure", "walkout");
+  const photos = [
+    [
+      "Karmine Corp",
+      "/media/kc-walkout.webp",
+      "https://www.flickr.com/photos/lolesports/55637131328/",
+    ],
+    [
+      "T1",
+      "/media/t1-walkout.webp",
+      "https://www.flickr.com/photos/lolesports/55637131263/",
+    ],
+  ];
+  for (const [team, src, source] of photos) {
+    const img = node("img", "walkout-photo");
+    img.src = src;
+    img.alt = team + " 在 2026 世界赛八强系列赛入场";
+    img.width = 900;
+    img.height = 601;
+    const a = link("", source, "walkout-image");
+    a.title = team + " · Riot Games 原片";
+    a.append(img, span("", team));
+    figure.append(a);
+  }
+  figure.append(
+    node(
+      "figcaption",
+      "",
+      node("strong", "", "世界赛八强 · 系列赛入场"),
+      span("", "2026.11.06"),
+      span("", "摄影　Yicun Liu / Riot Games"),
+    ),
+  );
+  return figure;
+}
+function isQuarterfinal(series) {
+  return series === "worlds-2026-main-event-quarterfinals-4";
+}
+function fixtureHead(title, controls) {
+  return div(
+    "fixture-head",
+    div("", node("h2", "", "逐场预测"), title && span("selected-pair", title)),
+    controls,
+  );
+}
 async function leaderboard(root, signal) {
   const [board, index] = await Promise.all([
     json("/api/leaderboard", signal),
@@ -538,10 +640,18 @@ async function leaderboard(root, signal) {
     ]),
   ];
   const download = link("导出题单 CSV", "/api/leaderboard.csv", "btn", true);
-  const lead = pageHeading("模型预测成绩", null, download);
-  root.replaceChildren(lead);
+  const context = span("desk-context", "");
+  const desk = div(
+    "scoring-desk",
+    div(
+      "desk-head",
+      div("", context, node("h1", "", "模型预测成绩")),
+      download,
+    ),
+  );
+  root.replaceChildren(node("section", "event-spread", seasonVisual(), desk));
   if (!groups.length) {
-    root.append(
+    desk.append(
       box(
         "模型 × CLI",
         empty("暂无已完成、可比较的模型评测。"),
@@ -551,9 +661,10 @@ async function leaderboard(root, signal) {
     return;
   }
   const matrix = div(""),
-    matches = div("section"),
+    matches = div("fixture-deck"),
     filters = div("board-toolbar");
-  root.append(filters, matrix, matches);
+  desk.append(matrix, filters);
+  root.append(matches);
   const descriptors = groups.map(groupLabel);
   const selectedGroup = choice(
     "评测题单",
@@ -571,8 +682,7 @@ async function leaderboard(root, signal) {
     (v) => draw(groups[Number(v)]),
     true,
   );
-  const meta = span("board-meta", "");
-  filters.append(selectedGroup, meta);
+  filters.append(selectedGroup);
   let latest = 0;
   function draw(g) {
     const params = new URLSearchParams();
@@ -667,19 +777,19 @@ async function leaderboard(root, signal) {
         "matrix-panel",
       ),
     );
-    meta.textContent = g.display_title || g.short_title || g.release;
+    context.textContent = g.display_title || g.short_title || g.release;
     const first =
-      entries.find((e) => e.finished && e.is_suite) ||
+      entries
+        .filter((e) => e.finished && e.is_suite && e.scored === g.selected)
+        .sort((a, b) => b.mean_reward - a.mean_reward)[0] ||
       entries.find((e) => e.scored > 0) ||
       entries[0];
     if (first) activate(first);
     else {
       latest++;
-      matches.replaceChildren(
-        g.games?.length
-          ? box("对局", matchTable(asGames({ trials: [] }, g.games), ""))
-          : document.createDocumentFragment(),
-      );
+      matches.replaceChildren(fixtureHead("", null));
+      if (g.games?.length)
+        matches.append(matchTable(asGames({ trials: [] }, g.games), ""));
     }
     function activate(e) {
       for (const [item, btn] of buttons)
@@ -708,11 +818,11 @@ async function leaderboard(root, signal) {
         toRun = link("运行详情 →", runPath(ids[0]), "btn");
       const controls = div("button-row", picker, toRun);
       matches.replaceChildren(
-        box(
+        fixtureHead(
           humanModel(e.model) + " × " + harnessName(e.harness),
-          outcomes,
           controls,
         ),
+        outcomes,
       );
       load(ids[0]);
       async function load(id) {
@@ -744,7 +854,10 @@ async function listRuns(root, signal, technical = false, model = null) {
   root.replaceChildren(
     pageHeading(
       humanModel(model) || (technical ? "技术记录" : "预测运行"),
-      model ? "该模型的真实预测运行" : null,
+      nfmt(runs.length) +
+        " 次运行 · " +
+        new Set(runs.map((r) => r.harness)).size +
+        " 种 CLI",
       model
         ? link("全部预测运行 →", "#/runs", "sub-link")
         : technical
@@ -770,14 +883,13 @@ async function listRuns(root, signal, technical = false, model = null) {
     const rows = filtered
       .slice(page * 30, (page + 1) * 30)
       .map((r) => [
+        link(modelName(r), runPath(r.id), "primary"),
+        harnessName(r.harness),
         div(
           "",
-          link(modelName(r), runPath(r.id), "primary"),
-          span("secondary", r.name || r.id),
+          r.short_title || r.release,
+          span("secondary", r.edition || display(r.mode)),
         ),
-        harnessName(r.harness),
-        r.short_title || r.release,
-        span("secondary", r.edition || display(r.mode)),
         span("number", nfmt(r.scored) + " / " + nfmt(r.selected)),
         span("number score-num", fixed(r.mean_reward)),
         display(r.status),
@@ -790,7 +902,6 @@ async function listRuns(root, signal, technical = false, model = null) {
               ["模型 / 运行"],
               ["CLI"],
               ["题集"],
-              ["版本"],
               ["交卷", "right"],
               ["均分", "right"],
               ["状态"],
@@ -1000,6 +1111,8 @@ async function runDetail(root, id, signal) {
   }
   root.append(holder);
   draw();
+  if (games.length && games.every((g) => isQuarterfinal(g.series)))
+    root.append(quarterfinalWalkout());
 }
 const PREVIEW_LIMIT = 2 * 1024 * 1024;
 async function preview(url, signal) {
@@ -1103,10 +1216,11 @@ function coverageCard(c) {
   );
 }
 async function trialDetail(root, id, key, signal) {
-  const { run, trial: t, artifacts = {} } = await json(
-    baseApi(id) + "/trials/" + enc(key),
-    signal,
-  );
+  const {
+    run,
+    trial: t,
+    artifacts = {},
+  } = await json(baseApi(id) + "/trials/" + enc(key), signal);
   const files = {};
   for (const [name, path] of Object.entries(artifacts)) {
     const url = apiFile(path);
@@ -1132,7 +1246,13 @@ async function trialDetail(root, id, key, signal) {
     ),
     heading(
       title,
-      [humanModel(run.model), harnessName(t.harness || run.harness), run.billing_source].filter(Boolean).join(" · "),
+      [
+        humanModel(run.model),
+        harnessName(t.harness || run.harness),
+        run.billing_source,
+      ]
+        .filter(Boolean)
+        .join(" · "),
       [
         ...(boundary
           ? [["状态", display(t.status)]]
@@ -1147,6 +1267,8 @@ async function trialDetail(root, id, key, signal) {
         .join(" / "),
     ),
   );
+  if (!boundary && t.draft)
+    root.append(window.LoLDraft.render(t.draft, t.match));
   const details = div(
     "panel-body details-row",
     field("状态", display(t.status)),
@@ -1155,6 +1277,16 @@ async function trialDetail(root, id, key, signal) {
     field("版本", t.patch || t.runtime?.version),
     boundary && field("验收范围", t.scope),
   );
+  if (
+    !boundary &&
+    isQuarterfinal(
+      match.series || t.task?.replace(/-g\d+-(lobby|draft-lock)$/, ""),
+    )
+  ) {
+    const hero = root.querySelector(".hero");
+    hero.classList.add("quarterfinal-hero");
+    hero.append(quarterfinalWalkout());
+  }
   if (t.error) details.append(field("运行错误", displayText(t.error)));
   if (!boundary) {
     const y = t.observed_outcome || {};
@@ -1189,10 +1321,7 @@ async function trialDetail(root, id, key, signal) {
         div("panel-body", node("pre", "code", displayText(t.differences))),
       ),
     );
-  const count = Number.isFinite(tr.shell_commands)
-    ? span("meta", tr.shell_commands + " 条终端命令")
-    : null;
-  left.prepend(
+  root.append(
     box(
       "执行轨迹",
       trialTimeline(
@@ -1201,7 +1330,6 @@ async function trialDetail(root, id, key, signal) {
         baseApi(id) + "/trials/" + enc(key) + "/timeline",
         signal,
       ),
-      count,
     ),
   );
   const right = div(
@@ -1225,7 +1353,13 @@ async function trialDetail(root, id, key, signal) {
         ),
       ),
     );
-  root.append(div("workspace", left, right));
+  const supporting = node(
+    "details",
+    "tx-support",
+    node("summary", "", "评分、证据覆盖与原始文件"),
+    div("workspace", left, right),
+  );
+  root.append(supporting);
 }
 async function route() {
   active?.abort();
@@ -1234,6 +1368,7 @@ async function route() {
   let parts;
   try {
     parts = location.hash
+      .split("?", 1)[0]
       .replace(/^#\/?/, "")
       .split("/")
       .filter(Boolean)

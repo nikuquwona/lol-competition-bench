@@ -1,0 +1,32 @@
+{
+  "25f786f014de85b79b3c182e596ab64711425890dbcd8de5d68e61e54809c69d": [
+    {
+      "line": 8618,
+      "kind": "evidence_mismatch",
+      "quote": "losing only to elite teams (T1, G2)",
+      "note": "LØS 的 5 胜 3 负统计正确，但对手少列了 Team Liquid。",
+      "evidence": "10 月 30 日，LØS 在对 Team Liquid 的第二局执蓝，15 分钟落后 1,870 金并告负。其余两场失利分别对阵 T1 和 G2 Esports。",
+      "source": "history · worlds-2026-main-event-round-4-5 · G2"
+    }
+  ],
+  "342ee0136c2edfdf22e662372fc71c9117767a19ca16840701ab2c9c514366cb": [
+    {
+      "line": 45,
+      "kind": "verified",
+      "quote": "23–7 kill differential",
+      "note": "上一局的胜方、击杀数与 15 分钟领先方均与快照一致。",
+      "evidence": "八强 G1 中，蓝方 T1 的五名选手共 23 杀，红方 KC 共 7 杀。15 分钟 KC 领先 660 金，最终 T1 获胜。",
+      "source": "history · worlds-2026-main-event-quarterfinals-4 · G1"
+    }
+  ],
+  "cd166ca1e1cd584580a2f0e407bad19f10fa2e82366f45fc1bfde2d71ebd8c28": [
+    {
+      "line": 12,
+      "kind": "verified",
+      "quote": "No starter in this game has any recorded appearance in the 34-game history",
+      "note": "两队十名首发在冻结材料中均无历史出场记录。",
+      "evidence": "逐人检索赛前 34 局的选手名单，十人的命中数均为 0。模型随后对 BLG 实力的判断来自自身的背景知识。",
+      "source": "current.starters · history[*].players · coverage"
+    }
+  ]
+}

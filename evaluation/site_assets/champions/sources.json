@@ -1,0 +1,2020 @@
+{
+  "source": "Riot Games Data Dragon",
+  "docs": "https://developer.riotgames.com/docs/lol#data-dragon",
+  "processing": "cwebp -resize 96 96 -q 83 -m 5 -metadata none",
+  "patches": {
+    "26.17": {
+      "data_dragon": "16.17.1",
+      "catalogs": {
+        "en_US": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/en_US/champion.json",
+        "zh_CN": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion.json"
+      },
+      "source_template": "https://ddragon.leagueoflegends.com/cdn/16.17.1/img/champion/{source_png}",
+      "missing": [],
+      "champions": {
+        "Ahri": {
+          "name": "Ahri",
+          "zh": "阿狸",
+          "aliases": [
+            "Ahri"
+          ],
+          "file": "ahri-0acaaf615a77.webp",
+          "source_png": "Ahri.png",
+          "source_sha256": "8e93368d97e3d302463c4e83ac5980d1f0a3a0aaf92ac44435730fecbd55b565",
+          "sha256": "0acaaf615a7743213c82cab28a4c7749c1144f183ba646d3ade20a6bf879810b"
+        },
+        "Akali": {
+          "name": "Akali",
+          "zh": "阿卡丽",
+          "aliases": [
+            "Akali"
+          ],
+          "file": "akali-aca482f34da7.webp",
+          "source_png": "Akali.png",
+          "source_sha256": "a62acc32c454b5cc39cebd0769f940b34f3d39ddaf157b95acb176027f81e17a",
+          "sha256": "aca482f34da77b02a6ef4244e42113bc16c43238e54e5a1a599669f311e6dfdc"
+        },
+        "Alistar": {
+          "name": "Alistar",
+          "zh": "阿利斯塔",
+          "aliases": [
+            "Alistar"
+          ],
+          "file": "alistar-2a8a994fb142.webp",
+          "source_png": "Alistar.png",
+          "source_sha256": "a1b9e0dc85d186fea8b7eccb91b7dc770ea6d3c5d5b53d9698cdf33524879259",
+          "sha256": "2a8a994fb142d3d4c806b217df6e4fe4d78fc44d8850c877d06ef6f468028e70"
+        },
+        "Ambessa": {
+          "name": "Ambessa",
+          "zh": "安蓓萨",
+          "aliases": [
+            "Ambessa"
+          ],
+          "file": "ambessa-d2304e7a5a58.webp",
+          "source_png": "Ambessa.png",
+          "source_sha256": "ce2bf0adfc1cb9e46430f318e73ec1c0bf257e5afe84b584acb88f15bfdb3646",
+          "sha256": "d2304e7a5a581c8d05fc2f6efe471408d4d35fa98d6277f914d15378b70fff4b"
+        },
+        "Annie": {
+          "name": "Annie",
+          "zh": "安妮",
+          "aliases": [
+            "Annie"
+          ],
+          "file": "annie-7668e72cd93d.webp",
+          "source_png": "Annie.png",
+          "source_sha256": "97720fcc698033b18382e7475800d4aac6c436712d997d99df4a0ae99f6829e2",
+          "sha256": "7668e72cd93d04aa405aef849439deb12f21dbfcf217b94e5bcd6c134347b0b2"
+        },
+        "Aphelios": {
+          "name": "Aphelios",
+          "zh": "厄斐琉斯",
+          "aliases": [
+            "Aphelios"
+          ],
+          "file": "aphelios-43ed68b69777.webp",
+          "source_png": "Aphelios.png",
+          "source_sha256": "1db20831bdc7a01918adac84c3afffe3ce4ea8e2f2bee54d70dec220bd1ea6fc",
+          "sha256": "43ed68b697774c31cbcd8b6cb834a397be0a31bfc3eacdc5f97ba7b9d62d88ef"
+        },
+        "Ashe": {
+          "name": "Ashe",
+          "zh": "艾希",
+          "aliases": [
+            "Ashe"
+          ],
+          "file": "ashe-7bd0c6a2f873.webp",
+          "source_png": "Ashe.png",
+          "source_sha256": "423666bdb0685355be4576f78eb6406fd49469b4f6e9f780f1c5eb4349fed91f",
+          "sha256": "7bd0c6a2f873738cd5762b2fc802b0556a4fbbe9696488d1c9fa19c76d62e689"
+        },
+        "Aurora": {
+          "name": "Aurora",
+          "zh": "阿萝拉",
+          "aliases": [
+            "Aurora"
+          ],
+          "file": "aurora-9ad77075ab5d.webp",
+          "source_png": "Aurora.png",
+          "source_sha256": "cb291047d565205ffe91bbbd3fc34592452b2f55b7706430a31c8ac188d99a33",
+          "sha256": "9ad77075ab5d63639f6ce51720a5ea498cf2ed5e7f8b701183babb18c4016ca6"
+        },
+        "Bard": {
+          "name": "Bard",
+          "zh": "巴德",
+          "aliases": [
+            "Bard"
+          ],
+          "file": "bard-e84ce801ce5c.webp",
+          "source_png": "Bard.png",
+          "source_sha256": "18ee517f6453831c0730d73cbf1628001e53a5acced928d4d78e34a28051094d",
+          "sha256": "e84ce801ce5cc864485a1f6d1c15bbb20513fe3f3f22c62e7a240f98ba688615"
+        },
+        "Braum": {
+          "name": "Braum",
+          "zh": "布隆",
+          "aliases": [
+            "Braum"
+          ],
+          "file": "braum-b58482df3b8d.webp",
+          "source_png": "Braum.png",
+          "source_sha256": "1ada9222fe928d32cca4b91fc374fb41cacb6157f0122a390ca611c3e2c29daa",
+          "sha256": "b58482df3b8d16975193cc756b4c25fb64325dcff36a804878dc91d844e50cbe"
+        },
+        "Caitlyn": {
+          "name": "Caitlyn",
+          "zh": "凯特琳",
+          "aliases": [
+            "Caitlyn"
+          ],
+          "file": "caitlyn-ed52f9e45963.webp",
+          "source_png": "Caitlyn.png",
+          "source_sha256": "f7a515360f30f33dfe5ab4e8886ce59a70c2d333f924252f48f5f9a2fbc6edf4",
+          "sha256": "ed52f9e45963faa4682e95b6cc4372c89180df85270365b3c327cd6c78690c5c"
+        },
+        "Camille": {
+          "name": "Camille",
+          "zh": "卡蜜尔",
+          "aliases": [
+            "Camille"
+          ],
+          "file": "camille-1718b406706f.webp",
+          "source_png": "Camille.png",
+          "source_sha256": "54bfa2dc66fc3885279d4546a4d9651f3a16bd4e4474ceaf2e319bf7f673138a",
+          "sha256": "1718b406706f02338308b12fb594487144e2c3cb4e8230fc6186aa3e63b954e2"
+        },
+        "Cassiopeia": {
+          "name": "Cassiopeia",
+          "zh": "卡西奥佩娅",
+          "aliases": [
+            "Cassiopeia"
+          ],
+          "file": "cassiopeia-c066b8759982.webp",
+          "source_png": "Cassiopeia.png",
+          "source_sha256": "da2ad096fc5237e31a1e9d9ebb9b6db6de65e2cab126c9a607c3fa7a36bc8e54",
+          "sha256": "c066b87599827a5dc01aed737c0a09eebca413954a7a07dac39be19203ca0297"
+        },
+        "Chogath": {
+          "name": "Cho'Gath",
+          "zh": "科加斯",
+          "aliases": [
+            "Cho'Gath"
+          ],
+          "file": "chogath-a24689155636.webp",
+          "source_png": "Chogath.png",
+          "source_sha256": "f5381fea0255a8a903381728fec79862dc5c426e25774c5e18def583fb3b1dfb",
+          "sha256": "a24689155636f5442bb86c8aea02808a4c28df9b880e33973b0bf555b6efeff5"
+        },
+        "Corki": {
+          "name": "Corki",
+          "zh": "库奇",
+          "aliases": [
+            "Corki"
+          ],
+          "file": "corki-b960a4f86629.webp",
+          "source_png": "Corki.png",
+          "source_sha256": "db997e48b9a4cda57b6e934c131d4718aca559f2b5bdaacc8e81a19d3c2953bb",
+          "sha256": "b960a4f866299c0662a435e391aff8206715386b84a4ba1652399967c1648c49"
+        },
+        "DrMundo": {
+          "name": "Dr. Mundo",
+          "zh": "蒙多医生",
+          "aliases": [
+            "Dr. Mundo"
+          ],
+          "file": "drmundo-ee5a36d900a2.webp",
+          "source_png": "DrMundo.png",
+          "source_sha256": "496b97ef027d5f90b583329269714623701ad12d013c610ee4c7465916ecb8e0",
+          "sha256": "ee5a36d900a24b6815b2040553397baf6990bb6efbad290b82174ac02c37ada7"
+        },
+        "Ezreal": {
+          "name": "Ezreal",
+          "zh": "伊泽瑞尔",
+          "aliases": [
+            "Ezreal"
+          ],
+          "file": "ezreal-a7b36a03153f.webp",
+          "source_png": "Ezreal.png",
+          "source_sha256": "676467c4362b8745a27db93a44619179820add83be95583d7b2adcfcb4eb7e35",
+          "sha256": "a7b36a03153fef3b21fdc88386e4d2e38759a1acbbe3546944fb17958b92d58c"
+        },
+        "Galio": {
+          "name": "Galio",
+          "zh": "加里奥",
+          "aliases": [
+            "Galio"
+          ],
+          "file": "galio-af79479a6bea.webp",
+          "source_png": "Galio.png",
+          "source_sha256": "25b4acea5a0d8d2b4de819e62fbf7e7bb4afdb94e0d18e8896cb28112a13dc3f",
+          "sha256": "af79479a6beaeed20f73e3e5d5d128c9d82c5a277f9b4b57ad8b67e4d20bbce1"
+        },
+        "Gnar": {
+          "name": "Gnar",
+          "zh": "纳尔",
+          "aliases": [
+            "Gnar"
+          ],
+          "file": "gnar-35a587bfdfc6.webp",
+          "source_png": "Gnar.png",
+          "source_sha256": "d566858ab7ae4a6887f3490cedcd9a7097f5b5214d78c0b7f1b631567f8d739e",
+          "sha256": "35a587bfdfc66a3a00f0c0f9e74a02e950219ffabf8f8ed6551d518593617e2d"
+        },
+        "Gragas": {
+          "name": "Gragas",
+          "zh": "古拉加斯",
+          "aliases": [
+            "Gragas"
+          ],
+          "file": "gragas-30eacf4edd32.webp",
+          "source_png": "Gragas.png",
+          "source_sha256": "06599cb8a6b083a3250c3bcd701b1bab1c8f9dab6ea52c7709ac2c895431f4f6",
+          "sha256": "30eacf4edd32d950d221187cd59e8621fa800693940015bb085557519a0e4fa3"
+        },
+        "Gwen": {
+          "name": "Gwen",
+          "zh": "格温",
+          "aliases": [
+            "Gwen"
+          ],
+          "file": "gwen-80c7c31c3291.webp",
+          "source_png": "Gwen.png",
+          "source_sha256": "a7bba2bc0970bc5098396a4578a2cb72908630125011502bd2c0ee183ceb29d9",
+          "sha256": "80c7c31c329189b00aabba2c67b13971a0bb64574103afa990cf39d42ec9ff98"
+        },
+        "JarvanIV": {
+          "name": "Jarvan IV",
+          "zh": "嘉文四世",
+          "aliases": [
+            "Jarvan IV"
+          ],
+          "file": "jarvaniv-1f1fd0412dd2.webp",
+          "source_png": "JarvanIV.png",
+          "source_sha256": "9da74ae808585eff7f130f47ce4c6c3ddab0b302b1d39902e273ae0253592764",
+          "sha256": "1f1fd0412dd21aa6b5308852c1ef12bf515c74d1339f483caba781a365201eb8"
+        },
+        "Jax": {
+          "name": "Jax",
+          "zh": "贾克斯",
+          "aliases": [
+            "Jax"
+          ],
+          "file": "jax-e57cf82c9777.webp",
+          "source_png": "Jax.png",
+          "source_sha256": "441e8d865d461bc338a2d2d5a2a09f6151bbfdb4795ec8b59e66ee8654eebcca",
+          "sha256": "e57cf82c9777b67fd9bd28e60adbed0c3aa1b900fa503202def75bacf8cc7960"
+        },
+        "Jayce": {
+          "name": "Jayce",
+          "zh": "杰斯",
+          "aliases": [
+            "Jayce"
+          ],
+          "file": "jayce-d1baa7e3f4c0.webp",
+          "source_png": "Jayce.png",
+          "source_sha256": "81301e79adf1c92dd700defb5e1ee11cb8b7ef04b7034554aacb067c66256a38",
+          "sha256": "d1baa7e3f4c0e4379f705e052cc0ba87ed35edf94c384db82ceb0046e82436f4"
+        },
+        "Jhin": {
+          "name": "Jhin",
+          "zh": "烬",
+          "aliases": [
+            "Jhin"
+          ],
+          "file": "jhin-54ae11ab70d7.webp",
+          "source_png": "Jhin.png",
+          "source_sha256": "dd24ce955ba61995956f1a48cb9b90b9b52936bb23bf05e0cb74cfc9c74a4b0c",
+          "sha256": "54ae11ab70d76a8a82f35e78a1b75ce31b6fdec70398cbf56c5d512626bd81a4"
+        },
+        "Jinx": {
+          "name": "Jinx",
+          "zh": "金克丝",
+          "aliases": [
+            "Jinx"
+          ],
+          "file": "jinx-ca82b189a6ea.webp",
+          "source_png": "Jinx.png",
+          "source_sha256": "2777d44345974b93f8af378430811670566d0451b6410b2caff2984e93797357",
+          "sha256": "ca82b189a6ea1313c2486ae1063d47caeb400f63459ce1885979fc7987e044d8"
+        },
+        "KSante": {
+          "name": "K'Sante",
+          "zh": "奎桑提",
+          "aliases": [
+            "K'Sante"
+          ],
+          "file": "ksante-71dfdf61596f.webp",
+          "source_png": "KSante.png",
+          "source_sha256": "d7d62b07df5b66497195c68e3e2bbdc8c3d6078066aa2ed170cfbcb0fc2f5ddf",
+          "sha256": "71dfdf61596f0ebb456846c9f12454b17ac0956b1e5dd22de557ba0cf426f90a"
+        },
+        "Kaisa": {
+          "name": "Kai'Sa",
+          "zh": "卡莎",
+          "aliases": [
+            "Kai'Sa"
+          ],
+          "file": "kaisa-626912dc4d24.webp",
+          "source_png": "Kaisa.png",
+          "source_sha256": "e0e86ccb7143d20bcbd83f192530f9712bf4b1d6306ec07a06992d4b72676443",
+          "sha256": "626912dc4d244b0cbd4338f7c4ef1949cfe1fd6bca090cf77a89d0174d71b56a"
+        },
+        "Kalista": {
+          "name": "Kalista",
+          "zh": "卡莉丝塔",
+          "aliases": [
+            "Kalista"
+          ],
+          "file": "kalista-76a75961150f.webp",
+          "source_png": "Kalista.png",
+          "source_sha256": "3809361a78dfb97d3660fd47345145287d48af10909426d353b451cf52dc093b",
+          "sha256": "76a75961150fb65fec9126f4bdf37c4a138fdea38371bc9e1d211a5b667d74eb"
+        },
+        "Karma": {
+          "name": "Karma",
+          "zh": "卡尔玛",
+          "aliases": [
+            "Karma"
+          ],
+          "file": "karma-882d82a47e34.webp",
+          "source_png": "Karma.png",
+          "source_sha256": "e1df55d95c9a90445b59615db2984c3a8a9d8df3578faf968872bbe2e0075bc0",
+          "sha256": "882d82a47e3454d19db66e5c8f92d6dc9a566e93ccad38bcf3952c68a6cd9818"
+        },
+        "Kennen": {
+          "name": "Kennen",
+          "zh": "凯南",
+          "aliases": [
+            "Kennen"
+          ],
+          "file": "kennen-d2b57fc19f00.webp",
+          "source_png": "Kennen.png",
+          "source_sha256": "71239ebd9236d5d0fdbccfb8741727e6f13dd007a4d6905e5aa82f6b36aceebd",
+          "sha256": "d2b57fc19f00a4e9909d9e9b877815d8a752963a9134e6bb2cdab3027ed9a53c"
+        },
+        "LeeSin": {
+          "name": "Lee Sin",
+          "zh": "李青",
+          "aliases": [
+            "Lee Sin"
+          ],
+          "file": "leesin-f4c69c7da1e6.webp",
+          "source_png": "LeeSin.png",
+          "source_sha256": "890f439dd16bfa686b3c6f06f9749eb5477e5b706a8ff85cb8161f91adcff9a8",
+          "sha256": "f4c69c7da1e6c10296a803f9a9ec2c267ceb8355cbc750c29d97150f3381bd79"
+        },
+        "Leona": {
+          "name": "Leona",
+          "zh": "蕾欧娜",
+          "aliases": [
+            "Leona"
+          ],
+          "file": "leona-d66a4f8ee123.webp",
+          "source_png": "Leona.png",
+          "source_sha256": "d7e170e1d5c37b243663e03d480a4befe727d86d0733e3e411b90297cb192461",
+          "sha256": "d66a4f8ee123f5554acf136ddcef8cca3de14d995a52eac1f87804044fcbde7d"
+        },
+        "Locke": {
+          "name": "Locke",
+          "zh": "洛克",
+          "aliases": [
+            "Locke"
+          ],
+          "file": "locke-5ea0f160cc20.webp",
+          "source_png": "Locke.png",
+          "source_sha256": "f05b0779ef6873f798d42f0bff433d54a7ba761d487ef36dd3de0c32bdf98d28",
+          "sha256": "5ea0f160cc20ad7bc090d217a9722f18074509088d823db4351db2ad2302a485"
+        },
+        "Lucian": {
+          "name": "Lucian",
+          "zh": "卢锡安",
+          "aliases": [
+            "Lucian"
+          ],
+          "file": "lucian-1f0f43ef6921.webp",
+          "source_png": "Lucian.png",
+          "source_sha256": "75e3de3e43f732f815293472167e0022118a0be55a627f10794bc8043e2602cb",
+          "sha256": "1f0f43ef69218ceb17488a36cff4595ccdb6145ddb5aef2e4326643b63c199f8"
+        },
+        "Lulu": {
+          "name": "Lulu",
+          "zh": "璐璐",
+          "aliases": [
+            "Lulu"
+          ],
+          "file": "lulu-47c574166e6f.webp",
+          "source_png": "Lulu.png",
+          "source_sha256": "ca22c4a042d66085ef7794c8b351b57880739be454aa4128fbdd7506c02d1a50",
+          "sha256": "47c574166e6f247434ca98a79af2b2af92c9bbb3e385e45242db23aec1b4c308"
+        },
+        "Maokai": {
+          "name": "Maokai",
+          "zh": "茂凯",
+          "aliases": [
+            "Maokai"
+          ],
+          "file": "maokai-7248ba2633fa.webp",
+          "source_png": "Maokai.png",
+          "source_sha256": "7e68c320efa332ba9126c6d2d6ccd3a51939d7d1f2b31785fbec8594a0e6f6b3",
+          "sha256": "7248ba2633fac8c39bfa759184c1d8aa02698f390a977759abadbbb2d73ec5d9"
+        },
+        "Milio": {
+          "name": "Milio",
+          "zh": "米利欧",
+          "aliases": [
+            "Milio"
+          ],
+          "file": "milio-66fc59cd5b11.webp",
+          "source_png": "Milio.png",
+          "source_sha256": "86517cc10c6c5670dcd6821a2e5c7bbb9e16aac597cda5d04578933bd5861343",
+          "sha256": "66fc59cd5b113458152bf19929589acd5891475a5c0e0c9c698a60ab33a40821"
+        },
+        "MonkeyKing": {
+          "name": "Wukong",
+          "zh": "孙悟空",
+          "aliases": [
+            "Wukong"
+          ],
+          "file": "monkeyking-bb74b9cd5a61.webp",
+          "source_png": "MonkeyKing.png",
+          "source_sha256": "2264db1ffde08659aee3380c8ac5643771d872d95a9c9090951d7f2849e61353",
+          "sha256": "bb74b9cd5a6172b8e9554d0a8c748149b120f9cb28571583d2aa0e4bcc5f7f13"
+        },
+        "Naafiri": {
+          "name": "Naafiri",
+          "zh": "纳亚菲利",
+          "aliases": [
+            "Naafiri"
+          ],
+          "file": "naafiri-f4eef81e906b.webp",
+          "source_png": "Naafiri.png",
+          "source_sha256": "75a82287766d7bc333305390675eb5bd3a0b7522d0a69a46543e7bdc301a4ed7",
+          "sha256": "f4eef81e906bd7f76782b152e2be497eff9dc48925a55560dc217c34eaa88d65"
+        },
+        "Nautilus": {
+          "name": "Nautilus",
+          "zh": "诺提勒斯",
+          "aliases": [
+            "Nautilus"
+          ],
+          "file": "nautilus-976a3cc5cbd2.webp",
+          "source_png": "Nautilus.png",
+          "source_sha256": "6e8dfa2e6ba3d4564745fe69ace7c796898aa023a2af2727b0be127316712c2c",
+          "sha256": "976a3cc5cbd241e6b1d7f694a7946683800f67213c0b5fc3e630a0e6c2e00799"
+        },
+        "Neeko": {
+          "name": "Neeko",
+          "zh": "妮蔻",
+          "aliases": [
+            "Neeko"
+          ],
+          "file": "neeko-66fa4aea2d38.webp",
+          "source_png": "Neeko.png",
+          "source_sha256": "0fd600e0aeeca36f9245bcbc02ca666a2493b2b68a60ecd298a2ad26c33c8a92",
+          "sha256": "66fa4aea2d3886e8e4f0353f63b09bdd50d844b20936eb3ca57a04e30da9088d"
+        },
+        "Nocturne": {
+          "name": "Nocturne",
+          "zh": "魔腾",
+          "aliases": [
+            "Nocturne"
+          ],
+          "file": "nocturne-bd395bcd2139.webp",
+          "source_png": "Nocturne.png",
+          "source_sha256": "b9968b3e2bd60257ed23cede9e69b184ef78096bc196d157c1f6eff9b3d900d5",
+          "sha256": "bd395bcd21397bdd0e3e730ff4c7d0c20693eb759e9262f7de6703d41497d620"
+        },
+        "Olaf": {
+          "name": "Olaf",
+          "zh": "奥拉夫",
+          "aliases": [
+            "Olaf"
+          ],
+          "file": "olaf-71996bd9156a.webp",
+          "source_png": "Olaf.png",
+          "source_sha256": "17d439590f461a2d4d5bdacd33d4d2c31009ea8f57b46a6a427b0db96f6bd0ab",
+          "sha256": "71996bd9156a7aed2d21584c9b8ac154a6e78da628313c32f57b06ee224b003c"
+        },
+        "Orianna": {
+          "name": "Orianna",
+          "zh": "奥莉安娜",
+          "aliases": [
+            "Orianna"
+          ],
+          "file": "orianna-586ccfe65831.webp",
+          "source_png": "Orianna.png",
+          "source_sha256": "7d70d8bcb2991de3f3512efb565c453a9d470dca78088c05aec3691d22dd7511",
+          "sha256": "586ccfe6583111ce1386f880f27cbc17dcdef0e7c416245046e8bf5e9b77d449"
+        },
+        "Pantheon": {
+          "name": "Pantheon",
+          "zh": "潘森",
+          "aliases": [
+            "Pantheon"
+          ],
+          "file": "pantheon-0490d0a4d86f.webp",
+          "source_png": "Pantheon.png",
+          "source_sha256": "0ab8b436d5d7dd0a4163ec105a4977fc77abfd16757d46a9e958242f2d6858c1",
+          "sha256": "0490d0a4d86f477a4c2d50560e52ece376bd48ad9bc663dcd6a2c943a912d8f3"
+        },
+        "Poppy": {
+          "name": "Poppy",
+          "zh": "波比",
+          "aliases": [
+            "Poppy"
+          ],
+          "file": "poppy-3b05ae8f7410.webp",
+          "source_png": "Poppy.png",
+          "source_sha256": "c2cdd3a868b4b9ac5f1f3fef5ca77e930f32b0c98a5c3b83bcb099f75a4b6b7c",
+          "sha256": "3b05ae8f74109ba39023455ae34768413ff02bd4cb51af8987dfd9163a1fd56f"
+        },
+        "Qiyana": {
+          "name": "Qiyana",
+          "zh": "奇亚娜",
+          "aliases": [
+            "Qiyana"
+          ],
+          "file": "qiyana-893078eaa212.webp",
+          "source_png": "Qiyana.png",
+          "source_sha256": "b7bc7f2b7b4acd45b994005e87710c779c1c9bb89343e02f1fd1e98533a1f93f",
+          "sha256": "893078eaa212322f023851f34eca993894fa887f6f84dad50789fb2871efcc4b"
+        },
+        "Rakan": {
+          "name": "Rakan",
+          "zh": "洛",
+          "aliases": [
+            "Rakan"
+          ],
+          "file": "rakan-9b772c31d715.webp",
+          "source_png": "Rakan.png",
+          "source_sha256": "b0252249ed33b226421595e5cf4f7a6b4e4fbe9441140e65cee05f82463f87fd",
+          "sha256": "9b772c31d7156454b470e44250a6edd8587df53b735c6f982bb60e940bcd034f"
+        },
+        "Rell": {
+          "name": "Rell",
+          "zh": "芮尔",
+          "aliases": [
+            "Rell"
+          ],
+          "file": "rell-a17de8472a63.webp",
+          "source_png": "Rell.png",
+          "source_sha256": "47c0724d3b71c8b4d2ae4eed8d3b793550e1f4ef0e2bf3807696c6bf2ebaa91c",
+          "sha256": "a17de8472a6329d12c17527a34ed9c653695a27c13f3d2e9a6521f3b87ee2b70"
+        },
+        "Renata": {
+          "name": "Renata Glasc",
+          "zh": "烈娜塔 · 戈拉斯克",
+          "aliases": [
+            "Renata Glasc"
+          ],
+          "file": "renata-665ed8356097.webp",
+          "source_png": "Renata.png",
+          "source_sha256": "59f70a9f29de3a7740594e7f0a635e2d75f7e32b44c04f1d5b2576e91494baf0",
+          "sha256": "665ed83560978d757545387f9922658228a594408d62251775aef85ad60738c0"
+        },
+        "Renekton": {
+          "name": "Renekton",
+          "zh": "雷克顿",
+          "aliases": [
+            "Renekton"
+          ],
+          "file": "renekton-2bc0a896aa57.webp",
+          "source_png": "Renekton.png",
+          "source_sha256": "a3b94121970f7649896ef8c695be265d31c617e33ff9c7c86cff56d1e19724fd",
+          "sha256": "2bc0a896aa572783c48123d2ddc33f507b38e182b2058ec1d487649e37b8ed3d"
+        },
+        "Rumble": {
+          "name": "Rumble",
+          "zh": "兰博",
+          "aliases": [
+            "Rumble"
+          ],
+          "file": "rumble-a04b64714dc7.webp",
+          "source_png": "Rumble.png",
+          "source_sha256": "e14a39464abbdb4aba3ac5827e8f717ff7ce5b13d9c6a932da3fc13caa783f36",
+          "sha256": "a04b64714dc76a59a8b0ef88cb1c98c83fed7c1a19845af2b00c40198fa2e9e2"
+        },
+        "Ryze": {
+          "name": "Ryze",
+          "zh": "瑞兹",
+          "aliases": [
+            "Ryze"
+          ],
+          "file": "ryze-7edc97979af5.webp",
+          "source_png": "Ryze.png",
+          "source_sha256": "abb747c8b8402625d4cc6b5b3c48950b192823216532c74f26d4b5ccf8851290",
+          "sha256": "7edc97979af51412da20775f453420615f9f684e300f1f984573dddebcb9986c"
+        },
+        "Seraphine": {
+          "name": "Seraphine",
+          "zh": "萨勒芬妮",
+          "aliases": [
+            "Seraphine"
+          ],
+          "file": "seraphine-5fae4f691ac0.webp",
+          "source_png": "Seraphine.png",
+          "source_sha256": "87bfe49f6595aa4b3b002f9768487d5d410badf25dfbb0f7bb54de11b0d50254",
+          "sha256": "5fae4f691ac0c259ca0434e98612ddc5edaf66d249058e271e2fde995c660459"
+        },
+        "Sion": {
+          "name": "Sion",
+          "zh": "赛恩",
+          "aliases": [
+            "Sion"
+          ],
+          "file": "sion-f046d5ee5f99.webp",
+          "source_png": "Sion.png",
+          "source_sha256": "4908e30a48ec3cbdb080de1667833e2d018ea03fb296e9760066a46793adb528",
+          "sha256": "f046d5ee5f99b92d9dba75fd18b820e6d82369a70a3f0a38808060edd1f9c86e"
+        },
+        "Sivir": {
+          "name": "Sivir",
+          "zh": "希维尔",
+          "aliases": [
+            "Sivir"
+          ],
+          "file": "sivir-74a33ceee5e5.webp",
+          "source_png": "Sivir.png",
+          "source_sha256": "dd8642cd3fb6df0d85d1837dc94c7128e4292554a93451081a5537d0b888172b",
+          "sha256": "74a33ceee5e57c203b903441d538708e220e01f154843e0d0b4c7435f15f3faa"
+        },
+        "Skarner": {
+          "name": "Skarner",
+          "zh": "斯卡纳",
+          "aliases": [
+            "Skarner"
+          ],
+          "file": "skarner-51da404cc54f.webp",
+          "source_png": "Skarner.png",
+          "source_sha256": "cefd97204e9634f6d46216b736279b988f5e0f3ce1ca49ed43a519effd6f05c9",
+          "sha256": "51da404cc54f4383f59e8ad9ccf132e3f162d036993702599a61c41e382ba1cf"
+        },
+        "Sylas": {
+          "name": "Sylas",
+          "zh": "塞拉斯",
+          "aliases": [
+            "Sylas"
+          ],
+          "file": "sylas-d5da5b22cc14.webp",
+          "source_png": "Sylas.png",
+          "source_sha256": "3e724fcd4fffd0b36ea3dd2a60d7d3ed9aeb20ebc5e2dec2e8019b31c3097647",
+          "sha256": "d5da5b22cc14c1fea1bf15476ae341d89b907c7f9ea35f1d4786c114f81ffa4b"
+        },
+        "Syndra": {
+          "name": "Syndra",
+          "zh": "辛德拉",
+          "aliases": [
+            "Syndra"
+          ],
+          "file": "syndra-2e3075f85242.webp",
+          "source_png": "Syndra.png",
+          "source_sha256": "51424965682912746a4ac1a66c9c7d4e3d08333aaf8a59b9865725166580f7b3",
+          "sha256": "2e3075f852425a9b703c1e19d6b34d594ef593704e83be3236e5d1e5b5775534"
+        },
+        "Taliyah": {
+          "name": "Taliyah",
+          "zh": "塔莉垭",
+          "aliases": [
+            "Taliyah"
+          ],
+          "file": "taliyah-656057098f14.webp",
+          "source_png": "Taliyah.png",
+          "source_sha256": "436958c1d99411e473c7065bd969cec65ebdf61702d5b266db7e0720a3937c85",
+          "sha256": "656057098f14ff3969aed01505f7b87d5ec5f252b5d19a82ff7e621d8256c067"
+        },
+        "Thresh": {
+          "name": "Thresh",
+          "zh": "锤石",
+          "aliases": [
+            "Thresh"
+          ],
+          "file": "thresh-042963d80fb1.webp",
+          "source_png": "Thresh.png",
+          "source_sha256": "27f9bfc32eb28d9e17e42e29f8d555c91110e040991d56577f433ddc9eca6c7e",
+          "sha256": "042963d80fb1ec36ed61eaa882071ffdeda2a2ebfa50f33cf5fb475c3bff7e88"
+        },
+        "Tristana": {
+          "name": "Tristana",
+          "zh": "崔丝塔娜",
+          "aliases": [
+            "Tristana"
+          ],
+          "file": "tristana-c52a07240507.webp",
+          "source_png": "Tristana.png",
+          "source_sha256": "9f46e6dd9d49bf8fd2c6dc7397fa4badb35bf0f355334301782c7f9e13f00aa5",
+          "sha256": "c52a07240507eb33e96459a9592cd53160a17d83300039e7f5ee83adbc534887"
+        },
+        "Trundle": {
+          "name": "Trundle",
+          "zh": "特朗德尔",
+          "aliases": [
+            "Trundle"
+          ],
+          "file": "trundle-5f1c3059f54b.webp",
+          "source_png": "Trundle.png",
+          "source_sha256": "e77d99af3ac328a80a247fafec728df7be4eda7200300a597b38f093fffe234e",
+          "sha256": "5f1c3059f54b1236dc4efb23eb6c3f6350d3c1ab6ae545462c2d1a5bce0facc1"
+        },
+        "TwistedFate": {
+          "name": "Twisted Fate",
+          "zh": "崔斯特",
+          "aliases": [
+            "Twisted Fate"
+          ],
+          "file": "twistedfate-86455031df42.webp",
+          "source_png": "TwistedFate.png",
+          "source_sha256": "5f5944763b0d7c8fc68edad413a908799e2cfcae8a850a6ff746a16afc553670",
+          "sha256": "86455031df429d191bb0f8ed5e5f7de42acd2da6e58a2653990f0c520a4ec4cc"
+        },
+        "Varus": {
+          "name": "Varus",
+          "zh": "韦鲁斯",
+          "aliases": [
+            "Varus"
+          ],
+          "file": "varus-096effd1eb47.webp",
+          "source_png": "Varus.png",
+          "source_sha256": "1a300d007f9a3bc76342534a16cdf025ac111e733f69667bb4f065869a5ae9f4",
+          "sha256": "096effd1eb47bdc0b5e2466308edcebc9a48365b64aa5fb6670e25414859fdd0"
+        },
+        "Vayne": {
+          "name": "Vayne",
+          "zh": "薇恩",
+          "aliases": [
+            "Vayne"
+          ],
+          "file": "vayne-ea8f98363839.webp",
+          "source_png": "Vayne.png",
+          "source_sha256": "d9ea091b8d2eddbf7d08001866d7a0798f2649a7067c61dce15ac92fbc3cb723",
+          "sha256": "ea8f9836383997a24cadf0242efd8837d1aeec1e1f4af618ab19bbc5382d27a4"
+        },
+        "Vi": {
+          "name": "Vi",
+          "zh": "蔚",
+          "aliases": [
+            "Vi"
+          ],
+          "file": "vi-05284392a1d6.webp",
+          "source_png": "Vi.png",
+          "source_sha256": "282bd7a3e6a3bdd309f90eebf03b1fb7009a5357e6f53e158dd8c7df8103b4ab",
+          "sha256": "05284392a1d6dc730de2a25549309bf5c23d8478e6b596eebf9c19758e396718"
+        },
+        "Viktor": {
+          "name": "Viktor",
+          "zh": "维克托",
+          "aliases": [
+            "Viktor"
+          ],
+          "file": "viktor-92c182d664aa.webp",
+          "source_png": "Viktor.png",
+          "source_sha256": "caf7df593c7713892aac575d1031e9693066c57b86c25ff19542f4ca98c2159a",
+          "sha256": "92c182d664aacffff55d56c32f8f1d708d1f66eb62cf313548539397a852f9af"
+        },
+        "Xayah": {
+          "name": "Xayah",
+          "zh": "霞",
+          "aliases": [
+            "Xayah"
+          ],
+          "file": "xayah-180bdbdd6022.webp",
+          "source_png": "Xayah.png",
+          "source_sha256": "4ecd1e37697ebc5ee54ca05f1914101ee49be334798287bb8a432f8dd42a5b3d",
+          "sha256": "180bdbdd6022c0c602761550ea3f0dcbd31a68c00e62e392d2bae3fa497ff8b1"
+        },
+        "Yone": {
+          "name": "Yone",
+          "zh": "永恩",
+          "aliases": [
+            "Yone"
+          ],
+          "file": "yone-b55ac4004519.webp",
+          "source_png": "Yone.png",
+          "source_sha256": "cc02f91c39f7336562fb8fa5792eeaeeb1540517a54e7713f7c70732add51c6d",
+          "sha256": "b55ac4004519d8f4f46f900abb23bdca3b48ebe44bac5a6715a2a75f96b34503"
+        },
+        "Yorick": {
+          "name": "Yorick",
+          "zh": "约里克",
+          "aliases": [
+            "Yorick"
+          ],
+          "file": "yorick-635cd2d8d172.webp",
+          "source_png": "Yorick.png",
+          "source_sha256": "151b64e886222db394d6397734f5297862ddc4216fcc1db4a6ad5d33d5dc241a",
+          "sha256": "635cd2d8d172b234e95d93712370f49c61c85f6018c1b6ea5db39bfac0752996"
+        },
+        "Yunara": {
+          "name": "Yunara",
+          "zh": "芸阿娜",
+          "aliases": [
+            "Yunara"
+          ],
+          "file": "yunara-919c15f2e480.webp",
+          "source_png": "Yunara.png",
+          "source_sha256": "1502b9641f838af84749a8b10db447942fa8f1661c1fc9c3d43330489427a9d5",
+          "sha256": "919c15f2e4800989462684a9341fc4cf5a65156c8c6b53c4a33b9248d31d427c"
+        },
+        "Zeri": {
+          "name": "Zeri",
+          "zh": "泽丽",
+          "aliases": [
+            "Zeri"
+          ],
+          "file": "zeri-96d4035046a7.webp",
+          "source_png": "Zeri.png",
+          "source_sha256": "5fc4e7ed3b8184495375ea0b8e35a625521cddc7d17d1d6e30e13b683b36100c",
+          "sha256": "96d4035046a7222b34fb9084d4cd4d86916036f07c3241d0121d63440988e796"
+        },
+        "Ziggs": {
+          "name": "Ziggs",
+          "zh": "吉格斯",
+          "aliases": [
+            "Ziggs"
+          ],
+          "file": "ziggs-4b700806c23e.webp",
+          "source_png": "Ziggs.png",
+          "source_sha256": "cc3ea57671db30642002b5c36c0a6c851aacb7b2d6a5af10069f9f00b00775a9",
+          "sha256": "4b700806c23ef3825949d47420f2c5bdda50b06ea16926f6831ea8e54a3f6d0e"
+        }
+      }
+    },
+    "26.20": {
+      "data_dragon": "16.20.1",
+      "catalogs": {
+        "en_US": "https://ddragon.leagueoflegends.com/cdn/16.20.1/data/en_US/champion.json",
+        "zh_CN": "https://ddragon.leagueoflegends.com/cdn/16.20.1/data/zh_CN/champion.json"
+      },
+      "source_template": "https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/{source_png}",
+      "missing": [],
+      "champions": {
+        "Aatrox": {
+          "name": "Aatrox",
+          "zh": "亚托克斯",
+          "aliases": [
+            "Aatrox"
+          ],
+          "file": "aatrox-f38b9dfb9110.webp",
+          "source_png": "Aatrox.png",
+          "source_sha256": "852d739fb696684549064266851df91ecd03729e06b1a192dc14af01549b7f3f",
+          "sha256": "f38b9dfb91107088be8ee1bc380897b2331a22f87c0eb328ea99a4d8c27609ee"
+        },
+        "Ahri": {
+          "name": "Ahri",
+          "zh": "阿狸",
+          "aliases": [
+            "Ahri"
+          ],
+          "file": "ahri-0acaaf615a77.webp",
+          "source_png": "Ahri.png",
+          "source_sha256": "8e93368d97e3d302463c4e83ac5980d1f0a3a0aaf92ac44435730fecbd55b565",
+          "sha256": "0acaaf615a7743213c82cab28a4c7749c1144f183ba646d3ade20a6bf879810b"
+        },
+        "Akali": {
+          "name": "Akali",
+          "zh": "阿卡丽",
+          "aliases": [
+            "Akali"
+          ],
+          "file": "akali-aca482f34da7.webp",
+          "source_png": "Akali.png",
+          "source_sha256": "a62acc32c454b5cc39cebd0769f940b34f3d39ddaf157b95acb176027f81e17a",
+          "sha256": "aca482f34da77b02a6ef4244e42113bc16c43238e54e5a1a599669f311e6dfdc"
+        },
+        "Alistar": {
+          "name": "Alistar",
+          "zh": "阿利斯塔",
+          "aliases": [
+            "Alistar"
+          ],
+          "file": "alistar-2a8a994fb142.webp",
+          "source_png": "Alistar.png",
+          "source_sha256": "a1b9e0dc85d186fea8b7eccb91b7dc770ea6d3c5d5b53d9698cdf33524879259",
+          "sha256": "2a8a994fb142d3d4c806b217df6e4fe4d78fc44d8850c877d06ef6f468028e70"
+        },
+        "Ambessa": {
+          "name": "Ambessa",
+          "zh": "安蓓萨",
+          "aliases": [
+            "Ambessa"
+          ],
+          "file": "ambessa-d2304e7a5a58.webp",
+          "source_png": "Ambessa.png",
+          "source_sha256": "ce2bf0adfc1cb9e46430f318e73ec1c0bf257e5afe84b584acb88f15bfdb3646",
+          "sha256": "d2304e7a5a581c8d05fc2f6efe471408d4d35fa98d6277f914d15378b70fff4b"
+        },
+        "Anivia": {
+          "name": "Anivia",
+          "zh": "艾尼维亚",
+          "aliases": [
+            "Anivia"
+          ],
+          "file": "anivia-aafdcee879e6.webp",
+          "source_png": "Anivia.png",
+          "source_sha256": "f10e316692a616d9f27ff5548a52aa128e794ce736b8daa3e1a2b86217a406d5",
+          "sha256": "aafdcee879e6c397573d73c1c2ac2e8fcf0541c41055eb561bbf3ea12cc6f808"
+        },
+        "Annie": {
+          "name": "Annie",
+          "zh": "安妮",
+          "aliases": [
+            "Annie"
+          ],
+          "file": "annie-7668e72cd93d.webp",
+          "source_png": "Annie.png",
+          "source_sha256": "97720fcc698033b18382e7475800d4aac6c436712d997d99df4a0ae99f6829e2",
+          "sha256": "7668e72cd93d04aa405aef849439deb12f21dbfcf217b94e5bcd6c134347b0b2"
+        },
+        "Aphelios": {
+          "name": "Aphelios",
+          "zh": "厄斐琉斯",
+          "aliases": [
+            "Aphelios"
+          ],
+          "file": "aphelios-43ed68b69777.webp",
+          "source_png": "Aphelios.png",
+          "source_sha256": "1db20831bdc7a01918adac84c3afffe3ce4ea8e2f2bee54d70dec220bd1ea6fc",
+          "sha256": "43ed68b697774c31cbcd8b6cb834a397be0a31bfc3eacdc5f97ba7b9d62d88ef"
+        },
+        "Ashe": {
+          "name": "Ashe",
+          "zh": "艾希",
+          "aliases": [
+            "Ashe"
+          ],
+          "file": "ashe-7bd0c6a2f873.webp",
+          "source_png": "Ashe.png",
+          "source_sha256": "423666bdb0685355be4576f78eb6406fd49469b4f6e9f780f1c5eb4349fed91f",
+          "sha256": "7bd0c6a2f873738cd5762b2fc802b0556a4fbbe9696488d1c9fa19c76d62e689"
+        },
+        "Aurora": {
+          "name": "Aurora",
+          "zh": "阿萝拉",
+          "aliases": [
+            "Aurora"
+          ],
+          "file": "aurora-9ad77075ab5d.webp",
+          "source_png": "Aurora.png",
+          "source_sha256": "cb291047d565205ffe91bbbd3fc34592452b2f55b7706430a31c8ac188d99a33",
+          "sha256": "9ad77075ab5d63639f6ce51720a5ea498cf2ed5e7f8b701183babb18c4016ca6"
+        },
+        "Bard": {
+          "name": "Bard",
+          "zh": "巴德",
+          "aliases": [
+            "Bard"
+          ],
+          "file": "bard-e84ce801ce5c.webp",
+          "source_png": "Bard.png",
+          "source_sha256": "18ee517f6453831c0730d73cbf1628001e53a5acced928d4d78e34a28051094d",
+          "sha256": "e84ce801ce5cc864485a1f6d1c15bbb20513fe3f3f22c62e7a240f98ba688615"
+        },
+        "Caitlyn": {
+          "name": "Caitlyn",
+          "zh": "凯特琳",
+          "aliases": [
+            "Caitlyn"
+          ],
+          "file": "caitlyn-ed52f9e45963.webp",
+          "source_png": "Caitlyn.png",
+          "source_sha256": "f7a515360f30f33dfe5ab4e8886ce59a70c2d333f924252f48f5f9a2fbc6edf4",
+          "sha256": "ed52f9e45963faa4682e95b6cc4372c89180df85270365b3c327cd6c78690c5c"
+        },
+        "Camille": {
+          "name": "Camille",
+          "zh": "卡蜜尔",
+          "aliases": [
+            "Camille"
+          ],
+          "file": "camille-1718b406706f.webp",
+          "source_png": "Camille.png",
+          "source_sha256": "54bfa2dc66fc3885279d4546a4d9651f3a16bd4e4474ceaf2e319bf7f673138a",
+          "sha256": "1718b406706f02338308b12fb594487144e2c3cb4e8230fc6186aa3e63b954e2"
+        },
+        "Cassiopeia": {
+          "name": "Cassiopeia",
+          "zh": "卡西奥佩娅",
+          "aliases": [
+            "Cassiopeia"
+          ],
+          "file": "cassiopeia-c066b8759982.webp",
+          "source_png": "Cassiopeia.png",
+          "source_sha256": "da2ad096fc5237e31a1e9d9ebb9b6db6de65e2cab126c9a607c3fa7a36bc8e54",
+          "sha256": "c066b87599827a5dc01aed737c0a09eebca413954a7a07dac39be19203ca0297"
+        },
+        "Chogath": {
+          "name": "Cho'Gath",
+          "zh": "科加斯",
+          "aliases": [
+            "Cho'Gath"
+          ],
+          "file": "chogath-a24689155636.webp",
+          "source_png": "Chogath.png",
+          "source_sha256": "f5381fea0255a8a903381728fec79862dc5c426e25774c5e18def583fb3b1dfb",
+          "sha256": "a24689155636f5442bb86c8aea02808a4c28df9b880e33973b0bf555b6efeff5"
+        },
+        "Corki": {
+          "name": "Corki",
+          "zh": "库奇",
+          "aliases": [
+            "Corki"
+          ],
+          "file": "corki-b960a4f86629.webp",
+          "source_png": "Corki.png",
+          "source_sha256": "db997e48b9a4cda57b6e934c131d4718aca559f2b5bdaacc8e81a19d3c2953bb",
+          "sha256": "b960a4f866299c0662a435e391aff8206715386b84a4ba1652399967c1648c49"
+        },
+        "Diana": {
+          "name": "Diana",
+          "zh": "黛安娜",
+          "aliases": [
+            "Diana"
+          ],
+          "file": "diana-51e458497b6e.webp",
+          "source_png": "Diana.png",
+          "source_sha256": "d967ef71d043a49c60dce6f19725fd17d8e8362ea3c059f9ba38906688905d93",
+          "sha256": "51e458497b6ead3f0e0a2c6c4f27e3742bc3e77836daf29d90948cd25c83d230"
+        },
+        "Draven": {
+          "name": "Draven",
+          "zh": "德莱文",
+          "aliases": [
+            "Draven"
+          ],
+          "file": "draven-8010aa6b73fb.webp",
+          "source_png": "Draven.png",
+          "source_sha256": "9b62ecd81173ff55d83a7a9e42d7f9553288856e8365cc3bcbbf4ce3bf4091a6",
+          "sha256": "8010aa6b73fb16380508e13b57cfd05407795ffded18ffa0bc006325c0f8e21f"
+        },
+        "Elise": {
+          "name": "Elise",
+          "zh": "伊莉丝",
+          "aliases": [
+            "Elise"
+          ],
+          "file": "elise-857bd156df1c.webp",
+          "source_png": "Elise.png",
+          "source_sha256": "cb7e3ec0658c4e8cf86f2829b12203af68cfc9ab95b98579957427134d00c6e0",
+          "sha256": "857bd156df1ce93889b3b0d66d6a8a2a7da89dc132bf5df63041c468298419b9"
+        },
+        "Ezreal": {
+          "name": "Ezreal",
+          "zh": "伊泽瑞尔",
+          "aliases": [
+            "Ezreal"
+          ],
+          "file": "ezreal-a7b36a03153f.webp",
+          "source_png": "Ezreal.png",
+          "source_sha256": "676467c4362b8745a27db93a44619179820add83be95583d7b2adcfcb4eb7e35",
+          "sha256": "a7b36a03153fef3b21fdc88386e4d2e38759a1acbbe3546944fb17958b92d58c"
+        },
+        "Galio": {
+          "name": "Galio",
+          "zh": "加里奥",
+          "aliases": [
+            "Galio"
+          ],
+          "file": "galio-af79479a6bea.webp",
+          "source_png": "Galio.png",
+          "source_sha256": "25b4acea5a0d8d2b4de819e62fbf7e7bb4afdb94e0d18e8896cb28112a13dc3f",
+          "sha256": "af79479a6beaeed20f73e3e5d5d128c9d82c5a277f9b4b57ad8b67e4d20bbce1"
+        },
+        "Gangplank": {
+          "name": "Gangplank",
+          "zh": "普朗克",
+          "aliases": [
+            "Gangplank"
+          ],
+          "file": "gangplank-3c6386f9c3db.webp",
+          "source_png": "Gangplank.png",
+          "source_sha256": "f2bed51abb3d68897a161e152f03e9c9e0bc13039e6b709f551397a52e5aeb39",
+          "sha256": "3c6386f9c3dbfcd07f241786e91c3add81574beb74575fce264c6cbab901de6f"
+        },
+        "Gnar": {
+          "name": "Gnar",
+          "zh": "纳尔",
+          "aliases": [
+            "Gnar"
+          ],
+          "file": "gnar-35a587bfdfc6.webp",
+          "source_png": "Gnar.png",
+          "source_sha256": "d566858ab7ae4a6887f3490cedcd9a7097f5b5214d78c0b7f1b631567f8d739e",
+          "sha256": "35a587bfdfc66a3a00f0c0f9e74a02e950219ffabf8f8ed6551d518593617e2d"
+        },
+        "Gwen": {
+          "name": "Gwen",
+          "zh": "格温",
+          "aliases": [
+            "Gwen"
+          ],
+          "file": "gwen-80c7c31c3291.webp",
+          "source_png": "Gwen.png",
+          "source_sha256": "a7bba2bc0970bc5098396a4578a2cb72908630125011502bd2c0ee183ceb29d9",
+          "sha256": "80c7c31c329189b00aabba2c67b13971a0bb64574103afa990cf39d42ec9ff98"
+        },
+        "Hwei": {
+          "name": "Hwei",
+          "zh": "彗",
+          "aliases": [
+            "Hwei"
+          ],
+          "file": "hwei-e96712e92461.webp",
+          "source_png": "Hwei.png",
+          "source_sha256": "c8aeb272d4f4990ee87b7b7f857840d214e99f1707c9aebb6529ac6e0bc5f5ff",
+          "sha256": "e96712e924611b621ba3c949b59f428982ca6215c9a532c9d3002f78fb096b42"
+        },
+        "Irelia": {
+          "name": "Irelia",
+          "zh": "艾瑞莉娅",
+          "aliases": [
+            "Irelia"
+          ],
+          "file": "irelia-7035b73fa19e.webp",
+          "source_png": "Irelia.png",
+          "source_sha256": "a8cd7e83c7b327516869d67eb9cd96499bcf720d799b814830373cb200a98c9c",
+          "sha256": "7035b73fa19e23522a4e28d8dafa3f567f8e3cdf1f6b859b66b6cd1ce4c59537"
+        },
+        "JarvanIV": {
+          "name": "Jarvan IV",
+          "zh": "嘉文四世",
+          "aliases": [
+            "Jarvan IV"
+          ],
+          "file": "jarvaniv-1f1fd0412dd2.webp",
+          "source_png": "JarvanIV.png",
+          "source_sha256": "9da74ae808585eff7f130f47ce4c6c3ddab0b302b1d39902e273ae0253592764",
+          "sha256": "1f1fd0412dd21aa6b5308852c1ef12bf515c74d1339f483caba781a365201eb8"
+        },
+        "Jax": {
+          "name": "Jax",
+          "zh": "贾克斯",
+          "aliases": [
+            "Jax"
+          ],
+          "file": "jax-e57cf82c9777.webp",
+          "source_png": "Jax.png",
+          "source_sha256": "441e8d865d461bc338a2d2d5a2a09f6151bbfdb4795ec8b59e66ee8654eebcca",
+          "sha256": "e57cf82c9777b67fd9bd28e60adbed0c3aa1b900fa503202def75bacf8cc7960"
+        },
+        "Jayce": {
+          "name": "Jayce",
+          "zh": "杰斯",
+          "aliases": [
+            "Jayce"
+          ],
+          "file": "jayce-d1baa7e3f4c0.webp",
+          "source_png": "Jayce.png",
+          "source_sha256": "81301e79adf1c92dd700defb5e1ee11cb8b7ef04b7034554aacb067c66256a38",
+          "sha256": "d1baa7e3f4c0e4379f705e052cc0ba87ed35edf94c384db82ceb0046e82436f4"
+        },
+        "Jhin": {
+          "name": "Jhin",
+          "zh": "烬",
+          "aliases": [
+            "Jhin"
+          ],
+          "file": "jhin-54ae11ab70d7.webp",
+          "source_png": "Jhin.png",
+          "source_sha256": "dd24ce955ba61995956f1a48cb9b90b9b52936bb23bf05e0cb74cfc9c74a4b0c",
+          "sha256": "54ae11ab70d76a8a82f35e78a1b75ce31b6fdec70398cbf56c5d512626bd81a4"
+        },
+        "Jinx": {
+          "name": "Jinx",
+          "zh": "金克丝",
+          "aliases": [
+            "Jinx"
+          ],
+          "file": "jinx-ca82b189a6ea.webp",
+          "source_png": "Jinx.png",
+          "source_sha256": "2777d44345974b93f8af378430811670566d0451b6410b2caff2984e93797357",
+          "sha256": "ca82b189a6ea1313c2486ae1063d47caeb400f63459ce1885979fc7987e044d8"
+        },
+        "KSante": {
+          "name": "K'Sante",
+          "zh": "奎桑提",
+          "aliases": [
+            "K'Sante"
+          ],
+          "file": "ksante-71dfdf61596f.webp",
+          "source_png": "KSante.png",
+          "source_sha256": "d7d62b07df5b66497195c68e3e2bbdc8c3d6078066aa2ed170cfbcb0fc2f5ddf",
+          "sha256": "71dfdf61596f0ebb456846c9f12454b17ac0956b1e5dd22de557ba0cf426f90a"
+        },
+        "Kaisa": {
+          "name": "Kai'Sa",
+          "zh": "卡莎",
+          "aliases": [
+            "Kai'Sa"
+          ],
+          "file": "kaisa-626912dc4d24.webp",
+          "source_png": "Kaisa.png",
+          "source_sha256": "e0e86ccb7143d20bcbd83f192530f9712bf4b1d6306ec07a06992d4b72676443",
+          "sha256": "626912dc4d244b0cbd4338f7c4ef1949cfe1fd6bca090cf77a89d0174d71b56a"
+        },
+        "Kalista": {
+          "name": "Kalista",
+          "zh": "卡莉丝塔",
+          "aliases": [
+            "Kalista"
+          ],
+          "file": "kalista-76a75961150f.webp",
+          "source_png": "Kalista.png",
+          "source_sha256": "3809361a78dfb97d3660fd47345145287d48af10909426d353b451cf52dc093b",
+          "sha256": "76a75961150fb65fec9126f4bdf37c4a138fdea38371bc9e1d211a5b667d74eb"
+        },
+        "Karma": {
+          "name": "Karma",
+          "zh": "卡尔玛",
+          "aliases": [
+            "Karma"
+          ],
+          "file": "karma-882d82a47e34.webp",
+          "source_png": "Karma.png",
+          "source_sha256": "e1df55d95c9a90445b59615db2984c3a8a9d8df3578faf968872bbe2e0075bc0",
+          "sha256": "882d82a47e3454d19db66e5c8f92d6dc9a566e93ccad38bcf3952c68a6cd9818"
+        },
+        "Kennen": {
+          "name": "Kennen",
+          "zh": "凯南",
+          "aliases": [
+            "Kennen"
+          ],
+          "file": "kennen-d2b57fc19f00.webp",
+          "source_png": "Kennen.png",
+          "source_sha256": "71239ebd9236d5d0fdbccfb8741727e6f13dd007a4d6905e5aa82f6b36aceebd",
+          "sha256": "d2b57fc19f00a4e9909d9e9b877815d8a752963a9134e6bb2cdab3027ed9a53c"
+        },
+        "Khazix": {
+          "name": "Kha'Zix",
+          "zh": "卡兹克",
+          "aliases": [
+            "Kha'Zix"
+          ],
+          "file": "khazix-d156b50dacfc.webp",
+          "source_png": "Khazix.png",
+          "source_sha256": "30007408b2c91e58a8036116f222f70b1d148699b994a109a30eacb4eff6bb63",
+          "sha256": "d156b50dacfc5303b51899662a6d21833ff0deeaa101ee265d4b57f3007aa647"
+        },
+        "Kindred": {
+          "name": "Kindred",
+          "zh": "千珏",
+          "aliases": [
+            "Kindred"
+          ],
+          "file": "kindred-6e821f9e6b60.webp",
+          "source_png": "Kindred.png",
+          "source_sha256": "a789f7340a9e390c8627be587cb4f236736f55907c8e36b792ca1f6221ade4ed",
+          "sha256": "6e821f9e6b6096976fb5d01793c4fe4a8d32fb5b8902c312d3ddc9b94efc84e6"
+        },
+        "Kled": {
+          "name": "Kled",
+          "zh": "克烈",
+          "aliases": [
+            "Kled"
+          ],
+          "file": "kled-8590444889ad.webp",
+          "source_png": "Kled.png",
+          "source_sha256": "4d71421e5e0a4fd8092fc9b6d91cc10fb36a067fc8a74b5e2fce2e718d3f2566",
+          "sha256": "8590444889ad109b6669c86e731792b5358380eafe5d0713dcdb6ae31aa59c26"
+        },
+        "KogMaw": {
+          "name": "Kog'Maw",
+          "zh": "克格莫",
+          "aliases": [
+            "Kog'Maw"
+          ],
+          "file": "kogmaw-0877ec9dad5f.webp",
+          "source_png": "KogMaw.png",
+          "source_sha256": "a5836dd40801e9f6275c1b74de8ba6de2de09ab2d24ec2e9695f958917348f1a",
+          "sha256": "0877ec9dad5ffacc1a1009d25e408e244d3f549612ad6b3a2be699bc74d19e67"
+        },
+        "Leblanc": {
+          "name": "LeBlanc",
+          "zh": "乐芙兰",
+          "aliases": [
+            "LeBlanc"
+          ],
+          "file": "leblanc-be035a95d8fd.webp",
+          "source_png": "Leblanc.png",
+          "source_sha256": "e48b97ce2451c37d4e4a747b37663bd1095730b4182b2805f397f60fd12c7c5d",
+          "sha256": "be035a95d8fddb631ed3e1fb6127adf9163419dcbe273e726af0a720fcd1173c"
+        },
+        "LeeSin": {
+          "name": "Lee Sin",
+          "zh": "李青",
+          "aliases": [
+            "Lee Sin"
+          ],
+          "file": "leesin-f4c69c7da1e6.webp",
+          "source_png": "LeeSin.png",
+          "source_sha256": "890f439dd16bfa686b3c6f06f9749eb5477e5b706a8ff85cb8161f91adcff9a8",
+          "sha256": "f4c69c7da1e6c10296a803f9a9ec2c267ceb8355cbc750c29d97150f3381bd79"
+        },
+        "Leona": {
+          "name": "Leona",
+          "zh": "蕾欧娜",
+          "aliases": [
+            "Leona"
+          ],
+          "file": "leona-d66a4f8ee123.webp",
+          "source_png": "Leona.png",
+          "source_sha256": "d7e170e1d5c37b243663e03d480a4befe727d86d0733e3e411b90297cb192461",
+          "sha256": "d66a4f8ee123f5554acf136ddcef8cca3de14d995a52eac1f87804044fcbde7d"
+        },
+        "Lillia": {
+          "name": "Lillia",
+          "zh": "莉莉娅",
+          "aliases": [
+            "Lillia"
+          ],
+          "file": "lillia-11ca5998b69a.webp",
+          "source_png": "Lillia.png",
+          "source_sha256": "b270de6af7ec29bb2fb91d6effec79f3c0b6d93811315dc54d101ee55f61fb31",
+          "sha256": "11ca5998b69ad4f87aa234aa93f2f910a70c5b7658678ee87e0d5b4f17300ce5"
+        },
+        "Lissandra": {
+          "name": "Lissandra",
+          "zh": "丽桑卓",
+          "aliases": [
+            "Lissandra"
+          ],
+          "file": "lissandra-26141be31a64.webp",
+          "source_png": "Lissandra.png",
+          "source_sha256": "ece7fc0269138d30380dbb0420ccf822e7ca95819d7d911a0e29f7d10cf7445d",
+          "sha256": "26141be31a64ae22fc4473635eab4a306ae5c2a10e806441fdd213501750098e"
+        },
+        "Locke": {
+          "name": "Locke",
+          "zh": "洛克",
+          "aliases": [
+            "Locke"
+          ],
+          "file": "locke-5ea0f160cc20.webp",
+          "source_png": "Locke.png",
+          "source_sha256": "f05b0779ef6873f798d42f0bff433d54a7ba761d487ef36dd3de0c32bdf98d28",
+          "sha256": "5ea0f160cc20ad7bc090d217a9722f18074509088d823db4351db2ad2302a485"
+        },
+        "Lucian": {
+          "name": "Lucian",
+          "zh": "卢锡安",
+          "aliases": [
+            "Lucian"
+          ],
+          "file": "lucian-1f0f43ef6921.webp",
+          "source_png": "Lucian.png",
+          "source_sha256": "75e3de3e43f732f815293472167e0022118a0be55a627f10794bc8043e2602cb",
+          "sha256": "1f0f43ef69218ceb17488a36cff4595ccdb6145ddb5aef2e4326643b63c199f8"
+        },
+        "Lulu": {
+          "name": "Lulu",
+          "zh": "璐璐",
+          "aliases": [
+            "Lulu"
+          ],
+          "file": "lulu-47c574166e6f.webp",
+          "source_png": "Lulu.png",
+          "source_sha256": "ca22c4a042d66085ef7794c8b351b57880739be454aa4128fbdd7506c02d1a50",
+          "sha256": "47c574166e6f247434ca98a79af2b2af92c9bbb3e385e45242db23aec1b4c308"
+        },
+        "Lux": {
+          "name": "Lux",
+          "zh": "拉克丝",
+          "aliases": [
+            "Lux"
+          ],
+          "file": "lux-b4082177ffc3.webp",
+          "source_png": "Lux.png",
+          "source_sha256": "64639bea2aa7d622dd07287de7a7820950e567f0993c7dcc422e1e699fd743fd",
+          "sha256": "b4082177ffc3901638c8b5ed3512e4e672c3f76cb632c73328646728924b474f"
+        },
+        "Malphite": {
+          "name": "Malphite",
+          "zh": "墨菲特",
+          "aliases": [
+            "Malphite"
+          ],
+          "file": "malphite-5d1f1a3a8fb0.webp",
+          "source_png": "Malphite.png",
+          "source_sha256": "233005b989ae25fc6e5e22d1325291bce2d64e49767ebb83413c0f91e1b157c6",
+          "sha256": "5d1f1a3a8fb0be55dd08c2b4af3e483546dae9bd1b189e367979e00b65aa1b9d"
+        },
+        "Maokai": {
+          "name": "Maokai",
+          "zh": "茂凯",
+          "aliases": [
+            "Maokai"
+          ],
+          "file": "maokai-7248ba2633fa.webp",
+          "source_png": "Maokai.png",
+          "source_sha256": "7e68c320efa332ba9126c6d2d6ccd3a51939d7d1f2b31785fbec8594a0e6f6b3",
+          "sha256": "7248ba2633fac8c39bfa759184c1d8aa02698f390a977759abadbbb2d73ec5d9"
+        },
+        "Mel": {
+          "name": "Mel",
+          "zh": "梅尔",
+          "aliases": [
+            "Mel"
+          ],
+          "file": "mel-408125d61b67.webp",
+          "source_png": "Mel.png",
+          "source_sha256": "e464fe1e53f45f3c603cdf1bab1cd182ce6a429840e008d30ed41411d4a68ea0",
+          "sha256": "408125d61b675044419429e8c3f53b14799174ca16da992364448df5a7c5dc38"
+        },
+        "Milio": {
+          "name": "Milio",
+          "zh": "米利欧",
+          "aliases": [
+            "Milio"
+          ],
+          "file": "milio-66fc59cd5b11.webp",
+          "source_png": "Milio.png",
+          "source_sha256": "86517cc10c6c5670dcd6821a2e5c7bbb9e16aac597cda5d04578933bd5861343",
+          "sha256": "66fc59cd5b113458152bf19929589acd5891475a5c0e0c9c698a60ab33a40821"
+        },
+        "MissFortune": {
+          "name": "Miss Fortune",
+          "zh": "厄运小姐",
+          "aliases": [
+            "Miss Fortune"
+          ],
+          "file": "missfortune-18e7f2358213.webp",
+          "source_png": "MissFortune.png",
+          "source_sha256": "a8c3048bfb76b4e8b34e00193ed2febe69669918055ffda835ddb24905588733",
+          "sha256": "18e7f2358213de78b4f07e6cd22a851f66277e861a6d24688c9a242ec01a229c"
+        },
+        "MonkeyKing": {
+          "name": "Wukong",
+          "zh": "孙悟空",
+          "aliases": [
+            "Wukong"
+          ],
+          "file": "monkeyking-bb74b9cd5a61.webp",
+          "source_png": "MonkeyKing.png",
+          "source_sha256": "2264db1ffde08659aee3380c8ac5643771d872d95a9c9090951d7f2849e61353",
+          "sha256": "bb74b9cd5a6172b8e9554d0a8c748149b120f9cb28571583d2aa0e4bcc5f7f13"
+        },
+        "Naafiri": {
+          "name": "Naafiri",
+          "zh": "纳亚菲利",
+          "aliases": [
+            "Naafiri"
+          ],
+          "file": "naafiri-f4eef81e906b.webp",
+          "source_png": "Naafiri.png",
+          "source_sha256": "75a82287766d7bc333305390675eb5bd3a0b7522d0a69a46543e7bdc301a4ed7",
+          "sha256": "f4eef81e906bd7f76782b152e2be497eff9dc48925a55560dc217c34eaa88d65"
+        },
+        "Nami": {
+          "name": "Nami",
+          "zh": "娜美",
+          "aliases": [
+            "Nami"
+          ],
+          "file": "nami-bd8a0c248d93.webp",
+          "source_png": "Nami.png",
+          "source_sha256": "f43e652c61cd4998274e966a1e91e00fb3d51cc6202f7e53a5f2c7da160ddd23",
+          "sha256": "bd8a0c248d93095f79d459851b5e2c9a7233773dc625cd4b82ced12d742ab486"
+        },
+        "Nasus": {
+          "name": "Nasus",
+          "zh": "内瑟斯",
+          "aliases": [
+            "Nasus"
+          ],
+          "file": "nasus-c0122d4542a3.webp",
+          "source_png": "Nasus.png",
+          "source_sha256": "80b838812e5f14b1e37900d1c14c54835b535d5bd36af6ace19fd23344989be3",
+          "sha256": "c0122d4542a3cec21e7474b216181eecc29d112149841578264af45265512b72"
+        },
+        "Nautilus": {
+          "name": "Nautilus",
+          "zh": "诺提勒斯",
+          "aliases": [
+            "Nautilus"
+          ],
+          "file": "nautilus-976a3cc5cbd2.webp",
+          "source_png": "Nautilus.png",
+          "source_sha256": "6e8dfa2e6ba3d4564745fe69ace7c796898aa023a2af2727b0be127316712c2c",
+          "sha256": "976a3cc5cbd241e6b1d7f694a7946683800f67213c0b5fc3e630a0e6c2e00799"
+        },
+        "Neeko": {
+          "name": "Neeko",
+          "zh": "妮蔻",
+          "aliases": [
+            "Neeko"
+          ],
+          "file": "neeko-66fa4aea2d38.webp",
+          "source_png": "Neeko.png",
+          "source_sha256": "0fd600e0aeeca36f9245bcbc02ca666a2493b2b68a60ecd298a2ad26c33c8a92",
+          "sha256": "66fa4aea2d3886e8e4f0353f63b09bdd50d844b20936eb3ca57a04e30da9088d"
+        },
+        "Nocturne": {
+          "name": "Nocturne",
+          "zh": "魔腾",
+          "aliases": [
+            "Nocturne"
+          ],
+          "file": "nocturne-bd395bcd2139.webp",
+          "source_png": "Nocturne.png",
+          "source_sha256": "b9968b3e2bd60257ed23cede9e69b184ef78096bc196d157c1f6eff9b3d900d5",
+          "sha256": "bd395bcd21397bdd0e3e730ff4c7d0c20693eb759e9262f7de6703d41497d620"
+        },
+        "Olaf": {
+          "name": "Olaf",
+          "zh": "奥拉夫",
+          "aliases": [
+            "Olaf"
+          ],
+          "file": "olaf-71996bd9156a.webp",
+          "source_png": "Olaf.png",
+          "source_sha256": "17d439590f461a2d4d5bdacd33d4d2c31009ea8f57b46a6a427b0db96f6bd0ab",
+          "sha256": "71996bd9156a7aed2d21584c9b8ac154a6e78da628313c32f57b06ee224b003c"
+        },
+        "Orianna": {
+          "name": "Orianna",
+          "zh": "奥莉安娜",
+          "aliases": [
+            "Orianna"
+          ],
+          "file": "orianna-586ccfe65831.webp",
+          "source_png": "Orianna.png",
+          "source_sha256": "7d70d8bcb2991de3f3512efb565c453a9d470dca78088c05aec3691d22dd7511",
+          "sha256": "586ccfe6583111ce1386f880f27cbc17dcdef0e7c416245046e8bf5e9b77d449"
+        },
+        "Ornn": {
+          "name": "Ornn",
+          "zh": "奥恩",
+          "aliases": [
+            "Ornn"
+          ],
+          "file": "ornn-eae9f69c0e9f.webp",
+          "source_png": "Ornn.png",
+          "source_sha256": "91374f0919871a6490ac7b8ff9b073efb8b6a797f28302cc3751294c47c58d6e",
+          "sha256": "eae9f69c0e9f8c6a2fb6ea58743ca703d6711f1957837e5d1c7db85314a95cf9"
+        },
+        "Pantheon": {
+          "name": "Pantheon",
+          "zh": "潘森",
+          "aliases": [
+            "Pantheon"
+          ],
+          "file": "pantheon-0490d0a4d86f.webp",
+          "source_png": "Pantheon.png",
+          "source_sha256": "0ab8b436d5d7dd0a4163ec105a4977fc77abfd16757d46a9e958242f2d6858c1",
+          "sha256": "0490d0a4d86f477a4c2d50560e52ece376bd48ad9bc663dcd6a2c943a912d8f3"
+        },
+        "Poppy": {
+          "name": "Poppy",
+          "zh": "波比",
+          "aliases": [
+            "Poppy"
+          ],
+          "file": "poppy-3b05ae8f7410.webp",
+          "source_png": "Poppy.png",
+          "source_sha256": "c2cdd3a868b4b9ac5f1f3fef5ca77e930f32b0c98a5c3b83bcb099f75a4b6b7c",
+          "sha256": "3b05ae8f74109ba39023455ae34768413ff02bd4cb51af8987dfd9163a1fd56f"
+        },
+        "Pyke": {
+          "name": "Pyke",
+          "zh": "派克",
+          "aliases": [
+            "Pyke"
+          ],
+          "file": "pyke-144a91184396.webp",
+          "source_png": "Pyke.png",
+          "source_sha256": "384a69fbcbfed183b2ef591923e51cb56d5f55835a4dae2da716f858cd8a7a6f",
+          "sha256": "144a91184396dfcaea8223f25d0007865601af666e098bfcf36f324f4e434671"
+        },
+        "Qiyana": {
+          "name": "Qiyana",
+          "zh": "奇亚娜",
+          "aliases": [
+            "Qiyana"
+          ],
+          "file": "qiyana-893078eaa212.webp",
+          "source_png": "Qiyana.png",
+          "source_sha256": "b7bc7f2b7b4acd45b994005e87710c779c1c9bb89343e02f1fd1e98533a1f93f",
+          "sha256": "893078eaa212322f023851f34eca993894fa887f6f84dad50789fb2871efcc4b"
+        },
+        "Rakan": {
+          "name": "Rakan",
+          "zh": "洛",
+          "aliases": [
+            "Rakan"
+          ],
+          "file": "rakan-9b772c31d715.webp",
+          "source_png": "Rakan.png",
+          "source_sha256": "b0252249ed33b226421595e5cf4f7a6b4e4fbe9441140e65cee05f82463f87fd",
+          "sha256": "9b772c31d7156454b470e44250a6edd8587df53b735c6f982bb60e940bcd034f"
+        },
+        "Rell": {
+          "name": "Rell",
+          "zh": "芮尔",
+          "aliases": [
+            "Rell"
+          ],
+          "file": "rell-a17de8472a63.webp",
+          "source_png": "Rell.png",
+          "source_sha256": "47c0724d3b71c8b4d2ae4eed8d3b793550e1f4ef0e2bf3807696c6bf2ebaa91c",
+          "sha256": "a17de8472a6329d12c17527a34ed9c653695a27c13f3d2e9a6521f3b87ee2b70"
+        },
+        "Renata": {
+          "name": "Renata Glasc",
+          "zh": "烈娜塔 · 戈拉斯克",
+          "aliases": [
+            "Renata Glasc"
+          ],
+          "file": "renata-665ed8356097.webp",
+          "source_png": "Renata.png",
+          "source_sha256": "59f70a9f29de3a7740594e7f0a635e2d75f7e32b44c04f1d5b2576e91494baf0",
+          "sha256": "665ed83560978d757545387f9922658228a594408d62251775aef85ad60738c0"
+        },
+        "Renekton": {
+          "name": "Renekton",
+          "zh": "雷克顿",
+          "aliases": [
+            "Renekton"
+          ],
+          "file": "renekton-2bc0a896aa57.webp",
+          "source_png": "Renekton.png",
+          "source_sha256": "a3b94121970f7649896ef8c695be265d31c617e33ff9c7c86cff56d1e19724fd",
+          "sha256": "2bc0a896aa572783c48123d2ddc33f507b38e182b2058ec1d487649e37b8ed3d"
+        },
+        "Rumble": {
+          "name": "Rumble",
+          "zh": "兰博",
+          "aliases": [
+            "Rumble"
+          ],
+          "file": "rumble-a04b64714dc7.webp",
+          "source_png": "Rumble.png",
+          "source_sha256": "e14a39464abbdb4aba3ac5827e8f717ff7ce5b13d9c6a932da3fc13caa783f36",
+          "sha256": "a04b64714dc76a59a8b0ef88cb1c98c83fed7c1a19845af2b00c40198fa2e9e2"
+        },
+        "Ryze": {
+          "name": "Ryze",
+          "zh": "瑞兹",
+          "aliases": [
+            "Ryze"
+          ],
+          "file": "ryze-7edc97979af5.webp",
+          "source_png": "Ryze.png",
+          "source_sha256": "abb747c8b8402625d4cc6b5b3c48950b192823216532c74f26d4b5ccf8851290",
+          "sha256": "7edc97979af51412da20775f453420615f9f684e300f1f984573dddebcb9986c"
+        },
+        "Sejuani": {
+          "name": "Sejuani",
+          "zh": "瑟庄妮",
+          "aliases": [
+            "Sejuani"
+          ],
+          "file": "sejuani-be5017eeb46c.webp",
+          "source_png": "Sejuani.png",
+          "source_sha256": "a84f6106746dd2cc0c173e6a995d7310a2ee676c7a22630f041fa1869bc6ef86",
+          "sha256": "be5017eeb46c29370a6c280c55c3de456820bec4dc5993acd84698e67a5d2ef8"
+        },
+        "Seraphine": {
+          "name": "Seraphine",
+          "zh": "萨勒芬妮",
+          "aliases": [
+            "Seraphine"
+          ],
+          "file": "seraphine-5fae4f691ac0.webp",
+          "source_png": "Seraphine.png",
+          "source_sha256": "87bfe49f6595aa4b3b002f9768487d5d410badf25dfbb0f7bb54de11b0d50254",
+          "sha256": "5fae4f691ac0c259ca0434e98612ddc5edaf66d249058e271e2fde995c660459"
+        },
+        "Shen": {
+          "name": "Shen",
+          "zh": "慎",
+          "aliases": [
+            "Shen"
+          ],
+          "file": "shen-5dc1e54eaf11.webp",
+          "source_png": "Shen.png",
+          "source_sha256": "6570a91fb958ef079805dadd8c7a628da569d9601883b6b24610f0858bda8239",
+          "sha256": "5dc1e54eaf11b4321b6699ef03fbb601423d4761894aa12a8f8a798db32ad72f"
+        },
+        "Sion": {
+          "name": "Sion",
+          "zh": "赛恩",
+          "aliases": [
+            "Sion"
+          ],
+          "file": "sion-f046d5ee5f99.webp",
+          "source_png": "Sion.png",
+          "source_sha256": "4908e30a48ec3cbdb080de1667833e2d018ea03fb296e9760066a46793adb528",
+          "sha256": "f046d5ee5f99b92d9dba75fd18b820e6d82369a70a3f0a38808060edd1f9c86e"
+        },
+        "Sivir": {
+          "name": "Sivir",
+          "zh": "希维尔",
+          "aliases": [
+            "Sivir"
+          ],
+          "file": "sivir-74a33ceee5e5.webp",
+          "source_png": "Sivir.png",
+          "source_sha256": "dd8642cd3fb6df0d85d1837dc94c7128e4292554a93451081a5537d0b888172b",
+          "sha256": "74a33ceee5e57c203b903441d538708e220e01f154843e0d0b4c7435f15f3faa"
+        },
+        "Skarner": {
+          "name": "Skarner",
+          "zh": "斯卡纳",
+          "aliases": [
+            "Skarner"
+          ],
+          "file": "skarner-51da404cc54f.webp",
+          "source_png": "Skarner.png",
+          "source_sha256": "cefd97204e9634f6d46216b736279b988f5e0f3ce1ca49ed43a519effd6f05c9",
+          "sha256": "51da404cc54f4383f59e8ad9ccf132e3f162d036993702599a61c41e382ba1cf"
+        },
+        "Swain": {
+          "name": "Swain",
+          "zh": "斯维因",
+          "aliases": [
+            "Swain"
+          ],
+          "file": "swain-3e795e9022ff.webp",
+          "source_png": "Swain.png",
+          "source_sha256": "9f4550dd903cf19ee587bd0870f630ce90d6f62fac2a2d07fe46bda153db8f9b",
+          "sha256": "3e795e9022ffaff826ff2a915622c7fab3ceb7bf5810bf11a6b8ad788e1ea449"
+        },
+        "Sylas": {
+          "name": "Sylas",
+          "zh": "塞拉斯",
+          "aliases": [
+            "Sylas"
+          ],
+          "file": "sylas-d5da5b22cc14.webp",
+          "source_png": "Sylas.png",
+          "source_sha256": "3e724fcd4fffd0b36ea3dd2a60d7d3ed9aeb20ebc5e2dec2e8019b31c3097647",
+          "sha256": "d5da5b22cc14c1fea1bf15476ae341d89b907c7f9ea35f1d4786c114f81ffa4b"
+        },
+        "Syndra": {
+          "name": "Syndra",
+          "zh": "辛德拉",
+          "aliases": [
+            "Syndra"
+          ],
+          "file": "syndra-2e3075f85242.webp",
+          "source_png": "Syndra.png",
+          "source_sha256": "51424965682912746a4ac1a66c9c7d4e3d08333aaf8a59b9865725166580f7b3",
+          "sha256": "2e3075f852425a9b703c1e19d6b34d594ef593704e83be3236e5d1e5b5775534"
+        },
+        "TahmKench": {
+          "name": "Tahm Kench",
+          "zh": "塔姆",
+          "aliases": [
+            "Tahm Kench"
+          ],
+          "file": "tahmkench-cb260938b43e.webp",
+          "source_png": "TahmKench.png",
+          "source_sha256": "138eaa3abe89c804e7ef287f8d3bf69172be797965df958b259663c3d4389e42",
+          "sha256": "cb260938b43e234ebc75abee41f38509e94a0b4ff9453a9b191e2dbe3960f9b7"
+        },
+        "Taliyah": {
+          "name": "Taliyah",
+          "zh": "塔莉垭",
+          "aliases": [
+            "Taliyah"
+          ],
+          "file": "taliyah-656057098f14.webp",
+          "source_png": "Taliyah.png",
+          "source_sha256": "436958c1d99411e473c7065bd969cec65ebdf61702d5b266db7e0720a3937c85",
+          "sha256": "656057098f14ff3969aed01505f7b87d5ec5f252b5d19a82ff7e621d8256c067"
+        },
+        "Thresh": {
+          "name": "Thresh",
+          "zh": "锤石",
+          "aliases": [
+            "Thresh"
+          ],
+          "file": "thresh-042963d80fb1.webp",
+          "source_png": "Thresh.png",
+          "source_sha256": "27f9bfc32eb28d9e17e42e29f8d555c91110e040991d56577f433ddc9eca6c7e",
+          "sha256": "042963d80fb1ec36ed61eaa882071ffdeda2a2ebfa50f33cf5fb475c3bff7e88"
+        },
+        "Tristana": {
+          "name": "Tristana",
+          "zh": "崔丝塔娜",
+          "aliases": [
+            "Tristana"
+          ],
+          "file": "tristana-c52a07240507.webp",
+          "source_png": "Tristana.png",
+          "source_sha256": "9f46e6dd9d49bf8fd2c6dc7397fa4badb35bf0f355334301782c7f9e13f00aa5",
+          "sha256": "c52a07240507eb33e96459a9592cd53160a17d83300039e7f5ee83adbc534887"
+        },
+        "Trundle": {
+          "name": "Trundle",
+          "zh": "特朗德尔",
+          "aliases": [
+            "Trundle"
+          ],
+          "file": "trundle-5f1c3059f54b.webp",
+          "source_png": "Trundle.png",
+          "source_sha256": "e77d99af3ac328a80a247fafec728df7be4eda7200300a597b38f093fffe234e",
+          "sha256": "5f1c3059f54b1236dc4efb23eb6c3f6350d3c1ab6ae545462c2d1a5bce0facc1"
+        },
+        "TwistedFate": {
+          "name": "Twisted Fate",
+          "zh": "崔斯特",
+          "aliases": [
+            "Twisted Fate"
+          ],
+          "file": "twistedfate-86455031df42.webp",
+          "source_png": "TwistedFate.png",
+          "source_sha256": "5f5944763b0d7c8fc68edad413a908799e2cfcae8a850a6ff746a16afc553670",
+          "sha256": "86455031df429d191bb0f8ed5e5f7de42acd2da6e58a2653990f0c520a4ec4cc"
+        },
+        "Twitch": {
+          "name": "Twitch",
+          "zh": "图奇",
+          "aliases": [
+            "Twitch"
+          ],
+          "file": "twitch-34bd4ed46691.webp",
+          "source_png": "Twitch.png",
+          "source_sha256": "823c7394b6cdc9fcc0b70f0e71578d8fbe1f06533e1010aa7785ebae4d1209ad",
+          "sha256": "34bd4ed4669195921a3dcca50b61ff74afd1e5735ed4095045ec99a6f185b09e"
+        },
+        "Varus": {
+          "name": "Varus",
+          "zh": "韦鲁斯",
+          "aliases": [
+            "Varus"
+          ],
+          "file": "varus-096effd1eb47.webp",
+          "source_png": "Varus.png",
+          "source_sha256": "1a300d007f9a3bc76342534a16cdf025ac111e733f69667bb4f065869a5ae9f4",
+          "sha256": "096effd1eb47bdc0b5e2466308edcebc9a48365b64aa5fb6670e25414859fdd0"
+        },
+        "Vayne": {
+          "name": "Vayne",
+          "zh": "薇恩",
+          "aliases": [
+            "Vayne"
+          ],
+          "file": "vayne-ea8f98363839.webp",
+          "source_png": "Vayne.png",
+          "source_sha256": "d9ea091b8d2eddbf7d08001866d7a0798f2649a7067c61dce15ac92fbc3cb723",
+          "sha256": "ea8f9836383997a24cadf0242efd8837d1aeec1e1f4af618ab19bbc5382d27a4"
+        },
+        "Velkoz": {
+          "name": "Vel'Koz",
+          "zh": "维克兹",
+          "aliases": [
+            "Vel'Koz"
+          ],
+          "file": "velkoz-4cc2c8cf1b94.webp",
+          "source_png": "Velkoz.png",
+          "source_sha256": "263e174bec40da4a00656390621f4bb7e81677c39527ed98ad63ed12c52308ee",
+          "sha256": "4cc2c8cf1b9489160a5d849196a215bbde704d9c9940ee3a9c612a5a05d90b49"
+        },
+        "Vi": {
+          "name": "Vi",
+          "zh": "蔚",
+          "aliases": [
+            "Vi"
+          ],
+          "file": "vi-05284392a1d6.webp",
+          "source_png": "Vi.png",
+          "source_sha256": "282bd7a3e6a3bdd309f90eebf03b1fb7009a5357e6f53e158dd8c7df8103b4ab",
+          "sha256": "05284392a1d6dc730de2a25549309bf5c23d8478e6b596eebf9c19758e396718"
+        },
+        "Viktor": {
+          "name": "Viktor",
+          "zh": "维克托",
+          "aliases": [
+            "Viktor"
+          ],
+          "file": "viktor-92c182d664aa.webp",
+          "source_png": "Viktor.png",
+          "source_sha256": "caf7df593c7713892aac575d1031e9693066c57b86c25ff19542f4ca98c2159a",
+          "sha256": "92c182d664aacffff55d56c32f8f1d708d1f66eb62cf313548539397a852f9af"
+        },
+        "Volibear": {
+          "name": "Volibear",
+          "zh": "沃利贝尔",
+          "aliases": [
+            "Volibear"
+          ],
+          "file": "volibear-11a9c092fb4a.webp",
+          "source_png": "Volibear.png",
+          "source_sha256": "36ab730707d6835a6a6fefe216ae3d8bf9d416970fc3223c857f109f404ee5ab",
+          "sha256": "11a9c092fb4a426b7b84cc3f8a84781d2faf83b3129660d9f2dc8193f3bccb5e"
+        },
+        "Xayah": {
+          "name": "Xayah",
+          "zh": "霞",
+          "aliases": [
+            "Xayah"
+          ],
+          "file": "xayah-180bdbdd6022.webp",
+          "source_png": "Xayah.png",
+          "source_sha256": "4ecd1e37697ebc5ee54ca05f1914101ee49be334798287bb8a432f8dd42a5b3d",
+          "sha256": "180bdbdd6022c0c602761550ea3f0dcbd31a68c00e62e392d2bae3fa497ff8b1"
+        },
+        "XinZhao": {
+          "name": "Xin Zhao",
+          "zh": "赵信",
+          "aliases": [
+            "Xin Zhao"
+          ],
+          "file": "xinzhao-bfcc1cd9d764.webp",
+          "source_png": "XinZhao.png",
+          "source_sha256": "f70e9570c60a33328b4e0c0437bcb33cc2320056ba0724e0279e553436da5667",
+          "sha256": "bfcc1cd9d764db2c287c6cbc1deb8f246e3f5c18f82cbc44b2f6e07a1f29e3d0"
+        },
+        "Yone": {
+          "name": "Yone",
+          "zh": "永恩",
+          "aliases": [
+            "Yone"
+          ],
+          "file": "yone-b55ac4004519.webp",
+          "source_png": "Yone.png",
+          "source_sha256": "cc02f91c39f7336562fb8fa5792eeaeeb1540517a54e7713f7c70732add51c6d",
+          "sha256": "b55ac4004519d8f4f46f900abb23bdca3b48ebe44bac5a6715a2a75f96b34503"
+        },
+        "Yorick": {
+          "name": "Yorick",
+          "zh": "约里克",
+          "aliases": [
+            "Yorick"
+          ],
+          "file": "yorick-635cd2d8d172.webp",
+          "source_png": "Yorick.png",
+          "source_sha256": "151b64e886222db394d6397734f5297862ddc4216fcc1db4a6ad5d33d5dc241a",
+          "sha256": "635cd2d8d172b234e95d93712370f49c61c85f6018c1b6ea5db39bfac0752996"
+        },
+        "Yunara": {
+          "name": "Yunara",
+          "zh": "芸阿娜",
+          "aliases": [
+            "Yunara"
+          ],
+          "file": "yunara-919c15f2e480.webp",
+          "source_png": "Yunara.png",
+          "source_sha256": "1502b9641f838af84749a8b10db447942fa8f1661c1fc9c3d43330489427a9d5",
+          "sha256": "919c15f2e4800989462684a9341fc4cf5a65156c8c6b53c4a33b9248d31d427c"
+        },
+        "Yuumi": {
+          "name": "Yuumi",
+          "zh": "悠米",
+          "aliases": [
+            "Yuumi"
+          ],
+          "file": "yuumi-2344dcd40b85.webp",
+          "source_png": "Yuumi.png",
+          "source_sha256": "63283c06c2b3a4873a83cb9d00b2ee5892f7bcd7cd009fd8b6ff893f92138b9e",
+          "sha256": "2344dcd40b85c435318a260565eb507b719380394c672e46d32bd6137e61be81"
+        },
+        "Zaahen": {
+          "name": "Zaahen",
+          "zh": "亚恒",
+          "aliases": [
+            "Zaahen"
+          ],
+          "file": "zaahen-98d7866d629b.webp",
+          "source_png": "Zaahen.png",
+          "source_sha256": "2028854176d35cf2f1f926044f071bcd0b7cc8eed839590296e64852bedd35d4",
+          "sha256": "98d7866d629b6d392489a34b8bab2414d14a755d99e1cccf301f57d078b82a91"
+        },
+        "Zeri": {
+          "name": "Zeri",
+          "zh": "泽丽",
+          "aliases": [
+            "Zeri"
+          ],
+          "file": "zeri-96d4035046a7.webp",
+          "source_png": "Zeri.png",
+          "source_sha256": "5fc4e7ed3b8184495375ea0b8e35a625521cddc7d17d1d6e30e13b683b36100c",
+          "sha256": "96d4035046a7222b34fb9084d4cd4d86916036f07c3241d0121d63440988e796"
+        },
+        "Ziggs": {
+          "name": "Ziggs",
+          "zh": "吉格斯",
+          "aliases": [
+            "Ziggs"
+          ],
+          "file": "ziggs-4b700806c23e.webp",
+          "source_png": "Ziggs.png",
+          "source_sha256": "cc3ea57671db30642002b5c36c0a6c851aacb7b2d6a5af10069f9f00b00775a9",
+          "sha256": "4b700806c23ef3825949d47420f2c5bdda50b06ea16926f6831ea8e54a3f6d0e"
+        },
+        "Zyra": {
+          "name": "Zyra",
+          "zh": "婕拉",
+          "aliases": [
+            "Zyra"
+          ],
+          "file": "zyra-cac2d260fb0e.webp",
+          "source_png": "Zyra.png",
+          "source_sha256": "9993a6caf52f955ad41077e56b56f2472c07c1a589fb4d1c66097ddf775feda4",
+          "sha256": "cac2d260fb0e33d33f1042ddd5f750a36d2f6ddb97e0ce179ca1306714bc506d"
+        }
+      }
+    }
+  }
+}

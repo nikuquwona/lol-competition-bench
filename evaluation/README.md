@@ -131,3 +131,9 @@ macOS 已安装同版本 Codex 时，可用 `--backend macos --harness codex --m
 如需合并同配置、同题集、互不重叠的小批次，可在组织者侧用 `python -m evaluation.assemble --suite featured-five --source <第一批运行目录> --source <第二批运行目录> --out <新的目录>`。汇集器会核验发布包、CLI 回执、各题指纹和赛后真值，并拒绝重复尝试。全新复跑整组则用上面的 `--suite featured-five` 命令。
 
 [Codex CLI × DeepSeek 官方五场完整实跑](examples/featured-five-deepseek/report.md)使用 `replay-v3`，十个新会话全部交卷。每题都可查看实际题面、原始 JSONL、命令输出、两项概率与独立 verifier 校验结果。使用 `--mode live --model deepseek-v4-pro` 复跑同一题组。原生推理使用操作者的 DeepSeek API，运行日志没有返回账单金额。
+
+### 逐题轨迹的阅读方式
+
+本地站点把一次工具调用和它的返回放在同一事件里。左侧可筛选证据查询、预测写入、模型消息和异常，右侧保留当前事件的输入、输出及可用的退出码。点击上方任一组概率，会定位到实际的写入或读回事件。原生记录页给出调用 ID 和 JSONL 行号，可对照下载文件复核。未记载的时间和模型推理过程留空。这个布局参考了 Inspect 在样本内并列查阅模型消息、工具结果及评分的方式，以及 LangSmith 从轨迹跳到精确调用、同时保留上下文的交互。[Inspect AI Log Viewer](https://inspect.aisi.org.uk/log-viewer.html#sample-details) · [LangSmith Trace Views](https://docs.langchain.com/langsmith/view-traces)
+
+公开运行分片会将原生文件列表里的个人账户和组替换为通用占位符。组织者保留原始运行。受影响文件的原始 SHA-256 和公开 SHA-256 位于相应分片的 `sources/*-redactions.json`，修订已发布轨迹时还可用 `--previous-public DIR` 核对上一版公开文件并留下对应指纹。

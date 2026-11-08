@@ -21,7 +21,9 @@ def fenced(value):
     return f"{fence}\n{display}\n{fence}"
 
 
-def render_events(path, *, stream=None, call_ids=None):
+def render_events(
+    path, *, stream=None, call_ids=None, locations=None, turn_starts=None
+):
     from evaluation.native_events import NativeEvents
 
     sections = []
@@ -30,18 +32,31 @@ def render_events(path, *, stream=None, call_ids=None):
     pending = {}
     native = NativeEvents(sections, counts, usage, call_ids)
     with stream if stream is not None else path.open(errors="replace") as stream:
-        for line in stream:
+        for line_no, line in enumerate(stream, 1):
             if not line.strip():
                 continue
             counts["events"] += 1
+            first = len(sections)
             try:
                 event = json.loads(line)
             except ValueError:
                 event = None
             if not isinstance(event, dict):
                 sections.append(("CLI 输出", line))
+                if locations is not None:
+                    locations[first] = line_no
                 continue
+            if turn_starts is not None and event.get("type") in (
+                "turn.started",
+                "turn_start",
+            ):
+                turn_starts.append(line_no)
             if native.consume(event):
+                if locations is not None:
+                    for index in range(first, len(sections)):
+                        locations[index] = line_no
+                    if first and event.get("subtype") == "api_retry":
+                        locations[len(sections) - 1] = line_no
                 continue
             kind = event.get("type", "event")
             if kind == "turn.completed":
@@ -59,16 +74,18 @@ def render_events(path, *, stream=None, call_ids=None):
             if not isinstance(item, dict):
                 item = {}
             if kind == "item.started" and item.get("type") == "command_execution":
-                pending[item.get("id")] = item.get("command", "")
+                pending[item.get("id")] = (item.get("command", ""), line_no)
                 continue
             if kind == "item.completed" and item.get("type") == "command_execution":
-                pending.pop(item.get("id"), None)
+                start = pending.pop(item.get("id"), None)
                 counts["shell_commands"] += 1
                 rc = item.get("exit_code")
                 if isinstance(rc, int) and rc != 0:
                     counts["failed_commands"] += 1
                 sections.append((f"终端命令 · 退出码 {rc}", item.get("command", "")))
                 sections.append(("命令输出", item.get("aggregated_output", "")))
+                if locations is not None and start:
+                    locations[first] = start[1]
             elif kind == "item.completed" and item.get("type") in (
                 "agent_message",
                 "error",
@@ -81,7 +98,12 @@ def render_events(path, *, stream=None, call_ids=None):
                 if kind == "trace.truncated":
                     counts["truncated"] += 1
                 sections.append((str(kind), event))
-    for command in pending.values():
+            if locations is not None:
+                for index in range(first, len(sections)):
+                    locations.setdefault(index, line_no)
+    for command, line_no in pending.values():
+        if locations is not None:
+            locations[len(sections)] = line_no
         sections.append(("终端命令 · 未收到完成事件", command))
     if pending:
         counts["unfinished_commands"] = len(pending)

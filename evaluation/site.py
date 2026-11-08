@@ -12,7 +12,15 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlsplit
 
-from evaluation.run_index import ASSETS, TEAM_MARKS, RunIndex, visible_runs
+from evaluation.draft import draft_static
+from evaluation.run_index import (
+    ASSETS,
+    TEAM_MARKS,
+    RunIndex,
+    file_sha,
+    read_doc,
+    visible_runs,
+)
 from production.build import ROOT
 
 STATIC = {
@@ -21,6 +29,10 @@ STATIC = {
     "/app.js": ("app.js", "text/javascript"),
     "/timeline.js": ("timeline.js", "text/javascript"),
     "/timeline.css": ("timeline.css", "text/css"),
+    "/media/worlds-2026.webp": ("media/worlds-2026.webp", "image/webp"),
+    "/media/kc-walkout.webp": ("media/kc-walkout.webp", "image/webp"),
+    "/media/t1-walkout.webp": ("media/t1-walkout.webp", "image/webp"),
+    **draft_static(),
 }
 FILES = {
     "prompt": "instruction.md",
@@ -355,19 +367,27 @@ def make_handler(index):
                     trial = {
                         **trial,
                         "match": ref["match"],
+                        "draft": ref["draft"],
                         "observed_outcome": ref["labels"],
                     }
                 if len(parts) == 6:
                     from evaluation.timeline import build_timeline
 
-                    return self.json(
-                        build_timeline(
-                            mapped.get("events"),
-                            phase=trial.get("phase"),
-                            prediction=trial.get("prediction"),
-                            outcome=trial.get("observed_outcome"),
-                        )
+                    events = mapped.get("events")
+                    timeline = build_timeline(
+                        events,
+                        phase=trial.get("phase"),
+                        prediction=trial.get("prediction"),
+                        outcome=trial.get("observed_outcome"),
                     )
+                    if events:
+                        st = events.stat()
+                        sha = file_sha(events, st.st_mtime_ns, st.st_size)
+                        notes = read_doc(
+                            Path(__file__).with_name("rollout_reviews.json")
+                        )
+                        timeline["review_notes"] = notes.get(sha, [])
+                    return self.json(timeline)
                 return self.json(
                     {
                         "run": rec,
