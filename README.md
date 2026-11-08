@@ -37,6 +37,15 @@ python3 scripts/build.py --phase draft-lock --out tasks/lock
 
 输出协议示例为 `{"p_blue_win":0.64,"p_blue_ahead_15":0.52}`，写入容器的 `/app/prediction.json`。独立 verifier 读取这份文件，每局 reward 为 1 − (胜负 Brier + 15 分钟经济领先 Brier)/2。两个概率均报 0.5 的 reward 恒为 0.75。汇总时保留两项 Brier 原值，按相同小局配对比较 lobby 和 draft-lock，统计区间按系列赛分组重采样。
 
+真实模型可用 Harbor 内置的宿主侧 Terminus 2 驱动离线终端。先在宿主配置模型提供方的凭证，并将下面的 MODEL_ID 换成 Harbor 支持的 provider/model 标识。镜像构建阶段预装 tmux 和 asciinema。
+
+```sh
+harbor run -p tasks/worlds-2026-main-event-quarterfinals-4-g2-draft-lock -a terminus-2 -m "$MODEL_ID"
+python3 scripts/baseline.py
+```
+
+选手历史基线仅用当前十人之前各局的胜率和 15 分钟领先率，经加一平滑后按两队平均。99 局逐局回放的胜负 Brier 为 0.2465，15 分钟 Brier 为 0.2554；固定 50% 的基线两项都是 0.2500。它不使用 BP，两个预测时点的输出相同。这里的选手历史局限于本次收录的赛事。
+
 ## 时间边界
 
 - **lobby** 假定双方已确认首发和红蓝方，仅给选手名字。**draft-lock** 增加 20 个 BP 动作。两个时点均隐藏本局最终分路、经济曲线、赛后数据、系列赛最终局数及比分。
