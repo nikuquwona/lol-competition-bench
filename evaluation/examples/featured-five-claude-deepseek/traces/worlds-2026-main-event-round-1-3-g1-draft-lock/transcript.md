@@ -58,9 +58,9 @@ ls -la && python3 -c "import json; d=json.load(open('snapshot.json')); print(jso
 
 ```
 total 184
-drwxr-xr-x@ 3 lhd  wheel     96 Nov  9 01:58 .
-drwx------@ 8 lhd  wheel    256 Nov  9 01:58 ..
--rw-r--r--@ 1 lhd  wheel  91154 Nov  9 01:58 snapshot.json
+drwxr-xr-x@ 3 [local-user]  [local-group]     96 Nov  9 01:58 .
+drwx------@ 8 [local-user]  [local-group]    256 Nov  9 01:58 ..
+-rw-r--r--@ 1 [local-user]  [local-group]  91154 Nov  9 01:58 snapshot.json
 {
   "event": "worlds-2026-main-event",
   "stage": "Round 1",

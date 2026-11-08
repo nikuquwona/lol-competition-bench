@@ -41,6 +41,7 @@
   },
   "jobs/worlds-2026-main-event-round-5-2-g2-lobby/trajectory.jsonl": {
     "original_sha256": "88b2926a1ae64dc270228003a549700de03f7a3f673f1a066b9485e6fc8e8ada",
-    "public_sha256": "83ef123bce7f81cc6158e168f99392c10ef27c3e44fadefecc8acb5925b6e39d"
+    "prior_public_sha256": "83ef123bce7f81cc6158e168f99392c10ef27c3e44fadefecc8acb5925b6e39d",
+    "public_sha256": "25f786f014de85b79b3c182e596ab64711425890dbcd8de5d68e61e54809c69d"
   }
 }

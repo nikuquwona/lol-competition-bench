@@ -21,7 +21,8 @@
   },
   "jobs/worlds-2026-main-event-round-1-3-g1-draft-lock/trajectory.jsonl": {
     "original_sha256": "187c1a23e638e82ee3b7fd8200ab4c17711508c2ff0ae726d24a26b533d4d2f9",
-    "public_sha256": "64a68ec0faf0eb08458f3326dafe8e66cd667f32f83b8611757073b2bcb268c1"
+    "prior_public_sha256": "64a68ec0faf0eb08458f3326dafe8e66cd667f32f83b8611757073b2bcb268c1",
+    "public_sha256": "4ec836d09fa38e96ebc17ee10b1ff610474b3523f17fed98b1d9a77779ac8c22"
   },
   "jobs/worlds-2026-main-event-round-1-3-g1-lobby/instruction.md": {
     "original_sha256": "e4b834adf2176daa62712973a28d1e97a9be63f01bcbbb1456e60343105fada1",

@@ -41,6 +41,7 @@
   },
   "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/trajectory.jsonl": {
     "original_sha256": "e45987e85634561b10d064ef157bca646e5dc345e016edc53c3aa5ee293b23c1",
-    "public_sha256": "10712c7799a24c9bd3bbc12db8424f74799431b8466bcf5f41da629069c9cea7"
+    "prior_public_sha256": "10712c7799a24c9bd3bbc12db8424f74799431b8466bcf5f41da629069c9cea7",
+    "public_sha256": "98d8c9eb32ff29f10d7a47269c9d8e2b5a2ce984d7d1a7198f8b37ca4c5c212a"
   }
 }

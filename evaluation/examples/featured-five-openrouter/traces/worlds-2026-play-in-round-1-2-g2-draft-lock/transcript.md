@@ -65,9 +65,9 @@ Model metadata for `nvidia/nemotron-3.5-lightning:free` not found. Defaulting to
 
 ```
 total 72
-drwxr-xr-x@ 3 lhd  wheel     96 Nov  9 01:38 .
-drwx------@ 8 lhd  wheel    256 Nov  9 01:38 ..
--rw-r--r--@ 1 lhd  wheel  36588 Nov  9 01:38 snapshot.json
+drwxr-xr-x@ 3 [local-user]  [local-group]     96 Nov  9 01:38 .
+drwx------@ 8 [local-user]  [local-group]    256 Nov  9 01:38 ..
+-rw-r--r--@ 1 [local-user]  [local-group]  36588 Nov  9 01:38 snapshot.json
 ```
 
 ### 4. 终端命令 · 退出码 0

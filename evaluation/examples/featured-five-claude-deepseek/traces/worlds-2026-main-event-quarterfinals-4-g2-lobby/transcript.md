@@ -58,9 +58,9 @@ ls -la && cat snapshot.json | head -c 2000
 
 ```
 total 496
-drwxr-xr-x@ 3 lhd  wheel      96 Nov  9 01:52 .
-drwx------@ 8 lhd  wheel     256 Nov  9 01:52 ..
--rw-r--r--@ 1 lhd  wheel  251772 Nov  9 01:52 snapshot.json
+drwxr-xr-x@ 3 [local-user]  [local-group]      96 Nov  9 01:52 .
+drwx------@ 8 [local-user]  [local-group]     256 Nov  9 01:52 ..
+-rw-r--r--@ 1 [local-user]  [local-group]  251772 Nov  9 01:52 snapshot.json
 {"phase": "lobby", "series_time_utc": "2026-11-06T22:00:00+00:00", "current": {"event": "worlds-2026-main-event", "stage": "Quarterfinals", "series": "worlds-2026-main-event-quarterfinals-4", "n": 2, "patch": "26.20", "bo": 5, "blue": "Karmine Corp", "red": "T1", "starters": {"blue": ["Busio", "Caliste", "Canna", "Kyeahoo", "Yike"], "red": ["Doran", "Faker", "Keria", "Oner", "Peyz"]}, "draft_rule": "Fearless"}, "history": [{"series": "lpl-2026-regional-finals-round-1-1", "series_time": "2026-09-17T09:00:00+00:00", "event": "lpl-2026-regional-finals", "n": 1, "patch": "26.17", "blue": "Invictus Gaming", "red": "Top Esports", "blue_win": true, "blue_gd15": -38, "bp": [{"turn": 1, "side": "red", "action": "ban", "champion": "Qiyana"}, {"turn": 2, "side": "blue", "action": "ban", "champion": "Cassiopeia"}, {"turn": 3, "side": "red", "action": "ban", "champion": "Olaf"}, {"turn": 4, "side": "blue", "action": "ban", "champion": "Vi"}, {"turn": 5, "side": "red", "action": "ban", "champion": "Jarvan IV"}, {"turn": 6, "side": "blue", "action": "ban", "champion": "Nocturne"}, {"turn": 7, "side": "red", "action": "pick", "champion": "Orianna"}, {"turn": 8, "side": "blue", "action": "pick", "champion": "Lulu"}, {"turn": 9, "side": "blue", "action": "pick", "champion": "Yunara"}, {"turn": 10, "side": "red", "action": "pick", "champion": "Lucian"}, {"turn": 11, "side": "red", "action": "pick", "champion": "Milio"}, {"turn": 12, "side": "blue", "action": "pick", "champion": "Syndra"}, {"turn": 13, "side": "blue", "action": "ban", "champion": "Trundle"}, {"turn": 14, "side": "red", "action": "ban", "champion": "K'Sante"}, {"turn": 15, "side": "blue", "action": "ban", "champion": "Rumble"}, {"turn": 16, "side": "red", "action": "ban", "champion": "Renekton"}, {"turn": 17, "side": "blue", "action": "pick", "champion": "Skarner"}, {"turn": 18, "side": "red", "action": "pick", "champion": "Jayce"}, {"turn": 19, "side": "red", "action": "pick", "champion": "Cho'Gath"}, {"turn": 20, "sid
 ```
 

@@ -719,7 +719,7 @@
         }
       },
       "origin": {
-        "trial_id": "574459b8ccc2a29cf9f42d5b164764895358dc856cef21ffd4114856eb721d28",
+        "trial_id": "a4f02cb4d8362e4e7924e5070b78f3d7d3872f399ae2c303bc52e461a555ee45",
         "source_report_sha256": "f947e10ee515daa3685bbaf72a3225045b08e4eb6f308f1787a2e87ca9f6e32c",
         "source_report": "sources/f947e10ee515daa3685bbaf72a3225045b08e4eb6f308f1787a2e87ca9f6e32c.json",
         "files_sha256": {
@@ -727,9 +727,12 @@
           "prediction.json": "42c42d5ff41403837bed7c509d8010705d08410d3a746c58f1c061223d2b2670",
           "run.json": "7081ae31d7d7a0b11146df7c0a3f275c959bf321ed298d0ea66190433599d342",
           "stderr.txt": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
-          "trajectory.jsonl": "10712c7799a24c9bd3bbc12db8424f74799431b8466bcf5f41da629069c9cea7",
+          "trajectory.jsonl": "98d8c9eb32ff29f10d7a47269c9d8e2b5a2ce984d7d1a7198f8b37ca4c5c212a",
           "snapshot.json": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d"
-        }
+        },
+        "original_events_sha256": "e45987e85634561b10d064ef157bca646e5dc345e016edc53c3aa5ee293b23c1",
+        "prior_public_events_sha256": "10712c7799a24c9bd3bbc12db8424f74799431b8466bcf5f41da629069c9cea7",
+        "prior_public_trial_id": "574459b8ccc2a29cf9f42d5b164764895358dc856cef21ffd4114856eb721d28"
       }
     },
     {
@@ -887,7 +890,7 @@
         }
       },
       "origin": {
-        "trial_id": "bbdd4fc3103fafca848723cea1224606c06caeb12925d47c8373d00c02e99dff",
+        "trial_id": "a27880ec081c6455b1b98813994b8282adf18bf009b67ac39103c3565547851a",
         "source_report_sha256": "db4a0bbbf9b6fbf564c9e90ff6ef16cb671870920cfc2cbb2d7080a3f45781b1",
         "source_report": "sources/db4a0bbbf9b6fbf564c9e90ff6ef16cb671870920cfc2cbb2d7080a3f45781b1.json",
         "files_sha256": {
@@ -895,9 +898,12 @@
           "prediction.json": "0d110bc72dc5391935af9b5939c7d2c89c683bb728502cc3aa4bb0342e667ddd",
           "run.json": "bed50d2cf204a5021aa988f0f686ff90a852fc9302463fb7e953632f626135e5",
           "stderr.txt": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
-          "trajectory.jsonl": "64a68ec0faf0eb08458f3326dafe8e66cd667f32f83b8611757073b2bcb268c1",
+          "trajectory.jsonl": "4ec836d09fa38e96ebc17ee10b1ff610474b3523f17fed98b1d9a77779ac8c22",
           "snapshot.json": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0"
-        }
+        },
+        "original_events_sha256": "187c1a23e638e82ee3b7fd8200ab4c17711508c2ff0ae726d24a26b533d4d2f9",
+        "prior_public_events_sha256": "64a68ec0faf0eb08458f3326dafe8e66cd667f32f83b8611757073b2bcb268c1",
+        "prior_public_trial_id": "bbdd4fc3103fafca848723cea1224606c06caeb12925d47c8373d00c02e99dff"
       }
     },
     {
@@ -1481,7 +1487,7 @@
         }
       },
       "origin": {
-        "trial_id": "6fb9f1edf75cf11e3432a6a14941e493eb6ae54960a0645daee7da90fe39c1f9",
+        "trial_id": "fa93ba2e6d118e67a82464d88bfddbe28ff2c67c3cd6e8dc21a368e3ba49c464",
         "source_report_sha256": "c3e6e3550d3de650d2ab2e7ff43e886ff71fce4573121c985c215c453b00bdc9",
         "source_report": "sources/c3e6e3550d3de650d2ab2e7ff43e886ff71fce4573121c985c215c453b00bdc9.json",
         "files_sha256": {
@@ -1489,9 +1495,12 @@
           "prediction.json": "35d5a9e79a6dd6122812282d684fa7a116351059a43a4bb3b039b6223c192f5e",
           "run.json": "40a5fa06a9d113ebb86249a80a2ffffbe05f4a2553ef9fbd23b67167a15e2ae5",
           "stderr.txt": "0960c0fc119a7187d30b749316b0d99fae1262fa7466a590e6e9460e4a77402c",
-          "trajectory.jsonl": "83ef123bce7f81cc6158e168f99392c10ef27c3e44fadefecc8acb5925b6e39d",
+          "trajectory.jsonl": "25f786f014de85b79b3c182e596ab64711425890dbcd8de5d68e61e54809c69d",
           "snapshot.json": "1a8fbea764e4c51d4bb2d8d723b88f0a026fb8716496265ba70ad4c3ec58b673"
-        }
+        },
+        "original_events_sha256": "88b2926a1ae64dc270228003a549700de03f7a3f673f1a066b9485e6fc8e8ada",
+        "prior_public_events_sha256": "83ef123bce7f81cc6158e168f99392c10ef27c3e44fadefecc8acb5925b6e39d",
+        "prior_public_trial_id": "6fb9f1edf75cf11e3432a6a14941e493eb6ae54960a0645daee7da90fe39c1f9"
       }
     },
     {

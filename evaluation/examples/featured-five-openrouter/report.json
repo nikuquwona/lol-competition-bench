@@ -916,7 +916,7 @@
         }
       },
       "origin": {
-        "trial_id": "f404c7ecd55fecd686202b04f78a7a0775f5bcf447665e2d5de238bd7cfb51e9",
+        "trial_id": "18b12b4aaa55e34a0bb45c6cc16185d0ce480a5f5cfe0953fe79f454e9a35e56",
         "source_report_sha256": "cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d",
         "source_report": "sources/cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d.json",
         "files_sha256": {
@@ -924,9 +924,12 @@
           "prediction.json": "10a54171b82393c75ba96bb25a1372ecc1eb83e847e34b5c8659d79a553f73c5",
           "run.json": "1a7e6c23d6054d457dee0f13c9ca3425c59e6ff6db18b1961490151c41c5f923",
           "stderr.txt": "1de40a1a5ffb5bad43d333d3f77a5d3b7e79ff32368120a70b6890ca0b4435da",
-          "trajectory.jsonl": "d29d17eaeb94315410482f620fd75037a1fb740858457f90f1222667bc887e8c",
+          "trajectory.jsonl": "43c27c54fa2eaf0eb1b3807b4415397b52e7578536449a50233a5a78ff0f168f",
           "snapshot.json": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54"
-        }
+        },
+        "original_events_sha256": "d29d17eaeb94315410482f620fd75037a1fb740858457f90f1222667bc887e8c",
+        "prior_public_events_sha256": "d29d17eaeb94315410482f620fd75037a1fb740858457f90f1222667bc887e8c",
+        "prior_public_trial_id": "f404c7ecd55fecd686202b04f78a7a0775f5bcf447665e2d5de238bd7cfb51e9"
       }
     },
     {
@@ -1100,7 +1103,8 @@
         "planned": [
           "worlds-2026-play-in-round-1-2-g2-draft-lock",
           "worlds-2026-play-in-round-1-2-g2-lobby"
-        ]
+        ],
+        "redactions": "sources/cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d-redactions.json"
       }
     ],
     "authentication_diagnostics": [

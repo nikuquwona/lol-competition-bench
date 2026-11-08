@@ -8,6 +8,7 @@ import re
 import tempfile
 
 from evaluation.selections import suite_ids, suite_names
+from evaluation.cli.public_logs import stage_accounts, strip_accounts
 from evaluation.suite import (
     DEFAULT_RELEASE,
     paired_summary,
@@ -36,8 +37,10 @@ def public_copy(src, dst):
     if src.is_symlink() or not src.is_file():
         raise ValueError(f"Expected a regular source artifact: {src.name}")
     data = src.read_bytes()
-    if str(Path.home()).encode() in data or re.search(
-        rb"\bsk-(?:or-v1-)?[a-zA-Z0-9_-]{18,}", data
+    if (
+        strip_accounts(data) != data
+        or str(Path.home()).encode() in data
+        or re.search(rb"\bsk-(?:or-v1-)?[a-zA-Z0-9_-]{18,}", data)
     ):
         raise ValueError(
             f"Source artifact requires operator redaction before publication: {src.name}"
@@ -51,6 +54,12 @@ def job_directory(source, task_id):
     if not job.is_relative_to(source.resolve()):
         raise ValueError("Native job directory escapes its source run")
     return job
+
+
+def native_trial_id(config, task_id, event_digest):
+    identity = [*[config[k] for k in CONFIG], task_id, event_digest]
+    canonical = json.dumps(identity, ensure_ascii=False, separators=(",", ":")).encode()
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def file_draft(events):
@@ -82,7 +91,15 @@ def file_draft(events):
     return draft
 
 
-def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
+def assemble(
+    suite,
+    release,
+    sources,
+    out,
+    diagnostics=(),
+    quota_response=None,
+    previous_public=None,
+):
     manifest, tasks = select(release, suite_ids(suite, release))
     if out.exists():
         raise FileExistsError(out)
@@ -108,7 +125,8 @@ def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
                     "Expected a recorded OpenRouter free daily quota refusal"
                 )
             public_copy(quota_response, work / "sources/quota-response.json")
-        for path in (*sources, *diagnostics):
+        for index, source in enumerate((*sources, *diagnostics)):
+            path = source
             original = path / "report.json"
             doc = read(original)
             settings = {k: doc[k] for k in CONFIG}
@@ -129,6 +147,15 @@ def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
                 raise ValueError(
                     "Source does not contain a completed subset of this suite"
                 )
+            path = stage_accounts(
+                path,
+                root / "staged" / str(index),
+                doc["planned"],
+                JOB_FILES,
+                previous_public,
+            )
+            original = path / "report.json"
+            doc = read(original)
             report_hash = digest(original)
             proof_path = f"sources/{report_hash}.json"
             public_copy(original, work / proof_path)
@@ -138,8 +165,10 @@ def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
                 "planned": doc["planned"],
             }
             redactions = path / "redactions.json"
+            file_receipts = {}
             if redactions.exists():
-                for rel, proof in read(redactions).items():
+                file_receipts = read(redactions)
+                for rel, proof in file_receipts.items():
                     artifact = (path / rel).resolve()
                     if not artifact.is_relative_to(path.resolve()) or proof.get(
                         "public_sha256"
@@ -153,7 +182,7 @@ def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
                         raise ValueError("Invalid original file fingerprint")
                 receipt["redactions"] = f"sources/{report_hash}-redactions.json"
                 public_copy(redactions, work / receipt["redactions"])
-            if path in diagnostics:
+            if source in diagnostics:
                 # Only pre-inference authentication failures can be excluded this way.
                 for t in doc["trials"]:
                     job = job_directory(path, t["task"])
@@ -246,17 +275,21 @@ def assemble(suite, release, sources, out, diagnostics=(), quota_response=None):
                 hashes["snapshot.json"] = digest(
                     work / t["trajectory"]["files"]["snapshot"]
                 )
-                identity = [*[config[k] for k in CONFIG], i, hashes["trajectory.jsonl"]]
                 t["origin"] = {
-                    "trial_id": hashlib.sha256(
-                        json.dumps(
-                            identity, ensure_ascii=False, separators=(",", ":")
-                        ).encode()
-                    ).hexdigest(),
+                    "trial_id": native_trial_id(config, i, hashes["trajectory.jsonl"]),
                     "source_report_sha256": report_hash,
                     "source_report": proof_path,
                     "files_sha256": hashes,
                 }
+                proof = file_receipts.get(f"jobs/{i}/trajectory.jsonl", {})
+                if "input_to_account_filter_sha256" in proof:
+                    t["origin"]["original_events_sha256"] = proof["original_sha256"]
+                if previous := proof.get("prior_public_sha256"):
+                    t["origin"]["original_events_sha256"] = proof["original_sha256"]
+                    t["origin"]["prior_public_events_sha256"] = previous
+                    t["origin"]["prior_public_trial_id"] = native_trial_id(
+                        config, i, previous
+                    )
                 trials[i] = t
         if trials.keys() != planned.keys() and not quota_response:
             raise ValueError("Sources must cover every planned task exactly once")
@@ -338,6 +371,11 @@ def main():
     )
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument(
+        "--previous-public",
+        type=Path,
+        help="Optional earlier published projection for a redaction migration",
+    )
+    parser.add_argument(
         "--quota-response",
         type=Path,
         help="Recorded daily quota refusal for an incomplete run",
@@ -350,6 +388,7 @@ def main():
         a.out,
         a.authentication_diagnostic,
         a.quota_response,
+        a.previous_public,
     )
     print(a.out / "report.md")
 

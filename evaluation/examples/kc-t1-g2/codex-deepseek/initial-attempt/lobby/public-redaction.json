@@ -1,0 +1,8 @@
+{
+  "artifact": "trajectory.jsonl",
+  "source_stage": "previously published CLI events; original native-run identifiers were already masked",
+  "prior_public_sha256": "cb7ec9baef2cef8cf923afc818778a7d1723ca1f1e47e2e08e048ed17463e387",
+  "public_sha256": "9d595c79e643dcc3dd702c185902e28041c42a7585e35b01bbfb1158fb39fec8",
+  "event_lines": 86,
+  "transform": "POSIX ls long-listing owner and group replaced; file metadata, commands, outputs and event boundaries retained."
+}

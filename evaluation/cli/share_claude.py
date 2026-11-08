@@ -8,6 +8,7 @@ import tempfile
 from pathlib import Path
 
 from evaluation.assemble import JOB_FILES
+from evaluation.cli.public_logs import strip_accounts
 
 IDENTIFIER = re.compile(rb'"(session_id|sessionId|signature)"\s*:\s*"([^"\\]+)"')
 TEMP = re.compile(
@@ -21,7 +22,7 @@ SECRET = re.compile(
 def strip_private(data, ids):
     for value, replacement in ids.items():
         data = data.replace(value, replacement)
-    data = TEMP.sub(b"[ephemeral]", data)
+    data = strip_accounts(TEMP.sub(b"[ephemeral]", data))
     if b"/Users/" in data or SECRET.search(data):
         raise ValueError(
             "Staging refused: inspect remaining home paths or credentials locally"
