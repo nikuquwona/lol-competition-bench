@@ -1,0 +1,12 @@
+{
+  "worlds-lpl-2026": {
+    "title_zh": "2026 世界赛与 LPL 区域资格赛预测集",
+    "title_en": "2026 Worlds & LPL Regional Finals Forecasts",
+    "short_title": "Worlds & LPL 2026",
+    "current": "replay-v3",
+    "editions": {
+      "replay-v3": "选手履历版",
+      "replay-v2": "基础快照版"
+    }
+  }
+}
