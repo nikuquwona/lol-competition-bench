@@ -6,7 +6,7 @@
 | [replay-v1](lol-2026-replay-v1.tar.gz) | 198 | 旧提示词及其评分器；用于重放既有成绩。[展开的 KC–T1 两道样题](examples/replay-v1-kc-t1-g2/)。 |
 | [live](live/) | 独立系列赛赛道 | 赛前冻结的整场 BO5 输入，与逐小局题分开结算。 |
 
-**存储选择。** 当前 v2 压缩后约 2 MiB，私有 Git 仓库已能满足离线运行、版本固定和权限控制。Hugging Face 可以作为未来的分发镜像；下载方只需取得同一目录中的 manifest.json 与 tasks.tar.gz，并通过 `--release /path/to/version` 指定本地副本。本项目没有向 Hugging Face 上传比赛资料。公开分发前需核对来源许可；尚未开赛的资料、回执及私有答案应由赛事组织者单独保管。
+**获取与复现。** 当前 v2 压缩包约 2.26 MiB，随本仓库公开分发。将同一版本的 `manifest.json` 与 `tasks.tar.gz` 放在同一目录，即可用 `--release /path/to/version` 指定本地副本。复现实验时记录仓库提交与清单中的包摘要。未开赛的观测、提交回执及评分真值由组织者单独保管。[数据来源与署名](../production/README.md#既有赛季数据)
 
 ```sh
 ./bench e2e --release datasets/replay-v2 --list --patch 26.17

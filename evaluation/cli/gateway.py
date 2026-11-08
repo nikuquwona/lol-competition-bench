@@ -114,7 +114,10 @@ class Handler(BaseHTTPRequestHandler):
             flush=True,
         )
         if self.server.fixture:
-            from fixture import respond
+            if __package__:
+                from .fixture import respond
+            else:  # The Docker gateway runs /opt/gateway.py as a standalone script.
+                from fixture import respond
 
             return respond(self, url, body)
         conn = http.client.HTTPSConnection("api.deepseek.com", timeout=100)

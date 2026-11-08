@@ -64,7 +64,9 @@ def save(path, data):
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
-def run(phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL):
+def run(
+    phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL, fixture=False
+):
     out.mkdir(parents=True, exist_ok=False)
     task = task or TASKS / (PREFIX + phase)
     token = secrets.token_hex(24)
@@ -85,7 +87,7 @@ def run(phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL
         http.server.ThreadingHTTPServer(("127.0.0.1", 0), Relay) as srv,
     ):
         root = Path(temp)
-        srv.fixture = False
+        srv.fixture = fixture
         srv.remaining = MAX_CALLS
         srv.lock = threading.Lock()
         srv.model = model
@@ -214,6 +216,7 @@ def run(phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL
                 out / "run.json",
                 dict(
                     cli=version,
+                    mode="fixture" if fixture else "live",
                     model=model,
                     phase=phase,
                     snapshot_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),

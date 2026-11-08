@@ -2,7 +2,7 @@
 
 import json
 
-COMMAND = """printf '%s' '{"p_blue_win":0.41,"p_blue_ahead_15":0.57}' > /app/prediction.json"""
+COMMAND = """printf '%s' '{"p_blue_win":0.41,"p_blue_ahead_15":0.57}' > ./prediction.json"""
 FINAL = "Forecast written."
 MODEL = "deepseek-v4-pro"
 

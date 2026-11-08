@@ -162,8 +162,10 @@ def evaluate(a):
     if mode != "baseline":
         if not a.harness or not a.model:
             raise ValueError("Provide --harness and --model")
-        if a.backend == "macos" and (a.harness != "codex" or mode != "live"):
-            raise ValueError("macos backend supports live Codex only")
+        if a.backend == "macos" and (
+            a.harness != "codex" or mode not in ("live", "fixture")
+        ):
+            raise ValueError("macos backend supports Codex in live or fixture mode")
         if a.backend == "harbor" and not shutil.which("harbor"):
             raise ValueError("Install harbor==0.25.0 on the isolated runner")
         if (a.harness == "cursor") != (mode == "vendor"):
@@ -250,6 +252,7 @@ def run_selection(a, manifest, rows):
                         False,
                         task=task,
                         model=a.model,
+                        fixture=mode == "fixture",
                     )
                     record["runtime"] = json.loads((cli_dir / "run.json").read_text())
                     pred = read_prediction(cli_dir / "prediction.json")

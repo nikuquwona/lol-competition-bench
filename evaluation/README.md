@@ -7,6 +7,45 @@
 | 验证接线 | `./bench e2e --mode fixture --harness pi --model deepseek-v4-pro --limit 1` | 真实 CLI 使用固定协议回复；报告标为 fixture，不计模型能力成绩 |
 | 对尚无赛果的比赛交卷 | `./bench forecast CASE --entrant NAME --harness codex --model deepseek-v4-pro --out DIR` | 调用无标签 Harbor 任务并封存首份预测 |
 
+## 本地安装与验收
+
+在仓库根目录运行以下命令。需要 [uv](https://docs.astral.sh/uv/getting-started/installation/)；若已有仓库专用的 Python 3.12+ 虚拟环境，可跳过第一行。
+
+```sh
+uv venv --python 3.12 .venv
+uv pip install --python .venv/bin/python 'harbor==0.25.0'
+.venv/bin/harbor --version
+.venv/bin/harbor run --help
+```
+
+版本应为 `0.25.0`，帮助应显示 `harbor run [OPTIONS]`。项目使用 [Harbor 评测框架](https://pypi.org/project/harbor/0.25.0/)。若系统里的 `harbor --help` 列出 `artifact`、`repo`、`robot`，那是同名的镜像仓库管理工具。`./bench` 会优先在项目的 `.venv/bin` 查找 Harbor，无需修改 shell 配置。
+
+**在 Mac 上跑 Codex + DeepSeek。** macOS 后端使用 Python 3.12+、原生 Codex CLI 和 Xcode Command Line Tools，自身无需 Docker 或 Harbor。先执行 `codex --version`，本项目固定版本为 `codex-cli 0.167.0`。若需在 Apple 芯片 Mac 上单独安装这个版本，可从[官方发行页](https://github.com/openai/codex/releases/tag/rust-v0.167.0)下载 `codex-aarch64-apple-darwin.tar.gz`，将解压得到的可执行文件放在 `.venv/bin/codex`。已有相同版本可直接使用。
+
+先运行免密钥的安装验收。它在两个独立沙箱中启动真实 Codex，使用本地固定响应依次提交两个概率。终端应显示 `selected: 2`、`scored: 2`，报告的 `mode` 为 `fixture`。
+
+```sh
+./bench e2e --backend macos --mode fixture --harness codex --model deepseek-v4-pro --series worlds-2026-main-event-quarterfinals-4 --game 2
+```
+
+实际预测时，在已导出 `DEEPSEEK_API_KEY` 的终端执行：
+
+```sh
+./bench e2e --backend macos --harness codex --model deepseek-v4-pro --series worlds-2026-main-event-quarterfinals-4 --game 2
+```
+
+两道题各自使用 Seatbelt 沙箱，宿主按赛果评分。省略 `--out` 会为每次运行生成新的 `.work/runs/<id>/report.json`。如需固定位置，请指定一个新目录；`--resume` 只继续同一运行中尚未开始的题。
+
+**验证 Docker + Harbor 后端。** 在已启动 Docker 且支持 Compose 和断网策略的机器上，下面的命令通过真实 Codex CLI 交卷，用固定响应代替付费推理：
+
+```sh
+docker info
+docker compose version
+./bench e2e --mode fixture --harness codex --model deepseek-v4-pro --series worlds-2026-main-event-quarterfinals-4 --game 2 --phase draft-lock
+```
+
+验收标准是终端汇总 `selected: 1`、`scored: 1`。若出现 `network_mode='no-network' is not supported`，检查 Docker 引擎的 Linux 内核。Harbor 0.25.0 会在引擎中探测 nftables 的 `CONFIG_NFT_FIB_INET` 支持，旧版 Docker Desktop 的 LinuxKit 内核可能缺少它。此时可在 Mac 上使用上面的 Seatbelt 命令，或在支持该策略的 Linux runner 上运行完整 Harbor 验收。
+
 ### 选择任务与读取报告
 
 默认版本为 `datasets/replay-v2`。simple 默认选 KC–T1 第二局 BP 后；e2e 默认选整套。先用 `--list` 查看范围。可多次指定 `--task`，也可组合 `--phase`、`--series`、`--game`、`--patch` 与 `--limit`。同一系列赛、同一局号且不指定 phase，即为一组 BP 前后对照。

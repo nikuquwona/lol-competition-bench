@@ -1,6 +1,12 @@
 # The bench trampoline also supports an explicit invocation with python3.12 bench.
 set -eu
 
+# Harbor and its child processes must resolve the project's CLI even without activation.
+project_bin=$(CDPATH= cd -- "$(dirname "$1")" && pwd)/.venv/bin
+if [ -d "$project_bin" ]; then
+    export PATH="$project_bin:$PATH"
+fi
+
 run_if_supported() {
     if "$1" -I -c 'import sys; sys.exit(sys.version_info < (3, 12))' >/dev/null 2>&1; then
         exec "$@"
@@ -10,7 +16,7 @@ run_if_supported() {
 if [ -n "${VIRTUAL_ENV:-}" ]; then
     run_if_supported "$VIRTUAL_ENV/bin/python" "$@"
 fi
-run_if_supported "$(dirname "$1")/.venv/bin/python" "$@"
+run_if_supported "$project_bin/python" "$@"
 for candidate in python3 python3.12 python3.13 python3.14 python3.15; do
     run_if_supported "$candidate" "$@"
 done
