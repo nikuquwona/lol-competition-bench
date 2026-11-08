@@ -1,0 +1,46 @@
+name: Seal pre-match forecast
+on:
+  workflow_dispatch:
+    inputs:
+      event_id:
+        description: Riot event ID of the frozen input in live/
+        type: string
+        required: true
+      probability:
+        description: Probability of team 0 winning the series
+        type: string
+        required: true
+      entrant:
+        description: Model, harness and run identifier
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  seal:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Seal while Riot still lists the match as unstarted
+        env:
+          EVENT: ${{ inputs.event_id }}
+          PROBABILITY: ${{ inputs.probability }}
+          ENTRANT: ${{ inputs.entrant }}
+        run: |
+          [[ "$EVENT" =~ ^[0-9]+$ ]]
+          python3 scripts/live_series.py seal "live/$EVENT.json" --probability "$PROBABILITY"
+          python3 - <<'PY'
+          import os, json
+          from pathlib import Path
+          p = Path("receipt.json")
+          r = json.loads(p.read_text())
+          r.update(entrant=os.environ["ENTRANT"], commit=os.environ["GITHUB_SHA"], run=os.environ["GITHUB_RUN_ID"])
+          p.write_text(json.dumps(r))
+          print(p.read_text())
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forecast-receipt
+          path: receipt.json

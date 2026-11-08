@@ -62,3 +62,18 @@ python3 scripts/collect.py
 ```
 
 原始响应保存在 git 忽略的 .cache；缓存同一 URL 可离线重复归一化。腾讯及 Leaguepedia 的当前页面可能更新，历史 RiftWise 版本也可能下线。应保存每次发布的冻结 JSON 与哈希。数据用途及转载受各来源条款约束。
+
+## 前瞻盲测入口
+
+在 Riot 标记比赛尚未开始时，已为 **T1 vs BLG** 冻结[赛前输入](live/115660540726095121.json)。计划开赛时间为 2026-11-09 06:00（北京时间）。这里预测 T1 赢下整场 BO5 的概率，尚未确认的当局上场名单、蓝红方与 BP 均不进入这条赛前任务。该赛道与逐小局回放分别计分。
+
+只将该 JSON 提供给一个全新、无法搜索的模型会话。参赛方可在开赛前手动运行仓库 Actions 的 **Seal pre-match forecast**，填入 event ID、概率与模型/harness 标识。工作流仅在 main 分支执行，会重新检查 Riot 的状态和计划开赛时间，将输入 SHA-256、提交版本和 GitHub run ID 写入带平台时间戳的回执。取首条合规提交作正式成绩；保留 GitHub 运行记录和原始 artifact。仅有本地文件不足以证明提交时间。这条赛道目前提供输入冻结和独立封存/结算工具，尚未自动调度模型参赛。
+
+```sh
+# 新场次：在赛事管理端冻结，commit 新输入后供参赛方读取
+python3 scripts/live_series.py freeze live/EVENT_ID.json --event-id EVENT_ID
+# 比赛结束后，将该 Actions run 的回执下载至 receipt.json
+python3 scripts/live_series.py settle live/115660540726095121.json --receipt receipt.json
+```
+
+结算读取 Riot 已完赛结果。赛程变更、事件滚出该页面、缺失结果或哈希变化均会拒绝结算，应由组织者留档复核。
