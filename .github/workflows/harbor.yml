@@ -22,3 +22,26 @@ jobs:
           paths = list(Path("jobs").rglob("reward.txt"))
           assert len(paths) == 1 and float(paths[0].read_text()) == 1.0, paths
           PY
+      - name: Probe the agent environment with a label-free prediction
+        run: |
+          task=tasks/worlds-2026-main-event-quarterfinals-4-g2-draft-lock
+          cat > "$task/solution/solve.sh" <<'SH'
+          #!/bin/sh
+          set -eu
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          assert {p.name for p in Path("/sys/class/net").iterdir()} == {"lo"}
+          assert not Path("/tests/labels.json").exists()
+          assert not Path("/app/data/games.json").exists()
+          view = json.loads(Path("/app/snapshot.json").read_text())
+          assert "blue_win" not in view["current"]
+          Path("/app/prediction.json").write_text(json.dumps({"p_blue_win":0.5,"p_blue_ahead_15":0.5}))
+          PY
+          SH
+          harbor run -a oracle -p "$task" --jobs-dir probe-jobs
+          python - <<'PY'
+          from pathlib import Path
+          paths = list(Path("probe-jobs").rglob("reward.txt"))
+          assert len(paths) == 1 and float(paths[0].read_text()) == 0.75, paths
+          PY
