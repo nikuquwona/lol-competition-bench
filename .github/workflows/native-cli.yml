@@ -1,0 +1,101 @@
+name: Isolated native CLI trial
+on:
+  workflow_dispatch:
+    inputs:
+      harness:
+        type: choice
+        options: [all, claude, codex, pi, kimi, cursor]
+        default: all
+      mode:
+        type: choice
+        options: [smoke, live, vendor]
+        default: smoke
+      model:
+        type: string
+        default: deepseek-v4-pro
+      phase:
+        type: choice
+        options: [lobby, draft-lock]
+        default: draft-lock
+      series:
+        type: string
+        default: worlds-2026-main-event-quarterfinals-4
+      game:
+        type: string
+        default: '2'
+permissions:
+  contents: read
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.select.outputs.matrix }}
+    steps:
+      - id: select
+        env:
+          CLI: ${{ inputs.harness }}
+          MODE: ${{ inputs.mode }}
+        run: |
+          python - <<'PY'
+          import json,os
+          cli,mode=os.environ['CLI'],os.environ['MODE']
+          supported=['claude','codex','pi','kimi','cursor']
+          assert cli=='all' or cli in supported
+          if mode=='vendor': assert cli=='cursor'
+          if mode=='live': assert cli!='cursor'
+          selected=(supported[:4] if mode=='live' else supported) if cli=='all' else [cli]
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: print('matrix='+json.dumps(selected),file=f)
+          PY
+  trial:
+    needs: select
+    strategy:
+      fail-fast: false
+      matrix:
+        cli: ${{ fromJSON(needs.select.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 24
+    env:
+      BENCH_CLI: ${{ matrix.cli }}
+      BENCH_MODEL: ${{ inputs.model }}
+      BENCH_MODE: ${{ inputs.mode == 'smoke' && 'fixture' || inputs.mode }}
+      SERIES: ${{ inputs.series }}
+      GAME: ${{ inputs.game }}
+      PHASE: ${{ inputs.phase }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python -m unittest discover -s tests
+          python scripts/build.py --series "$SERIES" --game "$GAME" --phase "$PHASE"
+      - if: matrix.cli == 'cursor' && inputs.mode == 'smoke'
+        run: |
+          python -m cli.worker cursor "$BENCH_MODEL" check tasks/*/environment/snapshot.json tasks/*/instruction.md output
+          cat output/run.json
+      - if: matrix.cli != 'cursor' || inputs.mode != 'smoke'
+        run: pip install -q harbor==0.25.0
+      - if: matrix.cli != 'cursor' || inputs.mode != 'smoke'
+        env:
+          DEEPSEEK_API_KEY: ${{ inputs.mode == 'live' && secrets.BENCH_DEEPSEEK_KEY || '' }}
+          CURSOR_API_KEY: ${{ inputs.mode == 'vendor' && secrets.BENCH_CURSOR_KEY || '' }}
+        run: |
+          export PYTHONPATH="$PWD"
+          harbor run -p tasks/* -a cli.agent:CompetitionCLI --agent-timeout-multiplier 2
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          meta,=Path('jobs').rglob('cli-run.json')
+          p,=Path('jobs').rglob('artifacts/app/prediction.json')
+          r,=Path('jobs').rglob('reward.txt')
+          pred=json.loads(p.read_text())
+          if os.environ['BENCH_MODE']=='fixture': assert pred=={'p_blue_win':0.41,'p_blue_ahead_15':0.57}
+          print(meta.read_text(),pred,'reward',r.read_text())
+          PY
+      - always()
+        run: |
+          test -z "$(docker ps -aq --filter name=lolbench-)"
+          test -z "$(docker volume ls -q --filter name=lolbench-)"
+          test -z "$(docker image ls -q 'lolbench-*')"
