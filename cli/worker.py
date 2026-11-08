@@ -66,10 +66,12 @@ def run(name,model,mode,snapshot,instruction,out):
                    "sh","-ec","\n".join(commands)+"\nwait")
             opts+=["--sysctl","net.ipv4.ip_unprivileged_port_start=0"]
         docker("run","-d","--name",worker,*common,*opts,"--network","none","--tmpfs","/app:rw,uid=1000,gid=1000,size=64m",
-               "--tmpfs","/home/node:rw,uid=1000,gid=1000,size=192m","--tmpfs","/input:rw,size=1m",
+               "--tmpfs","/home/node:rw,uid=1000,gid=1000,size=192m","--tmpfs","/input:rw,uid=1000,gid=1000,size=1m",
                "-v",f"{volume}:/relay:ro",image,"sleep","infinity")
-        docker("cp",str(snapshot),worker+":/app/snapshot.json")
-        docker("cp",str(instruction),worker+":/input/instruction.md")
+        for source, dest in ((snapshot,"/app/snapshot.json"),(instruction,"/input/instruction.md")):
+            with source.open("rb") as content:
+                subprocess.run(["docker","exec","-i",worker,"sh","-ec",'cat > "$1"',"copy",dest],
+                               stdin=content,check=True,timeout=20)
         # The API credential for the four strict clients exists only on the gateway.
         cmd=["docker","exec"]
         if mode=="vendor":cmd+=["-e","CURSOR_API_KEY"]

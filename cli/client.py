@@ -28,7 +28,7 @@ def command(name, model, prompt):
                                       "models":[{"id":model,"name":model,"contextWindow":128000,"maxTokens":8192}]}}}))
         return ["pi","--provider","bench","--model",model,"--no-session","--tools","read,bash,write,edit","--print",prompt]
     if name == "kimi":
-        os.environ.update(KIMI_MODEL_NAME=model,KIMI_MODEL_API_KEY="isolated",KIMI_MODEL_BASE_URL=BASE+"/v1",
+        os.environ.update(KIMI_MODEL_PROVIDER_TYPE="openai",KIMI_MODEL_NAME=model,KIMI_MODEL_API_KEY="isolated",KIMI_MODEL_BASE_URL=BASE+"/v1",
                           KIMI_MODEL_MAX_CONTEXT_SIZE="128000",KIMI_CODE_NO_AUTO_UPDATE="true",KIMI_DISABLE_TELEMETRY="true")
         return ["kimi","--prompt",prompt,"--output-format","stream-json","--yolo"]
     return ["cursor-agent","--yolo","--print","--output-format","stream-json","--model",model,"--",prompt]
