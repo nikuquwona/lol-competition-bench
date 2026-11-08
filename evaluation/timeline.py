@@ -1,6 +1,5 @@
 """Bounded, evidence-backed timeline for one saved CLI trial."""
 
-import ast
 import io
 import json
 import re
@@ -8,6 +7,7 @@ import shlex
 from bisect import bisect_right
 from collections import defaultdict, deque
 
+from evaluation.forecast_io import forecast, shell_evidence
 from evaluation.traces import render_events
 from production.score import FIELDS
 
@@ -41,18 +41,6 @@ def forecast_object(value):
         and set(value) == set(FIELDS)
         and all(type(v) in (int, float) and 0 <= v <= 1 for v in value.values())
     )
-
-
-def seen_prediction(output):
-    """Recognize only complete forecast objects actually printed by the tool."""
-    for candidate in reversed(re.findall(r"\{[^{}]{1,240}\}", output)):
-        try:
-            value = ast.literal_eval(candidate)
-        except (ValueError, SyntaxError):
-            continue
-        if forecast_object(value):
-            return value
-    return None
 
 
 def evidence_tags(command):
@@ -100,7 +88,7 @@ def source_reference(lines, number, call_id=None):
     return {k: v for k, v in ref.items() if v is not None}
 
 
-def summarize_tool(cmd, output, failed):
+def summarize_tool(cmd, output, failed, observation):
     lines = [line.strip() for line in output.splitlines() if line.strip()]
     if failed:
         err = next(
@@ -114,10 +102,10 @@ def summarize_tool(cmd, output, failed):
             None,
         )
         return "命令执行失败", clipped(err or (lines[-1] if lines else cmd), 180)
-    if "prediction.json" in cmd:
+    if observation.writes or observation.values:
         return "访问预测文件", clipped(" ".join(lines[:2]), 180)
-    tags = evidence_tags(cmd)
-    if "snapshot.json" in cmd and not tags and (not lines or lines[0].startswith("{")):
+    tags = evidence_tags(cmd) if observation.snapshot else []
+    if observation.snapshot and not tags:
         return "读取冻结快照", f"返回 {len(output):,} 个字符" if output else ""
     if tags:
         return "查询" + "、".join(tags[:3]), clipped(" · ".join(lines[:3]), 180)
@@ -231,8 +219,9 @@ def build_timeline(events_path, *, phase, prediction=None, outcome=None):
             code = int(match[1]) if match else None
             failed = (code is not None and code != 0) or "失败" in result_label
             shell = label.startswith("终端命令")
+            observation = shell_evidence(cmd, result) if shell else None
             title, preview = (
-                summarize_tool(cmd, result, failed)
+                summarize_tool(cmd, result, failed, observation)
                 if shell
                 else (label, clipped(result, 180))
             )
@@ -257,18 +246,36 @@ def build_timeline(events_path, *, phase, prediction=None, outcome=None):
             step["input_display"] = clipped(readable, DETAIL_LIMIT)
             step["input_chars"] = len(readable)
             if result_label and not failed:
-                step["queries_snapshot"] = "snapshot.json" in cmd
-                tags = evidence_tags(cmd)
+                target = body.get("file_path", "") if isinstance(body, dict) else ""
+                for prefix in ("[ephemeral]/app/", "/app/", "./"):
+                    if target.startswith(prefix):
+                        target = target[len(prefix) :]
+                        break
+                native_read = label == "工具调用 · Read"
+                step["queries_snapshot"] = (
+                    observation.snapshot
+                    if shell
+                    else native_read and target == "snapshot.json"
+                )
+                tags = evidence_tags(cmd) if step["queries_snapshot"] else []
                 step["fields"] = tags
                 for tag in tags:
                     if tag not in data["evidence"]:
                         data["evidence"].append(tag)
-                pair = seen_prediction(result) if "prediction.json" in cmd else None
+                source = None
+                pair = None
+                if shell and observation.values is not None:
+                    pair = observation.values
+                    source = observation.kind
+                elif native_read and target == "prediction.json":
+                    pair = forecast(result)
+                    source = "readback"
                 if pair:
                     step["prediction"] = pair
-                    if not data["readbacks"] or pair != data["readbacks"][-1]:
+                    if source == "readback" and (
+                        not data["readbacks"] or pair != data["readbacks"][-1]
+                    ):
                         data["readbacks"].append(pair)
-                source = "output"
                 if label == "工具调用 · Write" and isinstance(body, dict):
                     target = body.get("file_path")
                     if target in (

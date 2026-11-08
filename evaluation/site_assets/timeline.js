@@ -20,7 +20,7 @@ function trialTimeline(trial, files, url, signal) {
         return (
           (m.index
             ? "更新预测"
-            : m.source === "write_tool"
+            : ["write_tool", "reported_write"].includes(m.source)
               ? "首次写入预测"
               : "读回预测值") +
           " · " +
@@ -62,7 +62,7 @@ function trialTimeline(trial, files, url, signal) {
     for (const [id, m] of marks) {
       const tag = m.index
         ? "修订 " + m.index
-        : m.source === "write_tool"
+        : ["write_tool", "reported_write"].includes(m.source)
           ? "首次写入"
           : "首次读回";
       const step = steps.find((s) => s.id === id);

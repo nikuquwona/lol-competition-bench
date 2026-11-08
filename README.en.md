@@ -19,6 +19,8 @@ Start the local model scoreboard with `./bench serve`. The five games cover IGâ€
 
 The second command uses the host's `DEEPSEEK_API_KEY` and bills the account through the official DeepSeek API. Use `--harness claude` to run Claude Code on the same backend. The team marks come from [official LoL Esports assets](evaluation/site_assets/teams/sources.json).
 
+Run `./bench audit` offline to verify the native traces, evidence cutoffs and scores. Each trial page shows the draft in order, links each forecast revision to its tool call, and lets you share a URL to an individual native event. Selected model claims have human reviews linked to the frozen evidence. [Five-game rollout review](evaluation/ROLLOUT_REVIEW.md) Â· [Worlds artwork and match photography credits](evaluation/site_assets/media/sources.json)
+
 ## A game from snapshot to score
 
 At Worlds 2026, Karmine Corp played blue side against T1 in game two of their best-of-five quarterfinal. Both forecasting sessions could inspect 96 earlier games. Each KC starter appeared in 19 of them and each T1 starter in six. Looking up Faker reveals that he played Viktor in game one. Under the series' Fearless Draft rules, that pick removed Viktor from both teams' champion pools for game two.

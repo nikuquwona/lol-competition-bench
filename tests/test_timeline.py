@@ -150,3 +150,20 @@ class TimelineTests(unittest.TestCase):
             self.assertEqual(
                 build_timeline(p, phase="lobby")["availability"], "truncated"
             )
+
+    def test_mentions_and_stdout_alone_do_not_establish_evidence_or_a_forecast(self):
+        with tempfile.TemporaryDirectory() as d:
+            file = Path(d) / "events.jsonl"
+            example = '{"p_blue_win":0.99,"p_blue_ahead_15":0.99}'
+            item = {
+                "type": "command_execution",
+                "id": "s1",
+                "command": "echo snapshot.json prediction.json; echo '" + example + "'",
+                "aggregated_output": example,
+                "exit_code": 0,
+            }
+            file.write_text(json.dumps({"type": "item.completed", "item": item}) + "\n")
+            data = build_timeline(file, phase="lobby")
+            self.assertFalse(data["steps"][0]["queries_snapshot"])
+            self.assertEqual(data["readbacks"], [])
+            self.assertEqual(data["checkpoints"], [])

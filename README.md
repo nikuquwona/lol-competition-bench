@@ -19,6 +19,8 @@
 
 第二条命令使用宿主 `DEEPSEEK_API_KEY` 调用 DeepSeek 官方付费 API。换用 `--harness claude` 可在同一环境运行 Claude Code。队徽来自[LoL Esports 官方赛事资源](evaluation/site_assets/teams/sources.json)。
 
+用 `./bench audit` 可离线核对这批原生轨迹、冻结输入与得分。逐题页可以展开完整 BP、定位到每次改判的工具调用，或复制地址分享某条原生消息。已抽查的模型陈述附有赛前证据。[五场轨迹核查](evaluation/ROLLOUT_REVIEW.md) · [赛事插画与摄影出处](evaluation/site_assets/media/sources.json)
+
 ## 从一场真实比赛看输入、预测与评分
 
 2026 世界赛四分之一决赛，KC 蓝方对 T1 红方，BO5 第二局。两个独立会话都能查 96 个历史小局，其中 KC 五名首发各有 19 局记录，T1 五名首发各有 6 局。比如检索 Faker 的过往出场，可以查到他在本系列第一局选过 Viktor。按本场 Fearless 规则，双方第二局都无法再选这个英雄。

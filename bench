@@ -11,6 +11,7 @@ COMMANDS = {
     "specs": "Validate and inspect task categories, background and instruction profiles",
     "build": "Build standalone Harbor tasks from archived games",
     "report": "Rebuild readable run reports and link native trajectories offline",
+    "audit": "Check the published five-game trajectories, evidence cutoffs and scores offline",
     "e2e": "Evaluate one native CLI and model on a release selection",
     "boundary": "Probe the isolated CLI workers on the two KC–T1 game-two snapshots",
     "init-game": "Create an editable lobby or ordered BP observation form",
@@ -57,6 +58,11 @@ try:
         main()
     elif cmd == "report":
         from evaluation.traces import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "audit":
+        from evaluation.rollout_audit import main
 
         del sys.argv[1]
         main()
