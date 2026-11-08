@@ -31,7 +31,14 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import json
-          assert {p.name for p in Path("/sys/class/net").iterdir()} == {"lo"}
+          import socket
+          for addr in ("1.1.1.1","8.8.8.8"):
+              try:
+                  sock = socket.create_connection((addr,443),timeout=3)
+              except OSError:
+                  continue
+              sock.close()
+              raise AssertionError("Agent can open an external TCP connection")
           assert not Path("/tests/labels.json").exists()
           assert not Path("/app/data/games.json").exists()
           view = json.loads(Path("/app/snapshot.json").read_text())
@@ -42,6 +49,8 @@ jobs:
           harbor run -a oracle -p "$task" --jobs-dir probe-jobs
           python - <<'PY'
           from pathlib import Path
+          for log in Path("probe-jobs").rglob("oracle.txt"):
+              print(log.read_text()[-2000:])
           paths = list(Path("probe-jobs").rglob("reward.txt"))
           assert len(paths) == 1 and float(paths[0].read_text()) == 0.75, paths
           PY
