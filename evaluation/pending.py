@@ -1,13 +1,16 @@
 """Run a frozen, unlabeled Harbor task and seal the submitted probabilities."""
 
 import argparse
+import json
 import os
 from pathlib import Path
 import shutil
 import subprocess
 
 from production.build import ROOT
-from production.intake import slug, submit, trusted_case, result_path
+from production.intake import submit
+from production.schema import slug
+from production.store import trusted_case, result_path
 from production.score import read_prediction
 from evaluation.cli.client import BIN
 
@@ -58,6 +61,14 @@ def main():
         env=env,
         check=True,
     )
+    (runtime,) = out.rglob("cli-run.json")
+    completed = json.loads(runtime.read_text())
+    if (completed["cli"], completed["requested_model"], completed["mode"]) != (
+        args.harness,
+        args.model,
+        mode,
+    ):
+        raise ValueError("Unexpected harness, model or run mode in receipt")
     forecasts = list(out.rglob("artifacts/app/prediction.json"))
     if len(forecasts) != 1:
         raise ValueError("Run did not produce exactly one forecast")

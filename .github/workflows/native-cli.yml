@@ -97,6 +97,9 @@ jobs:
           if [[ "$BENCH_MODE" = fixture ]]; then
             python -c 'import json; r=json.load(open("output/report.json")); assert all(t["prediction"]=={"p_blue_win":0.41,"p_blue_ahead_15":0.57} for t in r["trials"])'
           fi
+      - if: matrix.cli == 'codex' && inputs.mode == 'smoke'
+        name: Forecast and seal an unlabeled draft fixture
+        run: PYTHONPATH="$PWD" python tests/harbor_pending_smoke.py
       - if: always()
         uses: actions/upload-artifact@v4
         with:

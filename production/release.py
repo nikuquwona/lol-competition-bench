@@ -8,7 +8,8 @@ import tempfile
 from pathlib import Path
 
 from production.build import ROOT, eligible, snapshot, write_task
-from production.intake import digest, read, slug, settled_cases
+from production.store import digest, read, settled_cases
+from production.schema import slug
 
 
 def publish(out, version, intake=None):
