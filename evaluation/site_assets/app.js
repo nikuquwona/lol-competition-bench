@@ -1103,7 +1103,7 @@ function coverageCard(c) {
   );
 }
 async function trialDetail(root, id, key, signal) {
-  const { trial: t, artifacts = {} } = await json(
+  const { run, trial: t, artifacts = {} } = await json(
     baseApi(id) + "/trials/" + enc(key),
     signal,
   );
@@ -1132,7 +1132,7 @@ async function trialDetail(root, id, key, signal) {
     ),
     heading(
       title,
-      t.task,
+      [humanModel(run.model), harnessName(t.harness || run.harness), run.billing_source].filter(Boolean).join(" · "),
       [
         ...(boundary
           ? [["状态", display(t.status)]]

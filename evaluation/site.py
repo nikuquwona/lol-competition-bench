@@ -369,7 +369,11 @@ def make_handler(index):
                         )
                     )
                 return self.json(
-                    {"trial": trial, "artifacts": {k: path + "/" + k for k in mapped}}
+                    {
+                        "run": rec,
+                        "trial": trial,
+                        "artifacts": {k: path + "/" + k for k in mapped},
+                    }
                 )
             if parts[5] not in mapped:
                 return self.send_error(404)
