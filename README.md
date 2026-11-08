@@ -2,6 +2,8 @@
 
 给模型一场职业比赛在某一时点的资料，让它预测蓝方赢下本局的概率，以及蓝方在 15:00 经济领先的概率。同一小局在 **BP 前**和 **BP 锁定后**各出一题。两道题共享历史，模型使用独立会话。
 
+![LoL Competition Bench 框架图：按观测时间冻结比赛资料，模型通过 CLI 检索快照并提交两个概率，独立评分器读取赛后真值。](figures/lol-competition-bench-framework.png)
+
 当前回放版本 **replay-v2** 含 99 小局、198 道 Harbor 题。覆盖 26.17 的 LPL 资格赛及 26.20 的世界赛。打开一份[实际题面](datasets/sample-draft-lock.md)，可以看到参赛模型收到的完整指令。
 
 | 目录 | 职责 | 从这里看 |
@@ -12,7 +14,7 @@
 
 ## 先跑一题
 
-从仓库根目录使用 Python 3.12。已有合适解释器时可直接运行 `python3.12 bench simple`。使用 uv 的本机可以这样创建仓库专用环境：
+从仓库根目录直接运行 `./bench simple`。入口会查找本机可执行的 Python 3.12 或更高版本。也可显式使用 `python3.12 bench simple`，或用 uv 创建仓库专用环境：
 
 ```sh
 uv venv --python 3.12 .venv

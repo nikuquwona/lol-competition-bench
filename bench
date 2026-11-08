@@ -1,5 +1,7 @@
-#!/usr/bin/env python3
-"""LoL Competition Bench · operator commands"""
+#!/bin/sh
+"""exec" /bin/sh "$(dirname "$0")/evaluation/launch.sh" "$0" "$@"
+"""
+
 
 import sys
 
@@ -17,7 +19,7 @@ COMMANDS = {
 }
 
 if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
-    print(__doc__ + "\n\n  ./bench COMMAND --help\n")
+    print("LoL Competition Bench · operator commands\n\n  ./bench COMMAND --help\n")
     for k, v in COMMANDS.items():
         print(f"  {k:9} {v}")
     sys.exit()
