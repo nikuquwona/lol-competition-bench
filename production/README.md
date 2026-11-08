@@ -50,7 +50,7 @@ CASE=.work/intake/next-final-g1-draft-lock
 ./bench e2e --release .work/releases/replay-next --list --series next-final
 ```
 
-胜局用 `winner: blue/red`，`blue_gd15` 始终是蓝方减红方。可选 `players` 包含十行实名单局技术统计，每行使用 name、side、role、champion、k、d、a；缺失时只收录已知事实。有效时间顺序为 **冻结 ≤ 提交 < 实际开赛 ≤ 结果公布**，且公布时间不能在未来。两个时点的结果不得冲突；同一记录只能结算一次。结算会把迟交标成 ineligible。新发布包只纳入已结算的任务，并逐字沿用观测时冻结的题面及快照。新增版本不会改变原版。
+胜局用 `winner: blue/red`，`blue_gd15` 始终是蓝方减红方。可选 `players` 包含十行实名单局技术统计，每行使用 name、side、role、champion、k、d、a；缺失时只收录已知事实。有效时间顺序为 **冻结 ≤ 提交 < 实际开赛 ≤ 结果公布**，且公布时间不能在未来。一个小局只录入一次赛果；已冻结的 lobby 和 draft-lock 共用这条不可覆盖的结果，各自用原快照评分。如果只冻结过 lobby，可在赛果的可选 bp 字段中补上已经公开的完整禁选，供下一局 Fearless 校验；该信息不会写回 lobby 快照。结算会把迟交标成 ineligible。新发布包只纳入已结算的任务，并逐字沿用观测时冻结的题面及快照。新增版本不会改变原版。
 
 ## 历史从哪里来
 

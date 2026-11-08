@@ -35,6 +35,8 @@ def now():
 
 
 def instant(value):
+    if not isinstance(value, str):
+        raise ValueError("Expected an ISO-8601 timestamp")
     dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if dt.tzinfo is None:
         raise ValueError("Timestamp requires a UTC offset")
@@ -95,6 +97,8 @@ def source(url):
 
 def validate_observation(o):
     required = "event stage series n patch bo blue red starters draft_rule phase series_time observed_at source"
+    if not isinstance(o, dict):
+        raise ValueError("Observation must be an object")
     locked = o.get("phase") == "draft-lock"
     exact(o, required + (" bp" if locked else ""))
     if not locked and o["phase"] != "lobby":
@@ -102,7 +106,9 @@ def validate_observation(o):
     slug(o["series"])
     for k in ("event", "stage", "blue", "red"):
         name(o[k])
-    if not re.fullmatch(r"\d{1,2}\.\d{1,2}", o["patch"]):
+    if not isinstance(o["patch"], str) or not re.fullmatch(
+        r"\d{1,2}\.\d{1,2}", o["patch"]
+    ):
         raise ValueError("Invalid tournament patch")
     if (
         o["blue"] == o["red"]
@@ -127,28 +133,32 @@ def validate_observation(o):
     instant(o["series_time"])
     instant(o["observed_at"])
     if locked:
-        bp = o["bp"]
-        if not isinstance(bp, list) or len(bp) != 20:
-            raise ValueError("20 BP turns required")
-        first = bp[0]["side"]
-        if first not in SIDES:
-            raise ValueError("Invalid first side")
-        other = "red" if first == "blue" else "blue"
-        # Relative to first pick; the first side can be red.
-        pattern = FIRST_PICK_ORDER
-        champs = []
-        for n, (e, side) in enumerate(zip(bp, pattern), 1):
-            exact(e, "turn side action champion")
-            action = "ban" if n <= 6 or 13 <= n <= 16 else "pick"
-            if type(e["turn"]) != int or (e["turn"], e["side"], e["action"]) != (
-                n,
-                first if side == "A" else other,
-                action,
-            ):
-                raise ValueError(f"Invalid BP action at turn {n}")
-            champs.append(name(e["champion"]).casefold())
-        if len(set(champs)) != 20:
-            raise ValueError("A champion appears twice in BP")
+        validate_bp(o["bp"])
+
+
+def validate_bp(bp):
+    if not isinstance(bp, list) or len(bp) != 20:
+        raise ValueError("20 BP turns required")
+    exact(bp[0], "turn side action champion")
+    first = bp[0]["side"]
+    if first not in SIDES:
+        raise ValueError("Invalid first side")
+    other = "red" if first == "blue" else "blue"
+    # Relative to first pick; the first side can be red.
+    pattern = FIRST_PICK_ORDER
+    champs = []
+    for n, (e, side) in enumerate(zip(bp, pattern), 1):
+        exact(e, "turn side action champion")
+        action = "ban" if n <= 6 or 13 <= n <= 16 else "pick"
+        if type(e["turn"]) != int or (e["turn"], e["side"], e["action"]) != (
+            n,
+            first if side == "A" else other,
+            action,
+        ):
+            raise ValueError(f"Invalid BP action at turn {n}")
+        champs.append(name(e["champion"]).casefold())
+    if len(set(champs)) != 20:
+        raise ValueError("A champion appears twice in BP")
 
 
 def task_id(o):
@@ -166,25 +176,41 @@ def trusted_case(case):
     return manifest
 
 
+def result_path(case):
+    match = re.fullmatch(
+        r"([a-z0-9][a-z0-9-]{0,100}-g[1-7])-(?:draft-lock|lobby)", case.name
+    )
+    if not match:
+        raise ValueError("Expected a frozen game case")
+    return case.parent / "results" / (match[1] + ".json")
+
+
+def settled_cases(store):
+    for path in sorted((store / "results").glob("*.json")):
+        result = read(path)
+        for identifier, fingerprint in sorted(result["observations"].items()):
+            if Path(identifier).name != identifier:
+                raise ValueError("Invalid result reference")
+            case = store / identifier
+            meta = trusted_case(case)
+            if result_path(case) != path or meta["snapshot_sha256"] != fingerprint:
+                raise ValueError("Settled observation identity mismatch")
+            yield case, meta, result
+
+
 def history(store):
     games = read(BASE_HISTORY)
     seen = {(g["series"], g["n"]) for g in games}
-    for path in sorted(store.glob("*/result.json")):
-        case = path.parent
-        result = read(path)
-        meta = trusted_case(case)
-        if result["snapshot_sha256"] != meta["snapshot_sha256"]:
-            raise ValueError("Result identity mismatch")
+    for case, meta, result in settled_cases(store):
         view = read(case / "task/environment/snapshot.json")
         c = view["current"]
-        # Prefer the settled draft-lock track, which contains the full draft.
-        if view["phase"] != "draft-lock" or (c["series"], c["n"]) in seen:
+        if (c["series"], c["n"]) in seen:
             continue
         games.append(
             {
                 **c,
                 "series_time": view["series_time_utc"],
-                "bp": c["bp"],
+                "bp": result["bp"],
                 "players": result["players"],
                 "blue_win": result["winner"] == "blue",
                 "blue_gd15": result["blue_gd15"],
@@ -225,6 +251,44 @@ def history(store):
     return games
 
 
+def validate_predecessors(o, records):
+    if any(r["series"] == o["series"] and r["n"] >= o["n"] for r in records):
+        raise ValueError(
+            "The history store already contains this game or a later game in the series"
+        )
+    previous = [r for r in records if r["series"] == o["series"]]
+    if any(
+        {r["blue"], r["red"]} != {o["blue"], o["red"]} or r["bo"] != o["bo"]
+        for r in previous
+    ):
+        raise ValueError("Earlier series metadata disagrees")
+    # Manually appended observations carry a publication timestamp for the individual game.
+    if any(
+        r.get("game_published_at")
+        and instant(r["game_published_at"]) > instant(o["observed_at"])
+        for r in previous
+    ):
+        raise ValueError("Earlier game was unavailable at the stated cutoff")
+    if {r["n"] for r in previous} != set(range(1, o["n"])):
+        raise ValueError("Record the earlier games of this series first")
+    winners = [r["blue"] if r["blue_win"] else r["red"] for r in previous]
+    if any(winners.count(team) >= o["bo"] // 2 + 1 for team in (o["blue"], o["red"])):
+        raise ValueError("This series has already been won")
+    if o["phase"] == "draft-lock" and o["draft_rule"] == "Fearless":
+        if any(len(r["bp"]) != 20 for r in previous):
+            raise ValueError("A previous Fearless game is missing its full draft")
+        used = {
+            e["champion"].casefold()
+            for r in previous
+            for e in r["bp"]
+            if e["action"] == "pick"
+        }
+        if any(
+            e["champion"].casefold() in used for e in o["bp"] if e["action"] == "pick"
+        ):
+            raise ValueError("Previously picked champion in Fearless draft")
+
+
 def freeze(o, store):
     with store_lock(store):
         return _freeze(o, store)
@@ -237,6 +301,8 @@ def _freeze(o, store):
         raise ValueError("Observation is in the future")
     store.mkdir(parents=True, exist_ok=True)
     case = store / task_id(o)
+    if result_path(case).exists():
+        raise ValueError("Game already settled")
     if case.exists():
         raise FileExistsError(case)
     g = {
@@ -264,39 +330,12 @@ def _freeze(o, store):
             sorted(o["starters"][s]) != other["starters"][s] for s in SIDES
         ):
             raise ValueError("Lobby and draft identity disagree")
-        if (sibling / "result.json").exists():
-            raise ValueError("Game already settled")
+        if o["phase"] == "lobby":
+            raise ValueError("Cannot freeze a pre-draft lobby after draft lock")
+        if instant(trusted_case(sibling)["observed_at"]) > instant(o["observed_at"]):
+            raise ValueError("Draft lock precedes lobby observation")
     records = history(store)
-    if any(r["series"] == o["series"] and r["n"] >= o["n"] for r in records):
-        raise ValueError(
-            "The history store already contains this game or a later game in the series"
-        )
-    previous = [r for r in records if r["series"] == o["series"]]
-    if any(
-        {r["blue"], r["red"]} != {o["blue"], o["red"]} or r["bo"] != o["bo"]
-        for r in previous
-    ):
-        raise ValueError("Earlier series metadata disagrees")
-    # Manually appended observations carry a publication timestamp for the individual game.
-    if any(
-        r.get("game_published_at")
-        and instant(r["game_published_at"]) > instant(o["observed_at"])
-        for r in previous
-    ):
-        raise ValueError("Earlier game was unavailable at the stated cutoff")
-    if {r["n"] for r in previous} != set(range(1, o["n"])):
-        raise ValueError("Record the earlier games of this series first")
-    if o["phase"] == "draft-lock" and o["draft_rule"] == "Fearless":
-        used = {
-            e["champion"].casefold()
-            for r in previous
-            for e in r["bp"]
-            if e["action"] == "pick"
-        }
-        if any(
-            e["champion"].casefold() in used for e in o["bp"] if e["action"] == "pick"
-        ):
-            raise ValueError("Previously picked champion in Fearless draft")
+    validate_predecessors(o, records)
     view = snapshot(records, g, o["phase"])
     view["observed_at_utc"] = instant(o["observed_at"]).isoformat()
     with tempfile.TemporaryDirectory(dir=store) as temp:
@@ -324,7 +363,7 @@ def submit(case, entrant, prediction):
 
 def _submit(case, entrant, prediction):
     meta = trusted_case(case)
-    if (case / "result.json").exists():
+    if result_path(case).exists():
         raise ValueError("Already settled")
     if (
         not isinstance(prediction, dict)
@@ -353,7 +392,8 @@ def _settle(case, r):
     exact(
         r,
         "id winner blue_gd15 game_started_at published_at source"
-        + (" players" if "players" in r else ""),
+        + (" players" if "players" in r else "")
+        + (" bp" if "bp" in r else ""),
     )
     meta = trusted_case(case)
     if r["id"] != meta["id"] or r["winner"] not in SIDES or type(r["blue_gd15"]) != int:
@@ -362,8 +402,29 @@ def _settle(case, r):
     if not instant(meta["frozen_at"]) < start <= published <= now():
         raise ValueError("Require freeze < game start <= publication <= current time")
     source(r["source"])
+    view = read(case / "task/environment/snapshot.json")
+    c = view["current"]
+    captures = {}
+    actual_bp = r.get("bp", [])
+    for phase in ("lobby", "draft-lock"):
+        sibling = case.parent / task_id({**c, "phase": phase})
+        if not sibling.is_dir():
+            continue
+        observation = trusted_case(sibling)
+        if instant(observation["frozen_at"]) >= start:
+            raise ValueError("An observation was frozen after game start")
+        captures[sibling.name] = observation["snapshot_sha256"]
+        if phase == "draft-lock":
+            locked = read(sibling / "task/environment/snapshot.json")["current"]["bp"]
+            if actual_bp and actual_bp != locked:
+                raise ValueError("Result conflicts with frozen BP")
+            actual_bp = locked
+    if actual_bp:
+        validate_bp(actual_bp)
     players = r.get("players", [])
     view = read(case / "task/environment/snapshot.json")
+    if not isinstance(players, list):
+        raise ValueError("Box scores must be an array")
     if players:
         c = view["current"]
         if len(players) != 10:
@@ -380,40 +441,29 @@ def _settle(case, r):
             name(p["champion"])
         if len({p["name"] for p in players}) != 10:
             raise ValueError("Duplicate player")
-        if "bp" in c:
+        if actual_bp:
             for side in SIDES:
                 if {p["champion"] for p in players if p["side"] == side} != {
                     e["champion"]
-                    for e in c["bp"]
+                    for e in actual_bp
                     if e["side"] == side and e["action"] == "pick"
                 }:
                     raise ValueError("Box score champions disagree with BP")
-    other_phase = "lobby" if view["phase"] == "draft-lock" else "draft-lock"
-    other = (
-        case.parent / task_id({**view["current"], "phase": other_phase}) / "result.json"
-    )
-    if other.exists():
-        prior = read(other)
-        if (
-            prior["winner"] != r["winner"]
-            or prior["blue_gd15"] != r["blue_gd15"]
-            or instant(prior["game_started_at"]) != start
-        ):
-            raise ValueError("Result conflicts with the other phase")
     result = {
         **r,
+        "observations": captures,
+        "bp": actual_bp,
         "players": players,
         "published_at": published.isoformat(),
-        "snapshot_sha256": meta["snapshot_sha256"],
     }
-    put_once(case / "result.json", result)
+    put_once(result_path(case), result)
     return standings(case)
 
 
 def standings(case):
     meta = trusted_case(case)
-    r = read(case / "result.json")
-    if r["snapshot_sha256"] != meta["snapshot_sha256"]:
+    r = read(result_path(case))
+    if r["observations"].get(case.name) != meta["snapshot_sha256"]:
         raise ValueError("Result identity mismatch")
     labels = dict(
         p_blue_win=int(r["winner"] == "blue"), p_blue_ahead_15=int(r["blue_gd15"] > 0)
@@ -485,8 +535,7 @@ def history_add(doc, store):
         result_source=doc["result_source"],
     )
     with store_lock(store):
-        if any(r["series"] == g["series"] and r["n"] == g["n"] for r in history(store)):
-            raise ValueError("Historical game already exists")
+        validate_predecessors(o, history(store))
         if any(
             (store / task_id({**o, "phase": phase})).exists()
             for phase in ("lobby", "draft-lock")

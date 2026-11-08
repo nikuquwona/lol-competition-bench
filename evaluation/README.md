@@ -18,7 +18,7 @@
   --phase draft-lock --limit 2 --out .work/pi-first-two
 ```
 
-`report.json` 记录 release、包 SHA-256、model、harness、mode、backend、完整任务计划和逐题结果。逐题记录包含 phase、补丁、输入及题面指纹、预测概率、两项 Brier、reward 或失败原因。报告随每题原子更新；任务全部结束后才写入 summary 与按时点汇总。分母包含失败题。按系列赛做统计推断时，多个小局及同局两个时点并非独立样本。
+`report.json` 记录 release、包 SHA-256、model、harness、mode、backend、完整任务计划和逐题结果。逐题记录包含 phase、补丁、输入及题面指纹、预测概率、两项 Brier、reward 或失败原因。报告随每题原子更新；任务全部结束后才写入 summary 与按时点汇总。分母包含失败题。长任务可用相同参数、相同 --out 并加 --resume 恢复；已成功或已失败的题保留首轮结果，已开始但中断的题记为 interrupted，继续运行尚未启动的题。按系列赛做统计推断时，多个小局及同局两个时点并非独立样本。
 
 ### 运行环境
 

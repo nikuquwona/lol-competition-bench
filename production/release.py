@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 from production.build import ROOT, eligible, snapshot, write_task
-from production.intake import digest, read, slug, trusted_case
+from production.intake import digest, read, slug, settled_cases
 
 
 def publish(out, version, intake=None):
@@ -58,12 +58,7 @@ def publish(out, version, intake=None):
         if intake is not None:
             if not intake.is_dir():
                 raise ValueError(f"Unknown intake directory: {intake}")
-            for path in sorted(intake.glob("*/result.json")):
-                case = path.parent
-                m = trusted_case(case)
-                r = read(path)
-                if r["snapshot_sha256"] != m["snapshot_sha256"]:
-                    raise ValueError("Result digest mismatch")
+            for case, m, r in settled_cases(intake):
                 view = read(case / "task/environment/snapshot.json")
                 add(
                     m["id"],

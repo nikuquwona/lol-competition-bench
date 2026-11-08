@@ -1,5 +1,6 @@
-import copy
 import json
+import subprocess
+import sys
 import tempfile
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -148,14 +149,33 @@ class Pipeline(unittest.TestCase):
         with self.assertRaises(ValueError):
             trusted_case(c)
 
+    def test_shared_game_result_and_phase_order(self):
+        locked = observation()
+        lobby = {k: v for k, v in locked.items() if k != "bp"}
+        lobby["phase"] = "lobby"
+        a = freeze(lobby, self.store)
+        b = freeze(locked, self.store)
+        submit(a, "same-entrant", {"p_blue_win": 0.4, "p_blue_ahead_15": 0.5})
+        submit(b, "same-entrant", {"p_blue_win": 0.3, "p_blue_ahead_15": 0.5})
+        self.clock.return_value = NOW + timedelta(hours=2)
+        settle(b, self.result(b))
+        self.assertEqual(standings(a)[0]["status"], "scored")
+        self.assertNotEqual(standings(a)[0]["reward"], standings(b)[0]["reward"])
+        with self.assertRaises(FileExistsError):
+            settle(a, self.result(a))
+        self.assertEqual(
+            len([g for g in history(self.store) if g["series"] == locked["series"]]), 1
+        )
+
     def test_history_backfill_embargo(self):
         for n in (1, 2):
             o = observation(n)
+            o["observed_at"] = (NOW + timedelta(hours=n - 1)).isoformat()
             doc = dict(
                 observation=o,
                 winner="blue",
                 blue_gd15=100,
-                game_started_at=NOW.isoformat(),
+                game_started_at=o["observed_at"],
                 published_at=(NOW + timedelta(hours=n)).isoformat(),
                 result_source="https://example.org/score",
             )
@@ -171,6 +191,42 @@ class Pipeline(unittest.TestCase):
                 for g in added
             )
         )
+
+    def test_resume_does_not_rerun_an_attempt(self):
+        out = self.base / "run"
+        cmd = [
+            sys.executable,
+            str(ROOT / "bench"),
+            "simple",
+            "--series",
+            "worlds-2026-main-event-quarterfinals-4",
+            "--game",
+            "2",
+            "--out",
+            str(out),
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
+        first = read(out / "report.json")
+        self.assertEqual(first["summary"]["scored"], 2)
+        first["trials"][0] = {
+            "task": first["planned"][0],
+            "phase": "draft-lock",
+            "status": "started",
+        }
+        first["trials"] = first["trials"][:1]
+        (out / "report.json").write_text(json.dumps(first))
+        result = subprocess.run([*cmd, "--resume"], capture_output=True)
+        self.assertEqual(result.returncode, 1)
+        final = read(out / "report.json")
+        self.assertEqual(final["summary"]["statuses"], {"interrupted": 1, "scored": 1})
+        original = (out / "report.json").read_bytes()
+        self.assertNotEqual(
+            subprocess.run(
+                [*cmd, "--limit", "1", "--resume"], capture_output=True
+            ).returncode,
+            0,
+        )
+        self.assertEqual(original, (out / "report.json").read_bytes())
 
     def test_archive_checksum_and_failure_denominator(self):
         manifest, rows = select(DEFAULT_RELEASE, [SAMPLE])

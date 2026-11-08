@@ -7,7 +7,7 @@ import shutil
 import subprocess
 
 from production.build import ROOT
-from production.intake import slug, submit, trusted_case
+from production.intake import slug, submit, trusted_case, result_path
 from production.score import read_prediction
 from evaluation.cli.client import BIN
 
@@ -22,9 +22,10 @@ def main():
     args = parser.parse_args()
     trusted_case(args.case)
     entrant = slug(args.entrant)
-    if (args.case / "result.json").exists() or (
-        args.case / "receipts" / (entrant + ".json")
-    ).exists():
+    if (
+        result_path(args.case).exists()
+        or (args.case / "receipts" / (entrant + ".json")).exists()
+    ):
         raise ValueError("Case has settled or entrant has already submitted")
     mode = "vendor" if args.harness == "cursor" else "live"
     credential = "CURSOR_API_KEY" if mode == "vendor" else "DEEPSEEK_API_KEY"

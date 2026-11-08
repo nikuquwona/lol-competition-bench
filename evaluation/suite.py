@@ -1,6 +1,8 @@
 """Select tasks from one pinned release, run a model/harness pair, and account for every trial."""
 
 import argparse
+import fcntl
+import math
 import hashlib
 import json
 import os
@@ -152,6 +154,8 @@ def evaluate(a):
     if a.list:
         print("\n".join(r["id"] for r in rows))
         return
+    if a.resume and a.out is None:
+        raise ValueError("--resume requires --out")
     if a.out is None:
         a.out = ROOT / ".work/runs" / str(uuid.uuid4())
     mode = a.mode
@@ -168,7 +172,15 @@ def evaluate(a):
         if secret and not os.getenv(secret):
             raise ValueError("Missing runner credential: " + secret)
     a.out = a.out.resolve()
-    a.out.mkdir(parents=True, exist_ok=False)
+    if not a.resume:
+        a.out.mkdir(parents=True, exist_ok=False)
+    with (a.out / ".lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        run_selection(a, manifest, rows)
+
+
+def run_selection(a, manifest, rows):
+    mode = a.mode
     report = dict(
         release=manifest["version"],
         archive_sha256=manifest["sha256"],
@@ -179,14 +191,34 @@ def evaluate(a):
         planned=[r["id"] for r in rows],
         trials=[],
     )
+    if a.resume:
+        saved = json.loads((a.out / "report.json").read_text())
+        if any(report[k] != saved.get(k) for k in report if k != "trials"):
+            raise ValueError(
+                "Resume requires the original release, selection, backend, harness and model"
+            )
+        report["trials"] = saved["trials"]
+        attempted = [r["task"] for r in report["trials"]]
+        if attempted != report["planned"][: len(attempted)]:
+            raise ValueError("Invalid checkpoint sequence")
+        for record in report["trials"]:
+            if record["status"] == "started":
+                record.update(
+                    status="interrupted",
+                    reward=0,
+                    error="Interrupted after attempt began",
+                )
+    remaining = rows[len(report["trials"]) :]
     write_report(a.out, report)
     with (
         tempfile.TemporaryDirectory(prefix="lol-suite-") as tmp,
-        suite_image(a.harness, len(rows) > 1 and a.backend == "harbor") as image_env,
+        suite_image(
+            a.harness, len(remaining) > 1 and a.backend == "harbor"
+        ) as image_env,
     ):
         directory = Path(tmp)
-        unpack(a.release, manifest, rows, directory)
-        for r in rows:
+        unpack(a.release, manifest, remaining, directory)
+        for r in remaining:
             task = directory / r["id"]
             record = {
                 "task": r["id"],
@@ -195,6 +227,9 @@ def evaluate(a):
                 "prompt_sha256": r["prompt_sha256"],
                 "snapshot_sha256": r["snapshot_sha256"],
             }
+            record["status"] = "started"
+            report["trials"].append(record)
+            write_report(a.out, report)
             try:
                 if mode == "baseline":
                     pred = predict(
@@ -252,7 +287,12 @@ def evaluate(a):
                 measured = report_row(task, pred)
                 if mode != "baseline" and a.backend == "harbor":
                     (reward,) = jobs.rglob("verifier/reward.txt")
-                    if abs(float(reward.read_text()) - measured["reward"]) > 1e-12:
+                    if not math.isclose(
+                        float(reward.read_text()),
+                        measured["reward"],
+                        rel_tol=0,
+                        abs_tol=1e-12,
+                    ):
                         raise ValueError("Harbor reward mismatch")
                 record.update(measured)
             except (
@@ -262,7 +302,6 @@ def evaluate(a):
                 subprocess.SubprocessError,
             ) as exc:
                 record.update(status="failed", reward=0, error=str(exc))
-            report["trials"].append(record)
             write_report(a.out, report)
     report["summary"] = summary(report["trials"])
     report["by_phase"] = {
@@ -280,6 +319,11 @@ def main(simple=False):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--release", type=Path, default=DEFAULT_RELEASE)
     p.add_argument("--out", type=Path)
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="Continue unstarted tasks from the same report",
+    )
     p.add_argument("--task", action="append", default=[])
     p.add_argument("--series")
     p.add_argument("--game", type=int)
