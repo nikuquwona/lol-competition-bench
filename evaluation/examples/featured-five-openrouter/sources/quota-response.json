@@ -1,0 +1,1 @@
+{"endpoint":"https://openrouter.ai/api/v1/responses","http_status":429,"model":"nvidia/nemotron-3.5-lightning:free","message":"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day","headers":{"X-RateLimit-Limit":"50","X-RateLimit-Remaining":"0","X-RateLimit-Reset":"1794182400000"},"retry_after":null}

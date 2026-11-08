@@ -114,3 +114,18 @@ macOS 已安装同版本 Codex 时，可用 `--backend macos --harness codex --m
 运行 `./bench serve`，在浏览器打开 `http://127.0.0.1:8765`。服务绑定本机回环地址；可用 `--port` 换端口，重复使用 `--runs-dir` 索引自己的报告根目录。新题集若保存在仓库外，用 `--datasets-dir <发布包父目录>` 加入组织者信任的归档，榜单会核对摘要并重算得分。首页按发布包、题号集合、执行后端和赛道展示排名。运行记录可以打开每道题的模型输入、工具命令与回显、预测和评分。边界探测与固定回复验收会标明类型。
 
 每次评测写出 `report.json` 后，站点下一次读取即可看到。支持导出全榜 CSV、单轮 JSON、逐题 CSV、单项证据文件和该轮的完整 ZIP 包。ZIP 保留相对路径，可以离线打开 `report.md` 继续浏览。要生成完整 198 题的离线参照，运行 `./bench simple --all`。题目覆盖、失败计分、重复运行与新榜单的接入规则见[榜单规范](RANKING.md)。
+
+## 固定五场样例
+
+`featured-five` 含 5 个不同小局和 10 个阶段任务，选取时只使用赛程和队伍信息。同一题单可用于 `simple`、`e2e` 或只读的 `--list`。它固定发布归档 SHA-256，便于比较不同 harness。小样本结果独立于全题集排行榜。[具体题号和抽样规则](suites/featured-five.json)
+
+```sh
+./bench e2e --suite featured-five --list
+./bench simple --suite featured-five
+./bench e2e --suite featured-five --backend macos --mode openrouter-free \
+  --harness codex --model nvidia/nemotron-3.5-lightning:free
+```
+
+[Codex 免费模型的原生轨迹与覆盖记录](examples/featured-five-openrouter/report.md)分别列出成功交卷、上游拒绝和未启动的任务。每个真实试验都有事件文件指纹、来源报告指纹和冻结输入指纹。可用 `python -m unittest discover -s tests -p test_featured_suite.py` 离线验证，含逐题重算成功提交的分数。
+
+如需合并同配置、同题集、互不重叠的小批次，可在组织者侧用 `python -m evaluation.assemble --suite featured-five --source <第一批运行目录> --source <第二批运行目录> --out <新的目录>`。汇集器会核验发布包、CLI 回执、各题指纹和赛后真值，并拒绝重复尝试。全新复跑整组则用上面的 `--suite featured-five` 命令。

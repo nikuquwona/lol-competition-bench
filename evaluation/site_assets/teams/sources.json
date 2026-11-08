@@ -1,0 +1,42 @@
+{
+  "Bilibili Gaming": {
+    "file": "bilibili-gaming.png",
+    "source": "https://static.lolesports.com/teams/1682322954525_Bilibili_Gaming_logo_20211.png"
+  },
+  "FURIA": {
+    "file": "furia.png",
+    "source": "https://static.lolesports.com/teams/FURIA---black.png"
+  },
+  "Invictus Gaming": {
+    "file": "invictus-gaming.png",
+    "source": "https://static.lolesports.com/teams/1634762917340_300px-Invictus_Gaming_logo.png"
+  },
+  "Karmine Corp": {
+    "file": "karmine-corp.png",
+    "source": "https://static.lolesports.com/teams/1704714951336_KC.png"
+  },
+  "LYON": {
+    "file": "lyon.png",
+    "source": "https://static.lolesports.com/teams/1743717443673_isotypelyon-03.png"
+  },
+  "LØS": {
+    "file": "los.png",
+    "source": "https://static.lolesports.com/teams/1784013312149_LOS-OLaranja.png"
+  },
+  "MVK Esports": {
+    "file": "mvk-esports.png",
+    "source": "https://static.lolesports.com/teams/1767089709161_White_Logo.png"
+  },
+  "Movistar KOI": {
+    "file": "movistar-koi.png",
+    "source": "https://static.lolesports.com/teams/1734012609283_MKOI_FullColor_Blue.png"
+  },
+  "T1": {
+    "file": "t1.png",
+    "source": "https://static.lolesports.com/teams/1726801573959_539px-T1_2019_full_allmode.png"
+  },
+  "Top Esports": {
+    "file": "top-esports.png",
+    "source": "https://static.lolesports.com/teams/1592592064571_TopEsportsTES-01-FullonDark.png"
+  }
+}

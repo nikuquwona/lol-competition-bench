@@ -14,6 +14,7 @@ import subprocess
 import tempfile
 import threading
 
+from evaluation.cli.client import claude_command, claude_environment, codex_command
 from evaluation.cli.gateway import Handler, MAX_CALLS
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -79,7 +80,10 @@ def run(
     model=MODEL,
     fixture=False,
     openrouter_free=False,
+    harness="codex",
 ):
+    if harness not in ("codex", "claude"):
+        raise ValueError("Unsupported native macOS CLI")
     out.mkdir(parents=True, exist_ok=False)
     task = task or TASKS / (PREFIX + phase)
     token = secrets.token_hex(24)
@@ -87,7 +91,10 @@ def run(
 
     class Relay(Handler):
         def do_POST(self):
-            if self.headers.get("Authorization") != "Bearer " + token:
+            if (
+                self.headers.get("Authorization") != "Bearer " + token
+                and self.headers.get("x-api-key") != token
+            ):
                 return self.send_error(403)
             super().do_POST()
 
@@ -96,7 +103,9 @@ def run(
             return super().send_response(code, message)
 
     with (
-        tempfile.TemporaryDirectory(prefix="lol-codex-", dir="/private/tmp") as temp,
+        tempfile.TemporaryDirectory(
+            prefix=f"lol-{harness}-", dir="/private/tmp"
+        ) as temp,
         http.server.ThreadingHTTPServer(("127.0.0.1", 0), Relay) as srv,
     ):
         root = Path(temp)
@@ -109,7 +118,7 @@ def run(
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         for folder in ("app", "home", "tmp", "codex-home", "bin"):
             (root / folder).mkdir()
-        exe = root / "bin/codex"
+        exe = root / "bin" / harness
         shutil.copy2(binary, exe)
         work = root / "app"
         src = task / "environment/snapshot.json"
@@ -126,6 +135,15 @@ def run(
             "BENCH_DUMMY_KEY": token,
             "ZDOTDIR": str(root / "home"),
         }
+        base = f"http://127.0.0.1:{port}"
+        if harness == "claude":
+            env.update(claude_environment(base, token, model))
+            env.update(
+                CLAUDE_CONFIG_DIR=str(root / "home" / ".claude"),
+                CLAUDE_CODE_TMPDIR=str(root / "tmp"),
+                CLAUDE_TMPDIR=str(root / "tmp"),
+                DISABLE_AUTOUPDATER="1",
+            )
         seat = ["/usr/bin/sandbox-exec", "-D", f"RUN={root}", "-f", str(profile)]
         with http.server.HTTPServer(
             ("127.0.0.1", 0), http.server.BaseHTTPRequestHandler
@@ -152,7 +170,13 @@ def run(
         version = subprocess.check_output(
             [*seat, str(exe), "--version"], cwd=work, env=env, text=True, timeout=20
         ).strip()
-        if version != "codex-cli 0.167.0":
+        if (
+            version
+            not in {
+                "codex": ("codex-cli 0.167.0",),
+                "claude": ("2.1.270 (Claude Code)", "2.1.319 (Claude Code)"),
+            }[harness]
+        ):
             raise ValueError("Unexpected CLI version " + version)
         if check_only:
             print(version, probe.stdout.strip(), flush=True)
@@ -168,29 +192,12 @@ def run(
                 "Only use Python standard library or shell tools.\n"
             )
         (out / "instruction.md").write_text(prompt)
-        args = [
-            str(exe),
-            "exec",
-            "--json",
-            "--skip-git-repo-check",
-            "--ephemeral",
-            "--dangerously-bypass-approvals-and-sandbox",
-            "-m",
-            model,
-            "-c",
-            'web_search="disabled"',
-            "-c",
-            'model_provider="bench"',
-            "-c",
-            'model_providers.bench.name="bench"',
-            "-c",
-            f'model_providers.bench.base_url="http://127.0.0.1:{port}/v1"',
-            "-c",
-            'model_providers.bench.wire_api="responses"',
-            "-c",
-            'model_providers.bench.env_key="BENCH_DUMMY_KEY"',
-            prompt,
-        ]
+        args = (
+            claude_command(model, prompt)
+            if harness == "claude"
+            else codex_command(base, model, prompt)
+        )
+        args[0] = str(exe)
         try:
             with (
                 (out / "trajectory.jsonl").open("w") as trace,

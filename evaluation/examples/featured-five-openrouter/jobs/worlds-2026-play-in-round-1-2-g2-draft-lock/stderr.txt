@@ -1,0 +1,4 @@
+Reading additional input from stdin...
+2026-11-08T17:38:50.121383Z ERROR codex_core::tools::router: error=unable to process image: invalid or unsupported image data
+2026-11-08T17:38:52.256239Z ERROR codex_core::tools::router: error=`justification` requires an explicit `sandbox_permissions`; use `sandbox_permissions: "require_escalated"` for unsandboxed execution, or omit `justification`.
+2026-11-08T17:38:54.154015Z ERROR codex_core::tools::router: error=approval policy is Never; reject command — you cannot ask for escalated permissions if the approval policy is Never

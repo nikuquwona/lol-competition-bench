@@ -18,6 +18,7 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 
 from evaluation.traces import attach, overview
+from evaluation.selections import suite_ids, suite_names
 from evaluation.baseline import predict
 from evaluation.cli.client import BIN
 from evaluation.cli.gateway import credential_name, free_model
@@ -203,6 +204,22 @@ def suite_image(harness, enabled):
 
 
 def evaluate(a):
+    if a.suite:
+        if any(
+            (
+                a.task,
+                a.series,
+                a.game,
+                a.phase,
+                a.patch,
+                a.limit,
+                getattr(a, "all", False),
+            )
+        ):
+            raise ValueError(
+                "--suite selects a complete named task set; choose it alone"
+            )
+        a.task = suite_ids(a.suite, a.release)
     manifest, rows = select(
         a.release, a.task, a.phase, a.patch, a.limit, a.series, a.game
     )
@@ -218,10 +235,11 @@ def evaluate(a):
         if not a.harness or not a.model:
             raise ValueError("Provide --harness and --model")
         if a.backend == "macos" and (
-            a.harness != "codex" or mode not in ("live", "fixture", "openrouter-free")
+            a.harness not in ("codex", "claude")
+            or mode not in ("live", "fixture", "openrouter-free")
         ):
             raise ValueError(
-                "macos backend supports Codex in live, openrouter-free or fixture mode"
+                "macos backend supports Codex and Claude Code in live, openrouter-free or fixture mode"
             )
         if a.backend == "harbor" and not shutil.which("harbor"):
             raise ValueError("Install harbor==0.25.0 on the isolated runner")
@@ -252,6 +270,8 @@ def run_selection(a, manifest, rows):
         planned=[r["id"] for r in rows],
         trials=[],
     )
+    if a.suite:
+        report["suite"] = a.suite
     if "protocol_sha256" in manifest:
         report["protocol_sha256"] = manifest["protocol_sha256"]
         report["task_spec_id"] = manifest["task_spec"]["id"]
@@ -303,9 +323,9 @@ def run_selection(a, manifest, rows):
                     from evaluation.cli.macos_pair import run
 
                     cli_dir = a.out / "jobs" / r["id"]
-                    binary = shutil.which("codex")
+                    binary = shutil.which(a.harness)
                     if not binary:
-                        raise ValueError("Missing Codex CLI")
+                        raise ValueError(f"Missing {a.harness} CLI")
                     run(
                         r["phase"],
                         cli_dir,
@@ -313,6 +333,7 @@ def run_selection(a, manifest, rows):
                         False,
                         False,
                         task=task,
+                        harness=a.harness,
                         model=a.model,
                         fixture=mode == "fixture",
                         openrouter_free=mode == "openrouter-free",
@@ -393,6 +414,11 @@ def main(simple=False):
         help="Continue unstarted tasks from the same report",
     )
     p.add_argument("--task", action="append", default=[])
+    p.add_argument(
+        "--suite",
+        choices=suite_names(),
+        help="Use a published, release-pinned task set",
+    )
     p.add_argument("--series")
     p.add_argument("--game", type=int)
     p.add_argument("--phase", choices=["lobby", "draft-lock"])
@@ -419,7 +445,9 @@ def main(simple=False):
     if (
         simple
         and not a.all
-        and not any((a.task, a.series, a.game, a.phase, a.patch, a.limit, a.list))
+        and not any(
+            (a.task, a.series, a.game, a.phase, a.patch, a.limit, a.list, a.suite)
+        )
     ):
         a.task = [SAMPLE]
     evaluate(a)

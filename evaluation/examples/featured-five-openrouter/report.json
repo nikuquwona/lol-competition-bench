@@ -1,0 +1,1240 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "codex",
+  "model": "nvidia/nemotron-3.5-lightning:free",
+  "mode": "openrouter-free",
+  "backend": "macos",
+  "suite": "featured-five",
+  "planned": [
+    "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+    "lpl-2026-regional-finals-round-1-1-g2-lobby",
+    "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+    "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+    "worlds-2026-main-event-round-1-3-g1-draft-lock",
+    "worlds-2026-main-event-round-1-3-g1-lobby",
+    "worlds-2026-main-event-round-5-2-g2-draft-lock",
+    "worlds-2026-main-event-round-5-2-g2-lobby",
+    "worlds-2026-play-in-round-1-2-g2-draft-lock",
+    "worlds-2026-play-in-round-1-2-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "prompt_sha256": "42876f6f1f87de8bcc456f44117a5a8fee705399b84cdcd72941163178fdd5a0",
+      "snapshot_sha256": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "draft-lock",
+        "snapshot_sha256": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.56,
+        "p_blue_ahead_15": 0.38
+      },
+      "reward": 0.7709999999999999,
+      "brier": {
+        "p_blue_win": 0.31360000000000005,
+        "p_blue_ahead_15": 0.1444
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 15,
+        "shell_commands": 4,
+        "token_usage": {
+          "input_tokens": 103495,
+          "cached_input_tokens": 75456,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 12719,
+          "reasoning_output_tokens": 11255
+        },
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/prediction.json",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "d370f71a51e7431348deb5242f06b52a79b3b89b92ebf6e616e8a6b337301b16",
+        "source_report_sha256": "7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b",
+        "source_report": "sources/7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b.json",
+        "files_sha256": {
+          "instruction.md": "ac09072dc540d23a3b4436f3addff316097085b2bf807d94fb3818434482309e",
+          "prediction.json": "8ed2a77d4886a15dcd84588746ab917ab38c74901a5e847188159a08fb8bf508",
+          "run.json": "94dfa7707a04a46df4e6dc704775f35563fbdb1d31c9b096bfacc34c4b492228",
+          "stderr.txt": "11f01c494f66f4fe1b01910795ae63ace695e8971a336a7fa40cd0a54f03dd8a",
+          "trajectory.jsonl": "909d419d53ae6bf40851efd3065de3654862e9a22b3b83cdb8d2b67d68a28c81",
+          "snapshot.json": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134"
+        }
+      }
+    },
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-lobby",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.17",
+      "prompt_sha256": "f208a2d6f7ee0a6cb85b9672d7b09b5a6ef6e08b6cdc326274f93aee97c2ac34",
+      "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+      "status": "failed",
+      "reward": 0,
+      "error": "lobby: CLI exit 1, HTTP statuses [200, 200, 200, 200, 200, 429]",
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 15,
+        "shell_commands": 4,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/stderr.txt",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/transcript.md"
+        }
+      },
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "lobby",
+        "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 429,
+            "detail": null
+          }
+        ]
+      },
+      "failure_class": "provider_daily_quota",
+      "unsettled_draft": {
+        "native_event": "item_6",
+        "values": {
+          "p_blue_win": 0.6,
+          "p_blue_ahead_15": 0.45
+        }
+      },
+      "origin": {
+        "trial_id": "1f36bad12452003f21e8042366ceb52656d34bb2a7299a0abbc2c0a253a939c8",
+        "source_report_sha256": "7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b",
+        "source_report": "sources/7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b.json",
+        "files_sha256": {
+          "instruction.md": "b1f8499fa2059404c68735945a7b76daba06210f721466ed4b85c30a50edde65",
+          "run.json": "112dcda2cce27eaa62c66e43b1ef16369376b6a3af03389d08898638fe91a206",
+          "stderr.txt": "c7e7ae91354c0c499ca8ad7f558d9c98e7991ee804dafbc42bae3cdbd16d00ae",
+          "trajectory.jsonl": "07294f2fcc8fbebe0cf880d0fcc01d2689a99ca52c08f4c3eba678dddbe9eba8",
+          "snapshot.json": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "68dac889a49706e24acfc74ab4a60080a77e39a08f04984a4b5ed1c148d2e223",
+      "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "draft-lock",
+        "snapshot_sha256": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.6,
+        "p_blue_ahead_15": 0.55
+      },
+      "reward": 0.66875,
+      "brier": {
+        "p_blue_win": 0.36,
+        "p_blue_ahead_15": 0.30250000000000005
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 32,
+        "shell_commands": 12,
+        "failed_commands": 3,
+        "token_usage": {
+          "input_tokens": 328776,
+          "cached_input_tokens": 291344,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 17851,
+          "reasoning_output_tokens": 8829
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "6b3fa9af5d83fa9f9c9d662e1c7535f17ef8e45bf7387a341ff79927f6fcb4e6",
+        "source_report_sha256": "ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c",
+        "source_report": "sources/ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c.json",
+        "files_sha256": {
+          "instruction.md": "dee336fd6e39e885d4eec363396c5fc466c862ab249a0846ab1d70ff995222d4",
+          "prediction.json": "84bb9eee393c431fbf544728acf40d89c8da8bd9732ee71967871bdc59566423",
+          "run.json": "12ad03ce4aa0a188b3cb54cc64922d8519e9becf241dc21faea6ddc595603a84",
+          "stderr.txt": "b0c5a464fae9343df9104ea4e96b34394500f68f36e63a9b619c4000406b742c",
+          "trajectory.jsonl": "d2f3ad7f8cfaad95948c9b02752565321836ad9057e1cc752515f911e36a9d0b",
+          "snapshot.json": "6f147aad492f9d485894c3ccec6e8e0478192f04c8f5a06033aff469e7fe11a7"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+      "coverage": {
+        "history_games": 96,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Busio",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Caliste",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Canna",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Kyeahoo",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "blue",
+            "name": "Yike",
+            "games": 19,
+            "same_patch_games": 19
+          },
+          {
+            "side": "red",
+            "name": "Doran",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Faker",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Keria",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Oner",
+            "games": 6,
+            "same_patch_games": 6
+          },
+          {
+            "side": "red",
+            "name": "Peyz",
+            "games": 6,
+            "same_patch_games": 6
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "4c7bb5e75c3e77dbc38dd1b0b8fac939faa0d8cafdf59b8f7d4049ccabc909d0",
+      "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "lobby",
+        "snapshot_sha256": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.45,
+        "p_blue_ahead_15": 0.55
+      },
+      "reward": 0.7474999999999999,
+      "brier": {
+        "p_blue_win": 0.2025,
+        "p_blue_ahead_15": 0.30250000000000005
+      },
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 26,
+        "shell_commands": 9,
+        "failed_commands": 1,
+        "token_usage": {
+          "input_tokens": 354518,
+          "cached_input_tokens": 314400,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 27178,
+          "reasoning_output_tokens": 21112
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/stderr.txt",
+          "prediction": "jobs/worlds-2026-main-event-quarterfinals-4-g2-lobby/prediction.json",
+          "transcript": "traces/worlds-2026-main-event-quarterfinals-4-g2-lobby/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "28226bbc36e807ffc527136ed948336ea52e916a8497c4a86a6b7810bbd8eb39",
+        "source_report_sha256": "ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c",
+        "source_report": "sources/ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c.json",
+        "files_sha256": {
+          "instruction.md": "dd325a4dd1c0304d101b7254ae16e3d37991e1645dcc3e2b3859e403e52065d9",
+          "prediction.json": "1c980d254d05331b219cb2dc9ba7b4e857a8da771d6bc31a1114ece333b9b0ca",
+          "run.json": "361f6e9874318cbaff6272ba9a180ca8dec4c0c0ccf0089bc4fff729898cb7d6",
+          "stderr.txt": "2b8eb113eb8dd310bfc054d5a15158423861f7797d0f4bf6dfe2de059e72cb06",
+          "trajectory.jsonl": "54d1234e0332d3f78767053cac60c648bffece0aa110f771e2fc0148d8bd9d70",
+          "snapshot.json": "45a3661e91928a3ec4e12c486062ea34b79757f53c3e740c4d62289ba063e67d"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-draft-lock",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "6efb6d142b1e97e76e6d109dd2038a33323f9ead191dd440ae021e757a4228e7",
+      "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+      "status": "scored",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "draft-lock",
+        "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "prediction": {
+        "p_blue_win": 0.55,
+        "p_blue_ahead_15": 0.45
+      },
+      "reward": 0.7475,
+      "brier": {
+        "p_blue_win": 0.20249999999999996,
+        "p_blue_ahead_15": 0.30250000000000005
+      },
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 18,
+        "shell_commands": 6,
+        "token_usage": {
+          "input_tokens": 155127,
+          "cached_input_tokens": 113184,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 10818,
+          "reasoning_output_tokens": 9183
+        },
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/stderr.txt",
+          "prediction": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/prediction.json",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/transcript.md"
+        }
+      },
+      "origin": {
+        "trial_id": "f404c7ecd55fecd686202b04f78a7a0775f5bcf447665e2d5de238bd7cfb51e9",
+        "source_report_sha256": "cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d",
+        "source_report": "sources/cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d.json",
+        "files_sha256": {
+          "instruction.md": "580b2cff283a84f79767643921cae54157840a15702a283bb12a0b49997c1fb7",
+          "prediction.json": "10a54171b82393c75ba96bb25a1372ecc1eb83e847e34b5c8659d79a553f73c5",
+          "run.json": "1a7e6c23d6054d457dee0f13c9ca3425c59e6ff6db18b1961490151c41c5f923",
+          "stderr.txt": "1de40a1a5ffb5bad43d333d3f77a5d3b7e79ff32368120a70b6890ca0b4435da",
+          "trajectory.jsonl": "d29d17eaeb94315410482f620fd75037a1fb740858457f90f1222667bc887e8c",
+          "snapshot.json": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-lobby",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "92d628f2eb8bc124998aab18fc1cb32d43543163868b1ac1ad292688379f322d",
+      "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+      "status": "failed",
+      "reward": 0,
+      "error": "lobby: CLI exit 1, HTTP statuses [200, 200, 200, 200, 429]",
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 8,
+        "shell_commands": 1,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/stderr.txt",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-lobby/transcript.md"
+        }
+      },
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "mode": "openrouter-free",
+        "model": "nvidia/nemotron-3.5-lightning:free",
+        "phase": "lobby",
+        "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 429,
+            "detail": null
+          }
+        ]
+      },
+      "failure_class": "provider_daily_quota",
+      "origin": {
+        "trial_id": "6c2415d94592fbe4f1453a00a94ca07535da46e328769dfeb9ade5cccfabe84f",
+        "source_report_sha256": "cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d",
+        "source_report": "sources/cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d.json",
+        "files_sha256": {
+          "instruction.md": "836344212e4c9a5c3fb87f2a221b7dc19c4f68087c8f84f61bef9cd35cf59f93",
+          "run.json": "ccb6d5cbd5da0816aa0de5875f58ec06ad929be33e921beebb47cb1145c8f773",
+          "stderr.txt": "03859cb0766f4a29ba899f9b2319e34a7646cbbe0440fa51c080b85d7dc3923a",
+          "trajectory.jsonl": "5642549710937ef65a065882a541b23c97742c477a5e17f8ffdaf2a5c0e767b9",
+          "snapshot.json": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106"
+        }
+      }
+    }
+  ],
+  "provenance": {
+    "source_runs": [
+      {
+        "sha256": "ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c",
+        "file": "sources/ba41be492bdbbc31436c267f6d0e91d08802a3e3ca808250cc4534274812aa3c.json",
+        "planned": [
+          "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+          "worlds-2026-main-event-quarterfinals-4-g2-lobby"
+        ]
+      },
+      {
+        "sha256": "7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b",
+        "file": "sources/7dbff2c02f84be9004731640dbbe415f20a878ff3e2391ab8e2f51c939067c1b.json",
+        "planned": [
+          "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+          "lpl-2026-regional-finals-round-1-1-g2-lobby"
+        ]
+      },
+      {
+        "sha256": "cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d",
+        "file": "sources/cde21d97504b4e98a96abdff97164520ecc8f5c23973c5574c6e8bd0d69b860d.json",
+        "planned": [
+          "worlds-2026-play-in-round-1-2-g2-draft-lock",
+          "worlds-2026-play-in-round-1-2-g2-lobby"
+        ]
+      }
+    ],
+    "authentication_diagnostics": [
+      {
+        "sha256": "05f288334ab5ffe0c210e0985d5f243908f873a86b1e65148c3475767f5e5a89",
+        "file": "sources/05f288334ab5ffe0c210e0985d5f243908f873a86b1e65148c3475767f5e5a89.json",
+        "planned": [
+          "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+          "lpl-2026-regional-finals-round-1-1-g2-lobby"
+        ],
+        "reason": "OpenRouter 401 before any successful inference"
+      },
+      {
+        "sha256": "87211a8b06b22785258a7ed428c7a0ed111ab5d71850cd5ffefff93652523323",
+        "file": "sources/87211a8b06b22785258a7ed428c7a0ed111ab5d71850cd5ffefff93652523323.json",
+        "planned": [
+          "worlds-2026-play-in-round-1-2-g2-draft-lock",
+          "worlds-2026-play-in-round-1-2-g2-lobby"
+        ],
+        "reason": "OpenRouter 401 before any successful inference"
+      }
+    ],
+    "trial_id_fields": [
+      "release",
+      "archive_sha256",
+      "harness",
+      "model",
+      "mode",
+      "backend",
+      "task",
+      "trajectory.jsonl SHA-256"
+    ],
+    "trial_id_encoding": "SHA-256 of a UTF-8 JSON array with compact separators",
+    "quota_response": "sources/quota-response.json"
+  },
+  "unstarted": [
+    {
+      "task": "worlds-2026-main-event-round-1-3-g1-draft-lock",
+      "status": "not_started",
+      "reason": "provider_daily_quota",
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "series": "worlds-2026-main-event-round-1-3",
+      "game": 1,
+      "prompt_sha256": "a07d3b798d1a89569595a4091b1f5801eac336139d7b3725e5b5b2c9b62e5ed6",
+      "snapshot_sha256": "222fd7092c77960b601e060b6ed64355eb2342bbdecb4093781f551f831c99a0",
+      "files": {
+        "prompt": "inputs/worlds-2026-main-event-round-1-3-g1-draft-lock/instruction.md",
+        "snapshot": "inputs/worlds-2026-main-event-round-1-3-g1-draft-lock/snapshot.json"
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-1-3-g1-lobby",
+      "status": "not_started",
+      "reason": "provider_daily_quota",
+      "phase": "lobby",
+      "patch": "26.20",
+      "series": "worlds-2026-main-event-round-1-3",
+      "game": 1,
+      "prompt_sha256": "3e5a070b67b196ce2594a96609abd5d1ffaf3ba00f4dc64a2c4ffc293e7d75b2",
+      "snapshot_sha256": "1d43d90c7353c0c990151f2df97d610f9359bf37b35536dcae33be0ff3e6124c",
+      "files": {
+        "prompt": "inputs/worlds-2026-main-event-round-1-3-g1-lobby/instruction.md",
+        "snapshot": "inputs/worlds-2026-main-event-round-1-3-g1-lobby/snapshot.json"
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-5-2-g2-draft-lock",
+      "status": "not_started",
+      "reason": "provider_daily_quota",
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 2,
+      "prompt_sha256": "7bb03cb56fcf15bffa1cf7886a331d99cb21b9b876b1e046cfa1c96b887e1713",
+      "snapshot_sha256": "9b619f8991d737098fc5ee8ef25e867e67765b2a131ab25f0e6f55d6cb021dad",
+      "files": {
+        "prompt": "inputs/worlds-2026-main-event-round-5-2-g2-draft-lock/instruction.md",
+        "snapshot": "inputs/worlds-2026-main-event-round-5-2-g2-draft-lock/snapshot.json"
+      }
+    },
+    {
+      "task": "worlds-2026-main-event-round-5-2-g2-lobby",
+      "status": "not_started",
+      "reason": "provider_daily_quota",
+      "phase": "lobby",
+      "patch": "26.20",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 2,
+      "prompt_sha256": "a952a02187c857d6e0e1518e705adc7f37a659917bc4e7ad8a6d52b3a0aaa561",
+      "snapshot_sha256": "1a8fbea764e4c51d4bb2d8d723b88f0a026fb8716496265ba70ad4c3ec58b673",
+      "files": {
+        "prompt": "inputs/worlds-2026-main-event-round-5-2-g2-lobby/instruction.md",
+        "snapshot": "inputs/worlds-2026-main-event-round-5-2-g2-lobby/snapshot.json"
+      }
+    }
+  ],
+  "progress": {
+    "planned": 10,
+    "attempted": 6,
+    "scored": 4,
+    "failed": 2,
+    "not_started": 4
+  },
+  "attempted_summary": {
+    "selected": 6,
+    "scored": 4,
+    "statuses": {
+      "scored": 4,
+      "failed": 2
+    },
+    "mean_reward": 0.489125,
+    "brier_on_scored": {
+      "p_blue_win": 0.26965,
+      "p_blue_ahead_15": 0.262975
+    }
+  },
+  "paired": {
+    "selected_games": 5,
+    "selected_pairs": 5,
+    "scored_pairs": 1,
+    "mean_brier_improvement": {
+      "p_blue_win": -0.15749999999999997,
+      "p_blue_ahead_15": 0.0
+    },
+    "pairs": [
+      {
+        "series": "worlds-2026-main-event-quarterfinals-4",
+        "game": 2,
+        "brier_improvement": {
+          "p_blue_win": -0.15749999999999997,
+          "p_blue_ahead_15": 0.0
+        }
+      }
+    ]
+  }
+}

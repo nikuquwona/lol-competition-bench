@@ -8,4 +8,7 @@ __pycache__/
 
 # Publish only the verified, sanitized native events of this example.
 !evaluation/examples/worlds-2026-kc-t1-openrouter/jobs/
+!evaluation/examples/featured-five-openrouter/jobs/
+!evaluation/examples/featured-five-deepseek/jobs/
+!evaluation/examples/featured-five-claude-deepseek/jobs/
 evaluation/examples/*/.lock

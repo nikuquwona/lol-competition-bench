@@ -27,56 +27,68 @@ CURSOR_HOSTS = (
 BASE = "http://127.0.0.1:8787"
 
 
+def claude_environment(base, token, model):
+    return {
+        "ANTHROPIC_BASE_URL": base,
+        "ANTHROPIC_API_KEY": token,
+        "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL": model,
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": model,
+        "ANTHROPIC_DEFAULT_OPUS_MODEL": model,
+    }
+
+
+def claude_command(model, prompt):
+    return [
+        "claude",
+        "-p",
+        "--output-format",
+        "stream-json",
+        "--verbose",
+        "--model",
+        model,
+        "--tools",
+        "Read,Write,Edit,Bash",
+        "--permission-mode",
+        "bypassPermissions",
+        "--no-session-persistence",
+        prompt,
+    ]
+
+
+def codex_command(base, model, prompt):
+    return [
+        "codex",
+        "exec",
+        "--json",
+        "--skip-git-repo-check",
+        "--ephemeral",
+        "--dangerously-bypass-approvals-and-sandbox",
+        "-m",
+        model,
+        "-c",
+        'web_search="disabled"',
+        "-c",
+        'model_provider="bench"',
+        "-c",
+        'model_providers.bench.name="bench"',
+        "-c",
+        f'model_providers.bench.base_url="{base}/v1"',
+        "-c",
+        'model_providers.bench.wire_api="responses"',
+        "-c",
+        'model_providers.bench.env_key="BENCH_DUMMY_KEY"',
+        prompt,
+    ]
+
+
 def command(name, model, prompt):
     if name == "claude":
-        os.environ.update(
-            ANTHROPIC_BASE_URL=BASE,
-            ANTHROPIC_API_KEY="isolated",
-            CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1",
-            ANTHROPIC_DEFAULT_HAIKU_MODEL=model,
-            ANTHROPIC_DEFAULT_SONNET_MODEL=model,
-            ANTHROPIC_DEFAULT_OPUS_MODEL=model,
-        )
-        return [
-            "claude",
-            "-p",
-            "--output-format",
-            "stream-json",
-            "--verbose",
-            "--model",
-            model,
-            "--tools",
-            "Read,Write,Edit,Bash",
-            "--permission-mode",
-            "bypassPermissions",
-            "--no-session-persistence",
-            prompt,
-        ]
+        os.environ.update(claude_environment(BASE, "isolated", model))
+        return claude_command(model, prompt)
     if name == "codex":
         os.environ["BENCH_DUMMY_KEY"] = "isolated"
-        return [
-            "codex",
-            "exec",
-            "--json",
-            "--skip-git-repo-check",
-            "--ephemeral",
-            "--dangerously-bypass-approvals-and-sandbox",
-            "-m",
-            model,
-            "-c",
-            'web_search="disabled"',
-            "-c",
-            'model_provider="bench"',
-            "-c",
-            'model_providers.bench.name="bench"',
-            "-c",
-            f'model_providers.bench.base_url="{BASE}/v1"',
-            "-c",
-            'model_providers.bench.wire_api="responses"',
-            "-c",
-            'model_providers.bench.env_key="BENCH_DUMMY_KEY"',
-            prompt,
-        ]
+        return codex_command(BASE, model, prompt)
     if name == "pi":
         config = Path.home() / ".pi/agent/models.json"
         config.parent.mkdir(parents=True, exist_ok=True)

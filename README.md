@@ -8,6 +8,17 @@
 
 ![从赛事来源和历史记录产生时点快照的框架图，CLI 驱动模型检索快照并提交预测，独立验证器计算分数。](figures/lol-competition-bench-framework.png)
 
+## 五场对照
+
+用 `./bench serve` 打开本地模型成绩页。五场覆盖 IG–TES、MVK–FURIA、Movistar KOI–BLG、LØS–LYON、KC–T1，同一模型可通过不同 CLI 对照。点击任一阶段的预测，可以查看它检索了哪些证据、怎样修订概率，以及实际向裁判提交的文件。[固定题单](evaluation/suites/featured-five.json) · [OpenRouter 免费运行及配额记录](evaluation/examples/featured-five-openrouter/report.md)
+
+```sh
+./bench e2e --suite featured-five --list
+./bench e2e --suite featured-five --backend macos --harness codex --model deepseek-v4-pro
+```
+
+第二条命令使用宿主 `DEEPSEEK_API_KEY` 调用 DeepSeek 官方付费 API。换用 `--harness claude` 可在同一环境运行 Claude Code。队徽来自[LoL Esports 官方赛事资源](evaluation/site_assets/teams/sources.json)。
+
 ## 从一场真实比赛看输入、预测与评分
 
 2026 世界赛四分之一决赛，KC 蓝方对 T1 红方，BO5 第二局。两个独立会话都能查 96 个历史小局，其中 KC 五名首发各有 19 局记录，T1 五名首发各有 6 局。比如检索 Faker 的过往出场，可以查到他在本系列第一局选过 Viktor。按本场 Fearless 规则，双方第二局都无法再选这个英雄。
@@ -44,7 +55,7 @@
 | CLI | 可运行的环境与验证范围 |
 | --- | --- |
 | Claude Code、Codex、Pi、Kimi Code | 在 Harbor + Docker 中用独立 CLI worker 和受限推理网关运行。四个 CLI 都支持固定响应驱动的原生工具验收。 |
-| Codex 的 macOS 后端 | 另支持每题新建 Seatbelt 沙箱，宿主侧使用同一评分函数，可复现上面的模型调用。 |
+| Codex、Claude Code 的 macOS 后端 | 另支持每题新建 Seatbelt 沙箱，宿主侧使用同一评分函数，可复现上面的模型调用。 |
 | Cursor CLI | 使用 `--mode vendor` 与 Cursor 账号提供的模型，单列厂商赛道。免密钥验收覆盖 worker 隔离和未登录启动，认证后的远端检索行为由厂商控制。 |
 
 ## 历史边界与新比赛

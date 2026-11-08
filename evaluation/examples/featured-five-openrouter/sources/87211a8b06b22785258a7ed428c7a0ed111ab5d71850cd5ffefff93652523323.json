@@ -1,0 +1,270 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "codex",
+  "model": "nvidia/nemotron-3.5-lightning:free",
+  "mode": "openrouter-free",
+  "backend": "macos",
+  "planned": [
+    "worlds-2026-play-in-round-1-2-g2-draft-lock",
+    "worlds-2026-play-in-round-1-2-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-draft-lock",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "6efb6d142b1e97e76e6d109dd2038a33323f9ead191dd440ae021e757a4228e7",
+      "snapshot_sha256": "bc2acf8d50c1313f9ca0fbba73c179eb82eb0992cc4de33f2e2dd3a90f7e3c54",
+      "status": "failed",
+      "reward": 0,
+      "error": "draft-lock: CLI exit 1, HTTP statuses [401, 401, 401, 401, 401, 401]",
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 10,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-draft-lock/stderr.txt",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-draft-lock/transcript.md"
+        }
+      }
+    },
+    {
+      "task": "worlds-2026-play-in-round-1-2-g2-lobby",
+      "coverage": {
+        "history_games": 13,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "Chika",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Gury",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Harky",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Kratos",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "SiuLoong",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Ayu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Guigo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JoJo",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tatu",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tutsz",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.20",
+      "prompt_sha256": "92d628f2eb8bc124998aab18fc1cb32d43543163868b1ac1ad292688379f322d",
+      "snapshot_sha256": "8f8608de024943491c515c4cce999d22c15a194fad90406ad20f5b3da150b106",
+      "status": "failed",
+      "reward": 0,
+      "error": "lobby: CLI exit 1, HTTP statuses [401, 401, 401, 401, 401, 401]",
+      "observed_outcome": {
+        "p_blue_win": 1,
+        "p_blue_ahead_15": 1
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 10,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/worlds-2026-play-in-round-1-2-g2-lobby/instruction.md",
+          "snapshot": "traces/worlds-2026-play-in-round-1-2-g2-lobby/snapshot.json",
+          "events": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/worlds-2026-play-in-round-1-2-g2-lobby/stderr.txt",
+          "transcript": "traces/worlds-2026-play-in-round-1-2-g2-lobby/transcript.md"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "selected": 2,
+    "scored": 0,
+    "statuses": {
+      "failed": 2
+    },
+    "mean_reward": 0.0,
+    "brier_on_scored": {
+      "p_blue_win": null,
+      "p_blue_ahead_15": null
+    }
+  },
+  "by_phase": {
+    "draft-lock": {
+      "selected": 1,
+      "scored": 0,
+      "statuses": {
+        "failed": 1
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    },
+    "lobby": {
+      "selected": 1,
+      "scored": 0,
+      "statuses": {
+        "failed": 1
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    }
+  },
+  "by_coverage": {
+    "all": {
+      "selected": 2,
+      "scored": 0,
+      "statuses": {
+        "failed": 2
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    }
+  },
+  "paired": {
+    "selected_games": 1,
+    "selected_pairs": 1,
+    "scored_pairs": 0,
+    "mean_brier_improvement": {
+      "p_blue_win": null,
+      "p_blue_ahead_15": null
+    },
+    "pairs": []
+  }
+}

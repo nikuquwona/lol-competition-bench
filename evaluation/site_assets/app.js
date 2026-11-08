@@ -58,8 +58,19 @@ const phase = (t) =>
       : null);
 const trialKey = (t) =>
   t.scope && t.harness ? t.harness + "--" + t.task : t.task;
+const modelTitles = {
+  "deepseek-v4-pro": "DeepSeek V4 Pro",
+  "nvidia/nemotron-3.5-lightning:free": "Nemotron 3.5 Lightning",
+};
+const humanModel = (id) =>
+  Object.hasOwn(modelTitles, id) ? modelTitles[id] : id;
+function modelLink(id, href) {
+  const a = link(humanModel(id), href, "model-name");
+  a.title = id;
+  return a;
+}
 const modelName = (r) =>
-  r.model ||
+  humanModel(r.model) ||
   (r.mode === "baseline"
     ? "选手历史基线"
     : r.mode === "boundary"
@@ -182,7 +193,11 @@ function table(headers, rows, caption) {
         node(
           "tr",
           "",
-          r.map((v, i) => node("td", headers[i]?.[1] || "", v)),
+          r.map((v, i) => {
+            const cell = node("td", headers[i]?.[1] || "", v);
+            cell.dataset.label = headers[i]?.[0] || "";
+            return cell;
+          }),
         ),
       ),
     ),
@@ -212,226 +227,541 @@ const crumb = (...parts) =>
     "crumbs",
     parts.flatMap((x, i) => (i ? [span("", "/"), x] : [x])),
   );
-function smallRun(r) {
-  const a = link("", runPath(r.id), "list-item");
-  a.append(
-    div("row", node("strong", "", r.harness || "运行"), badge(r.status)),
-    span("secondary", modelName(r)),
-    span("secondary", display(r.mode) + " · " + dateText(r.created_at)),
+const harnessNames = {
+  codex: "Codex",
+  claude: "Claude Code",
+  cursor: "Cursor",
+  pi: "Pi",
+  kimi: "Kimi Code",
+};
+const isForecast = (r) =>
+  ["live", "openrouter-free", "vendor"].includes(r.mode);
+const harnessName = (h) => harnessNames[h] || h || "—";
+function pageHeading(title, description, actions = null) {
+  return node(
+    "header",
+    "report-heading",
+    div("", node("h1", "", title), description && node("p", "", description)),
+    actions,
   );
-  return a;
 }
 function groupLabel(g) {
+  const single = g.games?.length === 1 ? g.games[0] : null;
+  const scope = g.is_featured
+    ? g.sampling
+      ? "五场对照"
+      : "五场 · 全题单均分"
+    : g.scope === "full"
+      ? "完整题集"
+      : single?.blue && single?.red
+        ? single.blue + " vs " + single.red + " G" + single.game
+        : Number.isInteger(g.game_count)
+          ? nfmt(g.game_count) + " 场"
+          : "自选题单";
   return [
-    g.short_title || g.display_title || g.release,
-    g.edition,
-    display(g.scope),
+    scope,
     nfmt(g.selected) + " 题",
-    display(g.track),
-    display(g.backend),
-    String(g.selection_sha256 || "").slice(0, 6),
-    g.protocol && String(g.protocol).slice(0, 8),
-    g.verification && display(g.verification),
+    g.edition || g.short_title || g.release,
+    g.backend && display(g.backend),
+    g.track === "vendor" ? "厂商通道" : null,
   ]
     .filter(Boolean)
     .join(" · ");
+}
+function gameNumber(task) {
+  const match = String(task || "").match(/-g(\d+)-(lobby|draft-lock)$/);
+  return match ? Number(match[1]) : null;
+}
+function asGames(report, fixtures) {
+  const byId = new Map((report.trials || []).map((t) => [t.task, t]));
+  if (fixtures?.length) {
+    return fixtures.map((f) => {
+      const pair = {};
+      for (const ph of ["lobby", "draft-lock"]) {
+        const id = f.tasks?.[ph] || f.tasks?.[ph.replace("-", "_")];
+        if (id)
+          pair[ph] = byId.get(id) || {
+            task: id,
+            status: "unattempted",
+            phase: ph,
+          };
+      }
+      return { ...f, pair };
+    });
+  }
+  const games = new Map();
+  for (const id of report.planned?.length ? report.planned : byId.keys()) {
+    const t = byId.get(id) || { task: id, status: "unattempted" },
+      ph = phase(t),
+      base = id.replace(/-(lobby|draft-lock)$/, "");
+    if (!ph) continue;
+    const m = t.match || {};
+    if (!games.has(base))
+      games.set(base, {
+        series: base.replace(/-g\d+$/, ""),
+        game: m.n || gameNumber(id),
+        pair: {},
+      });
+    const g = games.get(base);
+    Object.assign(
+      g,
+      Object.fromEntries(
+        Object.entries({
+          blue: m.blue,
+          red: m.red,
+          blue_logo: m.blue_logo,
+          red_logo: m.red_logo,
+          patch: t.patch,
+          stage: m.stage,
+        }).filter(([, v]) => v != null),
+      ),
+    );
+    g.pair[ph] = t;
+  }
+  return [...games.values()];
+}
+function actual(g) {
+  const label =
+    g.pair.lobby?.observed_outcome ||
+    g.pair["draft-lock"]?.observed_outcome ||
+    g.observed_outcome ||
+    {};
+  const winner =
+    label.p_blue_win === 1
+      ? g.blue || "蓝方"
+      : label.p_blue_win === 0
+        ? g.red || "红方"
+        : null;
+  const ahead =
+    label.p_blue_ahead_15 === 1
+      ? "蓝方领先"
+      : label.p_blue_ahead_15 === 0
+        ? "蓝方未领先"
+        : "—";
+  return div(
+    "actual",
+    span("strong", winner || "—"),
+    span("secondary", "15′ " + ahead),
+  );
+}
+function matchName(g) {
+  if (!g.blue || !g.red)
+    return div(
+      "",
+      span("strong", g.series || "比赛"),
+      span("secondary", g.game ? "第 " + g.game + " 局" : "—"),
+    );
+  function team(side) {
+    const row = span(side + "-team", g[side]),
+      src = g[side + "_logo"];
+    if (typeof src === "string" && /^\/teams\/[a-zA-Z0-9_-]+\.png$/.test(src)) {
+      const img = node("img", "team-logo");
+      img.alt = "";
+      img.width = 22;
+      img.height = 22;
+      img.addEventListener(
+        "error",
+        () => {
+          img.remove();
+          row.classList.remove("with-logo");
+        },
+        { once: true },
+      );
+      row.classList.add("with-logo");
+      row.prepend(img);
+      img.src = src;
+    }
+    return row;
+  }
+  return div(
+    "match-name",
+    team("blue"),
+    team("red"),
+    span(
+      "secondary",
+      ["G" + g.game, g.stage, g.patch && "Patch " + g.patch]
+        .filter(Boolean)
+        .join(" · "),
+    ),
+  );
+}
+function phaseResult(runId, t) {
+  if (!t) return span("unplayed", "未选此阶段");
+  if (t.status === "unattempted") return span("unplayed", "未测");
+  if (t.status !== "scored") {
+    const lastResponse = t.runtime?.upstream?.at(-1)?.status;
+    const limitReached =
+      t.failure_kind === "rate_limit" ||
+      lastResponse === 429 ||
+      /(?:HTTP statuses?\s*\[[\d,\s]*\b429\s*\]|HTTP 429|rate.limit)/i.test(
+        String(t.error || ""),
+      );
+    const title = ["started", "pending"].includes(t.status)
+      ? "等待交卷"
+      : limitReached
+        ? "限流"
+        : display(t.status);
+    return t.status === "started" && !t.runtime
+      ? span("unplayed", title)
+      : link(title, taskPath(runId, trialKey(t)), "problem-link");
+  }
+  const a = link("", taskPath(runId, trialKey(t)), "forecast-link");
+  a.append(
+    span(
+      "forecast-numbers",
+      pct(t.prediction?.p_blue_win),
+      " / ",
+      pct(t.prediction?.p_blue_ahead_15),
+    ),
+    span("secondary", "得分 " + fixed(t.reward) + " ↗"),
+  );
+  a.setAttribute("aria-label", display(phase(t)) + " 预测及轨迹：" + t.task);
+  return a;
+}
+function bpChange(pair) {
+  const before = pair.lobby?.prediction?.p_blue_win,
+    after = pair["draft-lock"]?.prediction?.p_blue_win;
+  if (!Number.isFinite(before) || !Number.isFinite(after))
+    return span("unplayed", "—");
+  const diff = (after - before) * 100,
+    label = (diff > 0 ? "+" : "") + diff.toFixed(1) + " pp";
+  const chart = span(
+    "pair-plot",
+    span("pair-line"),
+    span("before-dot"),
+    span("after-dot"),
+  );
+  chart.style.setProperty("--before", 100 * before + "%");
+  chart.style.setProperty("--after", 100 * after + "%");
+  chart.style.setProperty("--left", 100 * Math.min(before, after) + "%");
+  chart.style.setProperty("--width", Math.abs(diff) + "%");
+  chart.setAttribute("aria-hidden", "true");
+  const result = div("delta-cell", span("number", label), chart);
+  result.title = "BP 使蓝方胜率从 " + pct(before) + " 变为 " + pct(after);
+  return result;
+}
+function matchTable(games, runId) {
+  if (!games.length) return empty("这轮运行尚无可展示的对局。");
+  const box = table(
+    [
+      ["对局 · 蓝 / 红"],
+      ["实际胜方"],
+      ["BP 前 · 蓝胜率 / 15′ 领先"],
+      ["BP 后 · 蓝胜率 / 15′ 领先"],
+      ["胜率变化"],
+    ],
+    games.map((g) => [
+      matchName(g),
+      actual(g),
+      phaseResult(runId, g.pair.lobby),
+      phaseResult(runId, g.pair["draft-lock"]),
+      bpChange(g.pair),
+    ]),
+    "逐场预测",
+  );
+  box.classList.add("matches-table");
+  return box;
+}
+function reportExports(id) {
+  return div(
+    "button-row",
+    link("完整记录 ZIP", baseApi(id) + "/bundle.zip", "btn", true),
+    link("报告 JSON", baseApi(id) + "/report.json", "btn", true),
+    link("逐题 CSV", baseApi(id) + "/trials.csv", "btn", true),
+  );
+}
+function predictionGroups(board) {
+  const verified = (board.groups || []).filter((g) =>
+    ["controlled", "vendor"].includes(g.track),
+  );
+  const featured = board.featured;
+  if (!featured?.games?.length) return verified;
+  const byBackend = new Map();
+  const bestFirst = [...(featured.entries || [])].sort(
+    (a, b) =>
+      Number(Boolean(b.is_suite)) - Number(Boolean(a.is_suite)) ||
+      Number(Boolean(b.finished)) - Number(Boolean(a.finished)) ||
+      b.scored - a.scored ||
+      b.attempted - a.attempted,
+  );
+  for (const e of bestFirst) {
+    const track = e.track || (e.harness === "cursor" ? "vendor" : "controlled"),
+      protocol = e.protocol || "suite-v1",
+      key = [e.backend, track, protocol].join("|");
+    if (!byBackend.has(key))
+      byBackend.set(key, { backend: e.backend, track, protocol, entries: [] });
+    const list = byBackend.get(key).entries;
+    if (!list.some((row) => row.model === e.model && row.harness === e.harness))
+      list.push({ ...e });
+  }
+  if (!byBackend.size)
+    byBackend.set("", { backend: null, track: "controlled", entries: [] });
+  const pending = [...byBackend.values()].map((g) => ({
+    ...featured,
+    ...g,
+    selected: featured.games.reduce(
+      (n, game) => n + Object.keys(game.tasks || {}).length,
+      0,
+    ),
+    is_featured: true,
+    sampling: true,
+    scope: "subset",
+    selection_sha256: "featured-five",
+  }));
+  return [
+    ...pending,
+    ...verified.filter((g) => g.is_featured || g.scope === "full"),
+  ];
 }
 async function leaderboard(root, signal) {
   const [board, index] = await Promise.all([
     json("/api/leaderboard", signal),
     json("/api/runs", signal),
   ]);
-  const groups = [...(board.groups || [])].sort(
-      (a, b) =>
-        Number(Boolean(b.official)) - Number(Boolean(a.official)) ||
-        Number(b.track === "controlled") - Number(a.track === "controlled") ||
-        String(b.release).localeCompare(String(a.release), "en", {
-          numeric: true,
-        }) ||
-        b.selected - a.selected ||
-        b.entries.length - a.entries.length,
-    ),
-    runs = index.runs || [];
-  root.replaceChildren(
-    heading(
-      "对局预测排行榜",
-      "在相同题集与执行条件下，比较模型和 CLI 对胜负及 15 分钟经济领先的预测。",
-      [
-        ["比较组", nfmt(groups.length)],
-        ["本地运行", nfmt(runs.length)],
-      ],
-    ),
+  const forecastRuns = (index.runs || []).filter(isForecast),
+    runIndex = new Map(forecastRuns.map((r) => [r.id, r]));
+  const groups = predictionGroups(board).sort(
+    (a, b) =>
+      Number(Boolean(b.is_featured)) - Number(Boolean(a.is_featured)) ||
+      Number(Boolean(b.sampling)) - Number(Boolean(a.sampling)) ||
+      Number(b.track === "controlled") - Number(a.track === "controlled") ||
+      Number(b.scope === "full") - Number(a.scope === "full") ||
+      String(b.release).localeCompare(String(a.release), "en", {
+        numeric: true,
+      }) ||
+      b.selected - a.selected,
   );
-  const ranking = div(""),
-    content = div("");
-  const idx = 0;
-  function draw(i) {
-    const g = groups[i];
-    if (!g) {
-      content.replaceChildren(
-        empty("暂无符合排名规则的运行。可在运行记录中查看已收录的报告。"),
-      );
-      return;
-    }
-    const rows = (g.entries || []).map((e) => {
-      const meter = node("meter", "bar");
-      meter.min = 0;
-      meter.max = 1;
-      meter.value = e.mean_reward || 0;
-      meter.setAttribute("aria-label", "平均 reward");
-      return [
-        span("rank" + (e.rank === 1 ? " first" : ""), nfmt(e.rank)),
-        div(
-          "",
-          link(e.harness, runPath(e.run_id), "primary"),
-          span("secondary", e.model),
-        ),
-        div("number strong", fixed(e.mean_reward), meter),
-        div(
-          "number",
-          pct(e.completion_rate),
-          span("secondary", nfmt(e.scored) + " / " + nfmt(e.selected)),
-        ),
-        div(
-          "number",
-          fixed(e.brier_win),
-          span("secondary number", fixed(e.brier_ahead15)),
-        ),
-        e.run_ids?.length > 1
-          ? node(
-              "details",
-              "",
-              node("summary", "number", nfmt(e.attempts)),
-              e.run_ids.map((id, i) =>
-                link("第 " + (i + 1) + " 轮", runPath(id), "secondary"),
-              ),
-            )
-          : span("number", nfmt(e.attempts)),
-      ];
-    });
-    content.replaceChildren(
-      rows.length
-        ? table(
-            [
-              ["排名"],
-              ["Harness / 模型"],
-              ["平均 reward", "right"],
-              ["完成率", "right"],
-              ["Brier 胜负 / 15′", "right"],
-              ["轮次", "right"],
-            ],
-            rows,
-            "比较组排名",
-          )
-        : empty("该比较组还没有排名记录。"),
-      div(
-        "panel-foot",
-        div(
-          "",
-          span("primary", g.display_title || g.short_title || g.release),
-          span(
-            "secondary",
-            [
-              g.edition,
-              "题号集合 " + String(g.selection_sha256 || "—").slice(0, 12),
-            ]
-              .filter(Boolean)
-              .join(" · "),
-          ),
-        ),
-        span(
-          "badge",
-          g.official
-            ? "全量正式排名"
-            : g.scope === "subset"
-              ? "同题子集对照"
-              : display(g.track),
-        ),
-      ),
-    );
-  }
-  if (groups.length)
-    ranking.append(
-      div(
-        "tools",
-        choice(
-          "比较组",
-          groups.map((g, i) => [String(i), groupLabel(g)]),
-          String(idx),
-          (v) => draw(Number(v)),
-          true,
-        ),
-      ),
-    );
-  ranking.append(content);
-  draw(idx);
-  const latest = box(
-    "最近运行",
-    runs.length
-      ? div("", runs.slice(0, 4).map(smallRun))
-      : empty("本机尚无运行记录。"),
-    link("查看全部 →", "#/runs"),
-  );
-  const reading = box(
-    "如何读榜",
-    div(
-      "panel-body rule-body",
-      node("h3", "", "平均 reward"),
-      node("p", "", "越高越好。失败和中断按零分计入。"),
-      node("h3", "", "Brier 分数"),
-      node("p", "", "胜负与 15 分钟领先分别评分，越低越好。仅统计成功交卷。"),
-      node("p", "section", link("完整参赛规范 →", "#/rules")),
-    ),
-  );
-  root.append(
-    div(
-      "grid",
-      box(
-        "模型与 Harness",
-        ranking,
-        link("导出榜单 CSV", "/api/leaderboard.csv", "btn", true),
-      ),
-      div("stack", latest, reading),
-    ),
-  );
-}
-async function listRuns(root, signal) {
-  const { runs = [] } = await json("/api/runs", signal);
-  const counts = new Set(runs.map((r) => r.release).filter(Boolean));
-  root.replaceChildren(
-    heading("运行记录", "查看本机收录的模型预测、基线和隔离验收。", [
-      ["运行", nfmt(runs.length)],
-      ["题集版本", nfmt(counts.size)],
+  const harnesses = [
+    ...new Set([
+      ...(board.harnesses || Object.keys(harnessNames)),
+      ...groups.flatMap((g) => g.entries.map((e) => e.harness)),
     ]),
+  ];
+  const lead = pageHeading(
+    "模型预测成绩",
+    null,
+    link("导出成绩 CSV", "/api/leaderboard.csv", "btn", true),
   );
-  let mode = "",
-    status = "",
-    query = "",
+  root.replaceChildren(lead);
+  if (!groups.length) {
+    root.append(
+      box(
+        "模型 × CLI",
+        empty("暂无已完成、可比较的模型评测。"),
+        link("查看真实运行 →", "#/runs"),
+      ),
+    );
+    return;
+  }
+  const matrix = div(""),
+    matches = div("section"),
+    filters = div("board-toolbar");
+  root.append(filters, matrix, matches);
+  const descriptors = groups.map(groupLabel);
+  const selectedGroup = choice(
+    "评测题单",
+    groups.map((g, i) => [
+      String(i),
+      descriptors.filter((x) => x === descriptors[i]).length > 1
+        ? descriptors[i] +
+          " · " +
+          g.selection_sha256.slice(0, 6) +
+          " / " +
+          String(g.protocol || "").slice(0, 8)
+        : descriptors[i],
+    ]),
+    "0",
+    (v) => draw(groups[Number(v)]),
+    true,
+  );
+  const meta = span("board-meta", "");
+  filters.append(selectedGroup, meta);
+  let latest = 0;
+  function draw(g) {
+    const entries = g.entries || [],
+      keys = new Map(entries.map((e) => [e.model + "\n" + e.harness, e]));
+    const otherModels = (board.lineup || [])
+      .map((e) => e.model)
+      .filter(Boolean);
+    const models = [
+      ...new Set([...entries.map((e) => e.model), ...otherModels]),
+    ];
+    const buttons = new Map();
+    const rows = models.map((m) => [
+      modelLink(m, "#/models/" + enc(m)),
+      ...harnesses.map((h) => {
+        const e = keys.get(m + "\n" + h);
+        if (!e) {
+          const emptyCell = span("unplayed", "—");
+          emptyCell.setAttribute("aria-label", "未测");
+          return emptyCell;
+        }
+        const b = node(
+          "button",
+          "matrix-cell",
+          span(
+            "cell-score",
+            g.sampling
+              ? e.scored
+                ? fixed(e.mean_scored_reward)
+                : e.status === "unfinished"
+                  ? "进行中"
+                  : e.attempted
+                    ? "未交卷"
+                    : "待测"
+              : fixed(e.mean_reward),
+          ),
+          span(
+            !e.scored && e.status !== "unfinished"
+              ? "cell-note failed-note"
+              : "cell-note",
+            g.sampling
+              ? nfmt(e.scored) + " / " + nfmt(g.selected) + " 已交"
+              : !e.scored
+                ? "未交卷 · 0 / " + nfmt(e.selected)
+                : "已交 " + nfmt(e.scored) + " / " + nfmt(e.selected),
+          ),
+        );
+        b.type = "button";
+        if (g.sampling)
+          b.title =
+            "计划 " +
+            g.selected +
+            " 题，实际启动 " +
+            e.attempted +
+            " 题，已交 " +
+            e.scored +
+            " 题";
+        b.setAttribute(
+          "aria-label",
+          m +
+            " × " +
+            harnessName(h) +
+            (g.sampling
+              ? "，已交 " + nfmt(e.scored) + " 题"
+              : "，平均分 " + fixed(e.mean_reward)) +
+            "，查看对局",
+        );
+        b.addEventListener("click", () => activate(e));
+        buttons.set(e, b);
+        return b;
+      }),
+    ]);
+    matrix.replaceChildren(
+      box(
+        "模型 × CLI",
+        rows.length
+          ? table(
+              [["模型"], ...harnesses.map((h) => [harnessName(h)])],
+              rows,
+              "模型与 CLI 平均得分",
+            )
+          : empty("本题单还没有模型提交。"),
+        span("meta", g.sampling ? "已交题均分 · — 未测" : "平均得分 · — 未测"),
+        "matrix-panel",
+      ),
+    );
+    meta.textContent = g.display_title || g.short_title || g.release;
+    const first =
+      entries.find((e) => e.finished && e.is_suite) ||
+      entries.find((e) => e.scored > 0) ||
+      entries[0];
+    if (first) activate(first);
+    else {
+      latest++;
+      matches.replaceChildren(
+        g.games?.length
+          ? box("对局", matchTable(asGames({ trials: [] }, g.games), ""))
+          : document.createDocumentFragment(),
+      );
+    }
+    function activate(e) {
+      for (const [item, btn] of buttons)
+        btn.setAttribute("aria-pressed", String(item === e));
+      const ids = [...(e.run_ids?.length ? e.run_ids : [e.run_id])].sort(
+        (a, b) =>
+          String(runIndex.get(b)?.created_at || "").localeCompare(
+            String(runIndex.get(a)?.created_at || ""),
+          ),
+      );
+      const picker =
+        ids.length > 1
+          ? choice(
+              "运行记录",
+              ids.map((id, i) => [
+                id,
+                runIndex.get(id)?.created_at
+                  ? dateText(runIndex.get(id).created_at)
+                  : "运行 " + (i + 1),
+              ]),
+              ids[0],
+              load,
+            )
+          : null;
+      const outcomes = div(""),
+        toRun = link("运行详情 →", runPath(ids[0]), "btn");
+      const controls = div("button-row", picker, toRun);
+      matches.replaceChildren(
+        box(
+          humanModel(e.model) + " × " + harnessName(e.harness),
+          outcomes,
+          controls,
+        ),
+      );
+      load(ids[0]);
+      async function load(id) {
+        const generation = ++latest;
+        toRun.href = runPath(id);
+        outcomes.replaceChildren(empty("正在读取逐场预测…"));
+        try {
+          const { report } = await json(baseApi(id), signal);
+          if (signal.aborted || generation !== latest) return;
+          const games = asGames(report, g.games);
+          outcomes.replaceChildren(matchTable(games, id));
+        } catch (err) {
+          if (!signal.aborted && generation === latest)
+            outcomes.replaceChildren(empty(err.message));
+        }
+      }
+    }
+  }
+  draw(groups[0]);
+}
+async function listRuns(root, signal, technical = false, model = null) {
+  const { runs: source = [] } = await json(
+    "/api/runs" + (technical ? "?view=diagnostics" : ""),
+    signal,
+  );
+  const runs = (technical ? source : source.filter(isForecast)).filter(
+    (r) => !model || r.model === model,
+  );
+  root.replaceChildren(
+    pageHeading(
+      humanModel(model) || (technical ? "技术记录" : "预测运行"),
+      model ? "该模型的真实预测运行" : null,
+      model
+        ? link("全部预测运行 →", "#/runs", "sub-link")
+        : technical
+          ? link("返回预测运行", "#/runs", "sub-link")
+          : link("技术记录 →", "#/diagnostics", "sub-link"),
+    ),
+  );
+  let query = "",
+    filter = "",
     page = 0;
   const holder = div("");
   function render() {
-    const rows = runs.filter(
+    const filtered = runs.filter(
       (r) =>
-        (!mode || r.mode === mode) &&
-        (!status || r.status === status) &&
-        [
-          r.harness,
-          r.model,
-          r.name,
-          r.release,
-          r.display_title,
-          r.short_title,
-          r.edition,
-          r.id,
-        ]
+        (!filter || r.harness === filter) &&
+        [r.model, r.harness, r.name, r.edition, r.display_title, r.id]
           .join(" ")
           .toLowerCase()
           .includes(query),
     );
-    const total = rows.length,
-      numPages = Math.max(1, Math.ceil(total / 30));
-    page = Math.max(0, Math.min(page, numPages - 1));
-    const body = rows
+    const pages = Math.max(1, Math.ceil(filtered.length / 30));
+    page = Math.min(page, pages - 1);
+    const rows = filtered
       .slice(page * 30, (page + 1) * 30)
       .map((r) => [
         div(
@@ -439,74 +769,67 @@ async function listRuns(root, signal) {
           link(modelName(r), runPath(r.id), "primary"),
           span("secondary", r.name || r.id),
         ),
-        div(
-          "",
-          span("strong", r.harness),
-          span("secondary", display(r.backend)),
-        ),
-        div("badges", badge(r.mode)),
-        div(
-          "",
-          span("primary", r.short_title || r.display_title || r.release),
-          r.edition && span("secondary", r.edition),
-        ),
-        badge(r.status),
+        harnessName(r.harness),
+        r.short_title || r.release,
+        span("secondary", r.edition || display(r.mode)),
         span("number", nfmt(r.scored) + " / " + nfmt(r.selected)),
-        span("number", fixed(r.mean_reward)),
-        span("nowrap", dateText(r.created_at)),
+        span("number score-num", fixed(r.mean_reward)),
+        display(r.status),
+        span("secondary nowrap", dateText(r.created_at)),
       ]);
     holder.replaceChildren(
-      total
+      rows.length
         ? table(
             [
               ["模型 / 运行"],
-              ["Harness"],
-              ["模式"],
+              ["CLI"],
               ["题集"],
+              ["版本"],
+              ["交卷", "right"],
+              ["均分", "right"],
               ["状态"],
-              ["完成", "right"],
-              ["reward", "right"],
               ["记录时间"],
             ],
-            body,
-            "本地运行",
+            rows,
+            "运行记录",
           )
         : empty("没有匹配的运行。"),
-      pager(total, page, numPages, (v) => {
+      pager(filtered.length, page, pages, (v) => {
         page = v;
         render();
       }),
     );
   }
-  const search = node("input", "");
-  search.type = "search";
-  search.placeholder = "模型、Harness 或运行名称";
-  search.addEventListener("input", () => {
-    query = search.value.trim().toLowerCase();
+  const input = node("input", "");
+  input.type = "search";
+  input.placeholder = "搜索模型或运行名称";
+  input.setAttribute("aria-label", "搜索模型或运行名称");
+  input.addEventListener("input", () => {
+    query = input.value.trim().toLowerCase();
     page = 0;
     render();
   });
-  const opts = (key) => [
+  const cliOpts = [
     ["", "全部"],
-    ...Array.from(new Set(runs.map((r) => r[key]).filter(Boolean)))
+    ...[...new Set(runs.map((r) => r.harness).filter(Boolean))]
       .sort()
-      .map((v) => [v, display(v)]),
+      .map((h) => [h, harnessName(h)]),
   ];
-  const controls = div(
-    "tools",
-    node("label", "grow", "搜索", search),
-    choice("模式", opts("mode"), "", (v) => {
-      mode = v;
-      page = 0;
-      render();
-    }),
-    choice("状态", opts("status"), "", (v) => {
-      status = v;
-      page = 0;
-      render();
-    }),
+  root.append(
+    div(
+      "compact-table",
+      div(
+        "board-toolbar",
+        input,
+        choice("CLI", cliOpts, "", (v) => {
+          filter = v;
+          page = 0;
+          render();
+        }),
+      ),
+      holder,
+    ),
   );
-  root.append(box("全部运行", div("", controls, holder), null, "section"));
   render();
 }
 function pager(total, page, pages, go) {
@@ -607,122 +930,69 @@ async function rules(root, signal) {
 }
 async function runDetail(root, id, signal) {
   const { run: r, report } = await json(baseApi(id), signal);
-  const trials = report.trials || [];
   if (!r) throw Error("找不到运行记录");
-  const boundary = r.mode === "boundary";
+  const tech = !isForecast(r),
+    boundary = r.mode === "boundary",
+    trials = report.trials || [];
+  const meta = [
+    r.model && humanModel(r.model) !== r.model && r.model,
+    harnessName(r.harness),
+    r.display_title || r.short_title || r.release,
+    r.edition,
+    display(r.backend),
+    r.billing_source,
+    dateText(r.created_at),
+  ].filter(Boolean);
   root.replaceChildren(
-    crumb(link("运行记录", "#/runs"), r.name || id),
-    heading(
-      modelName(r),
-      [
-        r.harness,
-        r.display_title || r.short_title || r.release,
-        r.edition,
-        display(r.backend),
-        display(r.mode),
-        dateText(r.created_at),
-      ]
-        .filter(Boolean)
-        .join(" · "),
-      [
-        [
-          boundary ? "验收通过" : "成功交卷",
-          nfmt(r.scored) + " / " + nfmt(r.selected),
-        ],
-        ["完成率", pct(r.coverage)],
-        ...(!boundary ? [["平均 reward", fixed(r.mean_reward)]] : []),
-      ],
+    crumb(
+      link(tech ? "技术记录" : "预测运行", tech ? "#/diagnostics" : "#/runs"),
+      r.name || id,
+    ),
+    pageHeading(modelName(r), meta.join(" · "), reportExports(id)),
+  );
+  if (boundary) {
+    root.append(
+      box(
+        "逐题验收",
+        table(
+          [["题目"], ["CLI"], ["阶段"], ["验收范围"], ["结果"]],
+          trials.map((t) => [
+            link(t.task, taskPath(id, trialKey(t))),
+            harnessName(t.harness),
+            display(phase(t)),
+            t.scope,
+            display(t.status),
+          ]),
+          "逐题验收",
+        ),
+      ),
+    );
+    return;
+  }
+  const games = asGames(report),
+    summary = report.summary || {};
+  root.append(
+    div(
+      "run-facts",
+      field("平均得分", fixed(r.mean_reward)),
+      field("成功交卷", nfmt(r.scored) + " / " + nfmt(r.selected)),
+      field("胜负 Brier", fixed(summary.brier_on_scored?.p_blue_win)),
+      field("15′ 领先 Brier", fixed(summary.brier_on_scored?.p_blue_ahead_15)),
     ),
   );
-  let phaseFilter = "",
-    page = 0;
+  let page = 0;
   const holder = div("");
   function draw() {
-    const available = trials.filter(
-        (t) => !phaseFilter || phase(t) === phaseFilter,
-      ),
-      pages = Math.max(1, Math.ceil(available.length / 30));
-    page = Math.min(page, pages - 1);
-    const rows = available.slice(page * 30, (page + 1) * 30).map((t) => {
-      const match = t.match || {},
-        title =
-          match.blue && match.red ? match.blue + " vs " + match.red : null;
-      const entry = div(
-        "",
-        link(title || t.task, taskPath(id, trialKey(t)), "primary"),
-        title && span("secondary", t.task),
-        t.scope && span("secondary", t.harness + " · " + t.scope),
-      );
-      return [
-        entry,
-        span("nowrap", display(phase(t))),
-        badge(t.status),
-        ...(!boundary
-          ? [
-              span("number", pct(t.prediction?.p_blue_win)),
-              span("number", pct(t.prediction?.p_blue_ahead_15)),
-              span("number", fixed(t.reward)),
-            ]
-          : []),
-        link("查看详情 →", taskPath(id, trialKey(t)), "nowrap"),
-      ];
-    });
-    const headers = [
-      ["题目"],
-      ["阶段"],
-      ["状态"],
-      ...(!boundary
-        ? [
-            ["蓝方胜率", "right"],
-            ["15′ 领先", "right"],
-            ["reward", "right"],
-          ]
-        : []),
-      [""],
-    ];
+    const pages = Math.max(1, Math.ceil(games.length / 20));
     holder.replaceChildren(
-      rows.length
-        ? table(headers, rows, "逐题结果")
-        : empty("此运行还没有匹配的试题记录。"),
-      pager(available.length, page, pages, (v) => {
+      matchTable(games.slice(page * 20, (page + 1) * 20), id),
+      pager(games.length, page, pages, (v) => {
         page = v;
         draw();
       }),
     );
   }
-  const controls = div(
-    "tools",
-    choice(
-      "观测时点",
-      [
-        ["", "全部"],
-        ["lobby", "BP 前"],
-        ["draft-lock", "BP 后"],
-      ],
-      "",
-      (v) => {
-        phaseFilter = v;
-        page = 0;
-        draw();
-      },
-    ),
-    badge(r.status),
-    span("meta", "发布 ID " + r.release),
-  );
-  const exports = div(
-    "button-row",
-    link("完整记录 ZIP", baseApi(id) + "/bundle.zip", "btn", true),
-    link("报告 JSON", baseApi(id) + "/report.json", "btn", true),
-    link("逐题 CSV", baseApi(id) + "/trials.csv", "btn", true),
-  );
-  root.append(
-    box(
-      boundary ? "隔离验收结果" : "逐题预测",
-      div("", controls, holder),
-      exports,
-      "section",
-    ),
-  );
+  root.append(holder);
   draw();
 }
 const PREVIEW_LIMIT = 2 * 1024 * 1024;
@@ -756,152 +1026,7 @@ async function preview(url, signal) {
 function displayText(x) {
   return typeof x === "string" ? x : (JSON.stringify(x, null, 2) ?? "");
 }
-function eventSections(text, isTranscript) {
-  if (!isTranscript)
-    return text
-      .split("\n")
-      .filter((l) => l.trim())
-      .map((l) => {
-        try {
-          const e = JSON.parse(l),
-            i = e.item || {},
-            name = i.type || e.toolName || e.type || e.role || "原生事件";
-          return {
-            title: String(name),
-            body: i.command
-              ? i.command + "\n\n" + (i.aggregated_output || "")
-              : displayText(e),
-          };
-        } catch {
-          return { title: "CLI 输出", body: l };
-        }
-      });
-  // The generated transcript chooses fences longer than any run of backticks in its data.
-  const blocks = [];
-  let recording = false,
-    current = null,
-    fence = "";
-  for (const line of text.split("\n")) {
-    if (line === "## 执行轨迹" && !fence) {
-      recording = true;
-      continue;
-    }
-    if (!recording) continue;
-    const delimiter = line.match(/^(\x60{3,})$/);
-    if (delimiter && (!fence || delimiter[1] === fence)) {
-      fence = fence ? "" : delimiter[1];
-      continue;
-    }
-    const title = !fence && line.match(/^###\s+\d+\.\s+(.+)$/);
-    if (title) {
-      if (current) blocks.push(current);
-      current = { title: title[1], lines: [] };
-    } else if (current) current.lines.push(line);
-  }
-  if (current) blocks.push(current);
-  return blocks.map((b) => ({
-    title: b.title,
-    body: b.lines.join("\n").trim(),
-  }));
-}
-function browseTrace(files, signal) {
-  const outer = div(""),
-    available = files.transcript || files.events;
-  if (!available) {
-    outer.append(empty("此题没有已保存的逐步轨迹或原生事件。"));
-    return outer;
-  }
-  const start = action("读取执行轨迹", load);
-  outer.append(div("panel-body", start));
-  async function load() {
-    start.disabled = true;
-    start.textContent = "正在读取…";
-    try {
-      const { text, truncated } = await preview(available, signal);
-      const sections = eventSections(text, Boolean(files.transcript));
-      const list = div(""),
-        actions = div("panel-foot");
-      let shown = 0,
-        filter = "";
-      function appendPage() {
-        const selected = sections.filter(
-          (e) => !filter || classify(e.title) === filter,
-        );
-        for (const [offset, section] of selected
-          .slice(shown, shown + 40)
-          .entries()) {
-          const kind = classify(section.title),
-            d = node("details", "event " + kind);
-          const first = section.body.split("\n", 1)[0].trim().slice(0, 120);
-          d.append(
-            node(
-              "summary",
-              "",
-              span("event-index", String(shown + offset + 1).padStart(2, "0")),
-              span("event-icon", ""),
-              div(
-                "event-title",
-                node("strong", "", section.title),
-                first && node("small", "", first),
-              ),
-            ),
-          );
-          d.addEventListener("toggle", () => {
-            if (d.open && !d.querySelector(".body"))
-              d.append(
-                div("body", node("pre", "code", section.body || "（无输出）")),
-              );
-          });
-          list.append(d);
-        }
-        shown = Math.min(selected.length, shown + 40);
-        actions.replaceChildren(
-          span("meta", "已显示 " + shown + " / " + selected.length + " 个步骤"),
-          shown < selected.length ? action("显示更多", appendPage) : nullNode(),
-        );
-        if (!shown) list.replaceChildren(empty("这份记录中没有匹配的步骤。"));
-      }
-      const filterControl = choice(
-        "步骤",
-        [
-          ["", "全部"],
-          ["tool", "命令与工具"],
-          ["message", "模型消息"],
-          ["warning", "诊断"],
-        ],
-        "",
-        (v) => {
-          filter = v;
-          shown = 0;
-          list.replaceChildren();
-          appendPage();
-        },
-      );
-      outer.replaceChildren(
-        div("tools", filterControl, link("下载原文件", available, "btn", true)),
-        list,
-        actions,
-      );
-      if (truncated)
-        outer.append(empty("预览已截到 2 MiB。可下载原文件查看全部内容。"));
-      appendPage();
-    } catch (e) {
-      if (signal.aborted) return;
-      outer.replaceChildren(
-        empty(e.message),
-        div("panel-body", action("重试", load)),
-      );
-    }
-  }
-  return outer;
-}
 const nullNode = () => document.createDocumentFragment();
-function classify(s) {
-  if (/退出码 [1-9]|诊断|错误|error|failed/i.test(s)) return "warning";
-  if (/命令|工具|tool|exec|shell/i.test(s)) return "tool";
-  if (/模型|message|assistant/i.test(s)) return "message";
-  return "other";
-}
 function fileBrowser(files, signal) {
   const list = div("file-list"),
     view = div("files-preview");
@@ -1061,7 +1186,18 @@ async function trialDetail(root, id, key, signal) {
   const count = Number.isFinite(tr.shell_commands)
     ? span("meta", tr.shell_commands + " 条终端命令")
     : null;
-  left.append(box("执行轨迹", browseTrace(files, signal), count));
+  left.prepend(
+    box(
+      "执行轨迹",
+      trialTimeline(
+        t,
+        files,
+        baseApi(id) + "/trials/" + enc(key) + "/timeline",
+        signal,
+      ),
+      count,
+    ),
+  );
   const right = div(
     "stack",
     box(
@@ -1103,10 +1239,19 @@ async function route() {
     root = div("page");
   main.replaceChildren(root);
   for (const a of document.querySelectorAll("[data-nav]")) {
-    if (a.dataset.nav === tab) a.setAttribute("aria-current", "page");
+    if (
+      a.dataset.nav ===
+      (tab === "models" || tab === "diagnostics" ? "runs" : tab)
+    )
+      a.setAttribute("aria-current", "page");
     else a.removeAttribute("aria-current");
   }
-  const titles = { leaderboard: "排行榜", runs: "运行记录", rules: "参赛规范" };
+  const titles = {
+    leaderboard: "模型成绩",
+    runs: "预测运行",
+    rules: "评测规则",
+    diagnostics: "技术记录",
+  };
   document.title =
     (parts.length > 2
       ? "逐题记录"
@@ -1120,6 +1265,10 @@ async function route() {
     if (tab === "leaderboard" && parts.length <= 1)
       await leaderboard(root, signal);
     else if (tab === "runs" && parts.length === 1) await listRuns(root, signal);
+    else if (tab === "diagnostics" && parts.length === 1)
+      await listRuns(root, signal, true);
+    else if (tab === "models" && parts.length === 2)
+      await listRuns(root, signal, false, parts[1]);
     else if (tab === "runs" && parts.length === 2)
       await runDetail(root, parts[1], signal);
     else if (tab === "runs" && parts.length === 4 && parts[2] === "trials")

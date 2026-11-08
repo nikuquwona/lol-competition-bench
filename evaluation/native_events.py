@@ -18,10 +18,11 @@ def content_text(content):
 
 
 class NativeEvents:
-    def __init__(self, sections, counts, usage):
+    def __init__(self, sections, counts, usage, call_ids=None):
         self.sections = sections
         self.counts = counts
         self.usage = usage
+        self.call_ids = call_ids
         self.calls = {}
         self.saw_message = False
 
@@ -41,6 +42,8 @@ class NativeEvents:
             "shelltoolcall",
         }
         self.calls[identifier] = shell
+        if self.call_ids is not None:
+            self.call_ids[len(self.sections)] = identifier
         self.counts["tool_calls"] += 1
         if shell:
             self.counts["shell_commands"] += 1
@@ -53,6 +56,8 @@ class NativeEvents:
         self.sections.append(("终端命令" if shell else "工具调用 · " + name, value))
 
     def result(self, identifier, value, failed=False, code=None):
+        if self.call_ids is not None and isinstance(identifier, str):
+            self.call_ids[len(self.sections)] = identifier
         shell = (
             self.calls.pop(identifier, False) if isinstance(identifier, str) else False
         )
@@ -90,8 +95,18 @@ class NativeEvents:
                         block.get("is_error"),
                     )
             return True
-        if kind == "system" and event.get("subtype") == "init":
-            return True
+        if kind == "system":
+            if event.get("subtype") in ("init", "thinking_tokens"):
+                return True
+            if event.get("subtype") == "api_retry":
+                self.counts["api_retries"] += 1
+                label = f"CLI 诊断 · 推理重试 · HTTP {event.get('error_status')}"
+                notice = f"已到第 {event.get('attempt')} / {event.get('max_retries')} 次重试；本次等待 {event.get('retry_delay_ms')} ms。"
+                if self.sections and self.sections[-1][0] == label:
+                    self.sections[-1] = (label, notice)
+                else:
+                    self.sections.append((label, notice))
+                return True
         if kind == "result":
             for k, v in (event.get("usage") or {}).items():
                 if type(v) is int:

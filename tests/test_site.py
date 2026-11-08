@@ -10,7 +10,7 @@ from http.client import HTTPConnection
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 
-from evaluation.site import RunIndex, make_handler
+from evaluation.site import RunIndex, make_handler, visible_runs
 from evaluation.suite import ROOT
 
 
@@ -64,7 +64,8 @@ class LocalSiteTest(unittest.TestCase):
     def test_navigation_downloads_and_boundary(self):
         status, data = self.get("/api/runs")
         self.assertEqual(status, 200)
-        (run,) = json.loads(data)["runs"]
+        self.assertEqual(json.loads(data)["runs"], [])
+        (run,) = json.loads(self.get("/api/runs?view=diagnostics")[1])["runs"]
         base = "/api/runs/" + run["id"]
         self.assertEqual(json.loads(self.get(base + "/report.json")[1]), self.fixture)
         trial = base + "/trials/example-game"
@@ -87,4 +88,43 @@ class LocalSiteTest(unittest.TestCase):
             )
         ranks = json.loads(self.get("/api/leaderboard")[1])
         self.assertEqual(ranks["groups"], [])
-        self.assertTrue(ranks["excluded"])
+        self.assertFalse(ranks["excluded"])
+        self.assertEqual(self.get("/api/runs?view=arbitrary")[0], 400)
+
+
+class PublishedResultsTest(unittest.TestCase):
+    def test_featured_predictions_on_clean_checkout(self):
+        index = RunIndex([("example", ROOT / "evaluation" / "examples")])
+        reports = visible_runs(index.runs(), "predictions")
+        board = index.ranks(reports)
+        sample = board["featured"]
+        self.assertEqual(len(sample["games"]), 5)
+        for g in sample["games"]:
+            self.assertEqual(set(g["tasks"]), {"lobby", "draft_lock"})
+            self.assertTrue(g["blue"] and g["red"])
+        free = next(
+            e
+            for e in sample["entries"]
+            if e["harness"] == "codex" and e["model"].endswith(":free")
+        )
+        self.assertEqual(
+            (free["scored"], free["attempted"], free["selected"]), (4, 6, 10)
+        )
+        self.assertIsNone(free["mean_reward"])
+        self.assertAlmostEqual(free["mean_scored_reward"], 0.7336875)
+        modes = {group["track"] for group in board["groups"]}
+        self.assertFalse(modes.intersection({"fixture", "baseline"}))
+        self.assertIn("controlled", modes)
+
+    def test_published_mirror_counts_only_once(self):
+        example = ROOT / "evaluation/examples/worlds-2026-kc-t1-openrouter"
+        with tempfile.TemporaryDirectory() as tmp:
+            local = Path(tmp) / "local-copy"
+            local.mkdir()
+            (local / "report.json").write_bytes((example / "report.json").read_bytes())
+            idx = RunIndex([("local", local), ("example", example)])
+            reports = visible_runs(idx.runs(), "predictions")
+            self.assertEqual(len(reports), 1)
+            self.assertEqual(next(iter(reports.values()))[0]["origin"], "local")
+            (row,) = idx.ranks(reports)["groups"][0]["entries"]
+            self.assertEqual((row["attempts"], row["scored"]), (1, 2))

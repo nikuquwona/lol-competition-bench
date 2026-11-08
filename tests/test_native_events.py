@@ -89,3 +89,26 @@ class NativeEventTests(unittest.TestCase):
         self.assertNotIn("shell_commands", counts)
         self.assertEqual(sections[0], ("工具调用 · readToolCall", params))
         self.assertIn("example", str(sections[1]))
+
+    def test_claude_thinking_meter_and_rate_limit_backoff(self):
+        retry = {
+            "type": "system",
+            "subtype": "api_retry",
+            "error_status": 429,
+            "max_retries": 10,
+        }
+        sections, counts, _ = self.render(
+            [
+                {
+                    "type": "system",
+                    "subtype": "thinking_tokens",
+                    "estimated_tokens": 34,
+                },
+                {**retry, "attempt": 1, "retry_delay_ms": 600},
+                {**retry, "attempt": 2, "retry_delay_ms": 1300},
+            ]
+        )
+        self.assertEqual(counts["api_retries"], 2)
+        self.assertEqual(len(sections), 1)
+        self.assertIn("HTTP 429", sections[0][0])
+        self.assertIn("2 / 10", sections[0][1])

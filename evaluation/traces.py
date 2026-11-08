@@ -17,18 +17,19 @@ def fenced(value):
     if not isinstance(value, str):
         value = json.dumps(value, ensure_ascii=False, indent=2)
     fence = "`" * max(3, 1 + max(map(len, re.findall(r"`+", value)), default=0))
-    return f"{fence}\n{value.rstrip()}\n{fence}"
+    display = "\n".join(line.rstrip() for line in value.rstrip().split("\n"))
+    return f"{fence}\n{display}\n{fence}"
 
 
-def render_events(path):
+def render_events(path, *, stream=None, call_ids=None):
     from evaluation.native_events import NativeEvents
 
     sections = []
     counts = Counter()
     usage = Counter()
     pending = {}
-    native = NativeEvents(sections, counts, usage)
-    with path.open(errors="replace") as stream:
+    native = NativeEvents(sections, counts, usage, call_ids)
+    with stream if stream is not None else path.open(errors="replace") as stream:
         for line in stream:
             if not line.strip():
                 continue
@@ -233,6 +234,24 @@ def overview(out, report):
                 f"已评分 {report['summary']['scored']} / {report['summary']['selected']}，平均 reward {report['summary']['mean_reward']:.5f}。",
             ]
         )
+    if report.get("unstarted"):
+        progress = report["progress"]
+        lines += [
+            "",
+            f"原计划 {progress['planned']} 题，启动 {progress['attempted']} 题，成功交卷 {progress['scored']} 题。",
+        ]
+        lines += ["", "免费推理日配额耗尽，以下题目尚未启动。"]
+        for trial in report["unstarted"]:
+            lines += [
+                f"- {trial['task']} · [题面]({trial['files']['prompt']}) · [快照]({trial['files']['snapshot']})"
+            ]
+    for trial in report["trials"]:
+        if draft := trial.get("unsettled_draft"):
+            lines += [
+                "",
+                f"{trial['task']} 的 CLI 在事件 `{draft['native_event']}` 读回草稿 "
+                f"`{json.dumps(draft['values'], ensure_ascii=False)}`。运行因 HTTP 429 中止，该草稿未结算。",
+            ]
     lines.extend(["", "[机器可读报告](report.json)"])
     (out / "report.md").write_text(
         "\n".join([lines[0], "", lines[1], "", *lines[2:]]) + "\n"

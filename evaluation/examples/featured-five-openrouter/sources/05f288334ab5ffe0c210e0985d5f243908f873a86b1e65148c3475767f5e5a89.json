@@ -1,0 +1,270 @@
+{
+  "release": "replay-v3",
+  "archive_sha256": "c97e27c8b39e010a2a82cacd80a1aed824043b1bbdf9418f2e7a03f70259bd1c",
+  "harness": "codex",
+  "model": "nvidia/nemotron-3.5-lightning:free",
+  "mode": "openrouter-free",
+  "backend": "macos",
+  "planned": [
+    "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+    "lpl-2026-regional-finals-round-1-1-g2-lobby"
+  ],
+  "trials": [
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "prompt_sha256": "42876f6f1f87de8bcc456f44117a5a8fee705399b84cdcd72941163178fdd5a0",
+      "snapshot_sha256": "5fd8a27a15e69116bc78cb2224cb802238f380ba87b880cf1f0f279da0bbf134",
+      "status": "failed",
+      "reward": 0,
+      "error": "draft-lock: CLI exit 1, HTTP statuses [401, 401, 401, 401, 401, 401]",
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 10,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-draft-lock/stderr.txt",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-draft-lock/transcript.md"
+        }
+      }
+    },
+    {
+      "task": "lpl-2026-regional-finals-round-1-1-g2-lobby",
+      "coverage": {
+        "history_games": 1,
+        "starters": [
+          {
+            "side": "blue",
+            "name": "JiaQi",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Meiko",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Rookie",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "TheShy",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "blue",
+            "name": "Wei",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Creme",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "JackeyLove",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Tian",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "ZUIAN",
+            "games": 1,
+            "same_patch_games": 1
+          },
+          {
+            "side": "red",
+            "name": "Zhuo",
+            "games": 1,
+            "same_patch_games": 1
+          }
+        ],
+        "starters_with_history": 10,
+        "coverage_group": "all",
+        "previous_series_games": [
+          1
+        ],
+        "missing_previous_series_games": []
+      },
+      "phase": "lobby",
+      "patch": "26.17",
+      "prompt_sha256": "f208a2d6f7ee0a6cb85b9672d7b09b5a6ef6e08b6cdc326274f93aee97c2ac34",
+      "snapshot_sha256": "7c24738210a0a582812db1f60936bfff6c0eaf17cddd97452585241d36afc6d3",
+      "status": "failed",
+      "reward": 0,
+      "error": "lobby: CLI exit 1, HTTP statuses [401, 401, 401, 401, 401, 401]",
+      "observed_outcome": {
+        "p_blue_win": 0,
+        "p_blue_ahead_15": 0
+      },
+      "trajectory": {
+        "availability": "recorded",
+        "events": 10,
+        "token_usage": {},
+        "files": {
+          "prompt": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/instruction.md",
+          "snapshot": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/snapshot.json",
+          "events": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/trajectory.jsonl",
+          "stderr": "jobs/lpl-2026-regional-finals-round-1-1-g2-lobby/stderr.txt",
+          "transcript": "traces/lpl-2026-regional-finals-round-1-1-g2-lobby/transcript.md"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "selected": 2,
+    "scored": 0,
+    "statuses": {
+      "failed": 2
+    },
+    "mean_reward": 0.0,
+    "brier_on_scored": {
+      "p_blue_win": null,
+      "p_blue_ahead_15": null
+    }
+  },
+  "by_phase": {
+    "draft-lock": {
+      "selected": 1,
+      "scored": 0,
+      "statuses": {
+        "failed": 1
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    },
+    "lobby": {
+      "selected": 1,
+      "scored": 0,
+      "statuses": {
+        "failed": 1
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    }
+  },
+  "by_coverage": {
+    "all": {
+      "selected": 2,
+      "scored": 0,
+      "statuses": {
+        "failed": 2
+      },
+      "mean_reward": 0.0,
+      "brier_on_scored": {
+        "p_blue_win": null,
+        "p_blue_ahead_15": null
+      }
+    }
+  },
+  "paired": {
+    "selected_games": 1,
+    "selected_pairs": 1,
+    "scored_pairs": 0,
+    "mean_brier_improvement": {
+      "p_blue_win": null,
+      "p_blue_ahead_15": null
+    },
+    "pairs": []
+  }
+}

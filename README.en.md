@@ -8,6 +8,17 @@ A Harbor benchmark for forecasting professional League of Legends. A model uses 
 
 ![Framework showing how event records become point-in-time Harbor tasks, how a CLI gives a model access to each snapshot, and how a separate verifier scores its predictions.](figures/lol-competition-bench-framework.png)
 
+## Five-game comparison
+
+Start the local model scoreboard with `./bench serve`. The five games cover IG–TES, MVK–FURIA, Movistar KOI–BLG, LØS–LYON and KC–T1. Select a model and CLI, then open a prediction to see the evidence it queried, probability revisions and the submission the verifier scored. [Fixed selection](evaluation/suites/featured-five.json) · [Free OpenRouter run and quota record](evaluation/examples/featured-five-openrouter/report.md)
+
+```sh
+./bench e2e --suite featured-five --list
+./bench e2e --suite featured-five --backend macos --harness codex --model deepseek-v4-pro
+```
+
+The second command uses the host's `DEEPSEEK_API_KEY` and bills the account through the official DeepSeek API. Use `--harness claude` to run Claude Code on the same backend. The team marks come from [official LoL Esports assets](evaluation/site_assets/teams/sources.json).
+
 ## A game from snapshot to score
 
 At Worlds 2026, Karmine Corp played blue side against T1 in game two of their best-of-five quarterfinal. Both forecasting sessions could inspect 96 earlier games. Each KC starter appeared in 19 of them and each T1 starter in six. Looking up Faker reveals that he played Viktor in game one. Under the series' Fearless Draft rules, that pick removed Viktor from both teams' champion pools for game two.
@@ -44,7 +55,7 @@ Open the run's `report.md` or use the local site to inspect each prompt, input s
 | CLI | Execution and verification |
 | --- | --- |
 | Claude Code, Codex, Pi and Kimi Code | Harbor with Docker runs each native CLI in an isolated worker behind a restricted inference gateway. Protocol fixtures exercise real CLI tools for all four. |
-| Codex on macOS | Each trial gets a fresh Seatbelt sandbox. The host applies the same scoring function. This is the backend used for the example above. |
+| Codex and Claude Code on macOS | Each trial gets a fresh Seatbelt sandbox. The host applies the same scoring function. This is the backend used for the example above. |
 | Cursor CLI | Vendor mode uses a model available to the Cursor account and has its own leaderboard group. The credential-free test covers the worker boundary and unauthenticated startup. Cursor controls retrieval in its authenticated remote service. |
 
 ## Historical and live forecasts
