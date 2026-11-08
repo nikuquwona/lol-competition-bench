@@ -19,7 +19,13 @@ import json, os, stat
 fd=os.open('/app/prediction.json', os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
 s=os.fstat(fd)
 assert stat.S_ISREG(s.st_mode) and 0<s.st_size<=4096
-data=json.loads(os.read(fd,4097))
+def unique(pairs):
+    out=dict(pairs)
+    assert len(out)==len(pairs)
+    return out
+raw=os.read(fd,4097)
+assert len(raw)<=4096
+data=json.loads(raw,object_pairs_hook=unique)
 assert isinstance(data,dict) and set(data)=={'p_blue_win','p_blue_ahead_15'}
 assert all(type(p) in (int,float) and 0<=p<=1 for p in data.values())
 print(json.dumps(data,allow_nan=False))
@@ -111,7 +117,7 @@ def run(name, model, mode, snapshot, instruction, out):
                 mode,
             )
         opts = []
-        if mode == "vendor":
+        if name == "cursor" and mode in ("vendor", "check"):
             # TLS terminates at Cursor. Each relay has a fixed destination selected by the operator.
             commands = []
             for i, host in enumerate(CURSOR_HOSTS):

@@ -2,6 +2,8 @@
 
 import json
 import os
+import socket
+import ssl
 import subprocess
 import sys
 from pathlib import Path
@@ -140,26 +142,6 @@ def main():
     ):
         raise RuntimeError("unexpected mount in CLI environment")
     subprocess.run([BIN[name], "--version"], check=True, timeout=25)
-    if sys.argv[3:] == ["--check"]:
-        subprocess.run(
-            [BIN[name], "--help"], check=True, stdout=subprocess.DEVNULL, timeout=30
-        )
-        # Demonstrate actual headless startup without consulting personal credentials.
-        probe = subprocess.run(
-            command(name, model, "Print OK."),
-            capture_output=True,
-            text=True,
-            timeout=45,
-        )
-        diagnostic = (probe.stdout + probe.stderr).lower()
-        if probe.returncode == 0 or not any(
-            k in diagnostic
-            for k in ("auth", "api key", "api_key", "login", "log in", "sign in")
-        ):
-            raise RuntimeError(
-                "Unexpected unauthenticated headless outcome: " + diagnostic[-500:]
-            )
-        return
     relays = []
     if name == "cursor":
         routes = [
@@ -178,6 +160,32 @@ def main():
                     ]
                 )
             )
+        if sys.argv[3:] == ["--check"]:
+            # Probe only the vendor backends, over the same pinned TCP relays as a paid run.
+            tls = ssl.create_default_context()
+            for host in ("api2.cursor.sh", "api5.cursor.sh"):
+                with socket.create_connection((host, 443), timeout=10) as conn:
+                    with tls.wrap_socket(conn, server_hostname=host):
+                        pass
+            subprocess.run(
+                [BIN[name], "--help"], check=True, stdout=subprocess.DEVNULL, timeout=30
+            )
+            # Demonstrate actual headless startup without consulting personal credentials.
+            probe = subprocess.run(
+                command(name, model, "Print OK."),
+                capture_output=True,
+                text=True,
+                timeout=45,
+            )
+            diagnostic = (probe.stdout + probe.stderr).lower()
+            if probe.returncode == 0 or not any(
+                k in diagnostic
+                for k in ("auth", "api key", "api_key", "login", "log in", "sign in")
+            ):
+                raise RuntimeError(
+                    "Unexpected unauthenticated headless outcome: " + diagnostic[-500:]
+                )
+            return
         prompt = Path("/input/instruction.md").read_text()
         subprocess.run(
             command(name, model, prompt),

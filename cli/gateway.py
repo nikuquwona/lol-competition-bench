@@ -96,6 +96,10 @@ class Handler(BaseHTTPRequestHandler):
             if not 0 < n <= MAX_BODY:
                 raise ValueError("invalid size")
             body = json.loads(self.rfile.read(n))
+            if isinstance(body, dict):
+                body.pop(
+                    "client_metadata", None
+                )  # Codex tracing hints have no inference semantics.
             validate(body, self.server.model)
             with self.server.lock:
                 if self.server.remaining <= 0:

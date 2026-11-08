@@ -1,7 +1,6 @@
 """Harbor host adapter. Only the cut-off snapshot and task instruction cross into the CLI worker."""
 
 import asyncio
-import json
 import os
 import signal
 import sys

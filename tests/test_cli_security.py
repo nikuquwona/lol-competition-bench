@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from cli.gateway import validate
 from cli.worker import READ_PREDICTION
 from build import snapshot
+from score import read_prediction
 
 
 class IsolationTests(unittest.TestCase):
@@ -98,8 +99,10 @@ class IsolationTests(unittest.TestCase):
             wanted = {"p_blue_win": 0.41, "p_blue_ahead_15": 0.57}
             file.write_text(json.dumps(wanted))
             self.assertTrue(passed())
+            self.assertEqual(wanted, read_prediction(file))
             for content in (
                 "[]",
+                '{"p_blue_win":0,"p_blue_win":1,"p_blue_ahead_15":1}',
                 '{"p_blue_win":NaN,"p_blue_ahead_15":1}',
                 json.dumps({**wanted, "hint": "label"}),
                 " " * 4097,
@@ -110,7 +113,11 @@ class IsolationTests(unittest.TestCase):
             labels = root / "truth.json"
             labels.write_text(json.dumps(wanted))
             file.symlink_to(labels)
+            with self.assertRaises(OSError):
+                read_prediction(file)
             self.assertFalse(passed())
             file.unlink()
             os.mkfifo(file)
+            with self.assertRaises(ValueError):
+                read_prediction(file)
             self.assertFalse(passed())
