@@ -1,4 +1,5 @@
 """Fetch public source snapshots. Keep bulk/raw upstream files off the agent image."""
+
 import hashlib
 import json
 import os
@@ -33,12 +34,20 @@ def fetch(url):
             except OSError:
                 if attempt == 2:
                     raise
-                time.sleep(2 ** attempt)
+                time.sleep(2**attempt)
         last[host] = time.monotonic()
         tmp = path.with_suffix(f".{os.getpid()}.tmp")
         tmp.write_bytes(body)
         tmp.replace(path)
-        path.with_suffix(".meta").write_text(json.dumps(dict(url=url, fetched_at=datetime.now(timezone.utc).isoformat(), sha256=hashlib.sha256(body).hexdigest())))
+        path.with_suffix(".meta").write_text(
+            json.dumps(
+                dict(
+                    url=url,
+                    fetched_at=datetime.now(timezone.utc).isoformat(),
+                    sha256=hashlib.sha256(body).hexdigest(),
+                )
+            )
+        )
     return path.read_bytes()
 
 
@@ -56,9 +65,13 @@ def main():
         print(event, flush=True)
     obj(f"{BASE}/rating.json")
     for number in (237, 246):
-        rows = obj(f"{TENCENT}/LOL_MATCH2_MATCH_HOMEPAGE_BMATCH_LIST_{number}.js")["msg"]
+        rows = obj(f"{TENCENT}/LOL_MATCH2_MATCH_HOMEPAGE_BMATCH_LIST_{number}.js")[
+            "msg"
+        ]
         for row in rows:
-            if row["MatchStatus"] == "3" and (number == 246 or "2026-09-17" <= row["MatchDate"][:10] <= "2026-09-19"):
+            if row["MatchStatus"] == "3" and (
+                number == 246 or "2026-09-17" <= row["MatchDate"][:10] <= "2026-09-19"
+            ):
                 fetch(f"{TENCENT}/LOL_MATCH_DETAIL_{row['bMatchId']}.js")
 
 

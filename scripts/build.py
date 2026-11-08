@@ -1,4 +1,5 @@
 """Compile each forecast into an independent Harbor task with a physical as-of snapshot."""
+
 import argparse
 import json
 import shutil
@@ -40,7 +41,7 @@ Reward is one minus the equally weighted mean of the two squared probability err
 
 
 def eligible(g):
-    return len(g["bp"])==20 and len(g["players"])==10 and g["blue_gd15"] is not None
+    return len(g["bp"]) == 20 and len(g["players"]) == 10 and g["blue_gd15"] is not None
 
 
 def earlier(h, target):
@@ -54,56 +55,104 @@ def earlier(h, target):
 
 
 def snapshot(records, target, phase):
-    current = {k:target[k] for k in ("event","stage","series","n","patch","bo","blue","red")}
-    current["starters"] = {s:sorted(p["name"] for p in target["players"] if p["side"]==s) for s in ("blue","red")}
+    current = {
+        k: target[k]
+        for k in ("event", "stage", "series", "n", "patch", "bo", "blue", "red")
+    }
+    current["starters"] = {
+        s: sorted(p["name"] for p in target["players"] if p["side"] == s)
+        for s in ("blue", "red")
+    }
     current["draft_rule"] = "Fearless"
     if phase == "draft-lock":
         current["bp"] = target["bp"]
     history = []
-    for h in sorted(records,key=lambda r:(r["series_time"],r["series"],r["n"])):
-        if not earlier(h,target):
+    for h in sorted(records, key=lambda r: (r["series_time"], r["series"], r["n"])):
+        if not earlier(h, target):
             continue
-        row = {k:h[k] for k in ("series","series_time","event","n","patch","blue","red","blue_win","blue_gd15","bp")}
+        row = {
+            k: h[k]
+            for k in (
+                "series",
+                "series_time",
+                "event",
+                "n",
+                "patch",
+                "blue",
+                "red",
+                "blue_win",
+                "blue_gd15",
+                "bp",
+            )
+        }
         # Ratings use a retrospective season-wide reference distribution. Never expose them.
-        row["players"] = [{k:p[k] for k in ("name","role","side","champion","k","d","a")} for p in h["players"]]
+        row["players"] = [
+            {k: p[k] for k in ("name", "role", "side", "champion", "k", "d", "a")}
+            for p in h["players"]
+        ]
         history.append(row)
-    return dict(phase=phase,series_time_utc=target["series_time"],current=current,history=history)
+    return dict(
+        phase=phase,
+        series_time_utc=target["series_time"],
+        current=current,
+        history=history,
+    )
 
 
 def write_task(out, context, target):
-    out.mkdir(parents=True,exist_ok=False)
-    for d in ("environment","tests","solution"):
-        (out/d).mkdir()
-    (out/"instruction.md").write_text(BRIEF)
-    (out/"task.toml").write_text(CONFIG)
-    (out/"environment/Dockerfile").write_text(AGENT_IMAGE)
-    (out/"environment/snapshot.json").write_text(json.dumps(context, ensure_ascii=False))
-    (out/"tests/Dockerfile").write_text("FROM python:3.12-slim\nWORKDIR /app\nCOPY . /tests/\n")
-    labels = dict(p_blue_win=int(target["blue_win"]),p_blue_ahead_15=int(target["blue_gd15"]>0))
-    (out/"tests/labels.json").write_text(json.dumps(labels))
-    shutil.copyfile(ROOT/"scripts/score.py",out/"tests/score.py")
-    (out/"tests/test.sh").write_text("#!/bin/sh\nset -eu\nmkdir -p /logs/verifier\npython3 -I /tests/score.py\n")
-    (out/"solution/solve.sh").write_text("#!/bin/sh\nset -eu\nprintf '%s\\n' '"+json.dumps(labels)+"' > /app/prediction.json\n")
-    for file in ("tests/test.sh","solution/solve.sh"):
-        (out/file).chmod(0o755)
+    out.mkdir(parents=True, exist_ok=False)
+    for d in ("environment", "tests", "solution"):
+        (out / d).mkdir()
+    (out / "instruction.md").write_text(BRIEF)
+    (out / "task.toml").write_text(CONFIG)
+    (out / "environment/Dockerfile").write_text(AGENT_IMAGE)
+    (out / "environment/snapshot.json").write_text(
+        json.dumps(context, ensure_ascii=False)
+    )
+    (out / "tests/Dockerfile").write_text(
+        "FROM python:3.12-slim\nWORKDIR /app\nCOPY . /tests/\n"
+    )
+    labels = dict(
+        p_blue_win=int(target["blue_win"]), p_blue_ahead_15=int(target["blue_gd15"] > 0)
+    )
+    (out / "tests/labels.json").write_text(json.dumps(labels))
+    shutil.copyfile(ROOT / "scripts/score.py", out / "tests/score.py")
+    (out / "tests/test.sh").write_text(
+        "#!/bin/sh\nset -eu\nmkdir -p /logs/verifier\npython3 -I /tests/score.py\n"
+    )
+    (out / "solution/solve.sh").write_text(
+        "#!/bin/sh\nset -eu\nprintf '%s\\n' '"
+        + json.dumps(labels)
+        + "' > /app/prediction.json\n"
+    )
+    for file in ("tests/test.sh", "solution/solve.sh"):
+        (out / file).chmod(0o755)
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--out",type=Path,default=ROOT/"tasks")
-    parser.add_argument("--phase",choices=["draft-lock","lobby"],default="draft-lock")
+    parser.add_argument("--out", type=Path, default=ROOT / "tasks")
+    parser.add_argument(
+        "--phase", choices=["draft-lock", "lobby"], default="draft-lock"
+    )
     parser.add_argument("--series")
-    parser.add_argument("--game",type=int)
+    parser.add_argument("--game", type=int)
     args = parser.parse_args()
-    records = json.loads((ROOT/"data/games.json").read_text())
-    targets = [r for r in records if eligible(r) and (not args.series or r["series"]==args.series) and (not args.game or r["n"]==args.game)]
+    records = json.loads((ROOT / "data/games.json").read_text())
+    targets = [
+        r
+        for r in records
+        if eligible(r)
+        and (not args.series or r["series"] == args.series)
+        and (not args.game or r["n"] == args.game)
+    ]
     if not targets:
         parser.error("No eligible games match this selection.")
     for t in targets:
-        directory=args.out/f"{t['series']}-g{t['n']}-{args.phase}"
-        write_task(directory,snapshot(records,t,args.phase),t)
+        directory = args.out / f"{t['series']}-g{t['n']}-{args.phase}"
+        write_task(directory, snapshot(records, t, args.phase), t)
     print(f"{len(targets)} {args.phase} tasks under {args.out}")
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
