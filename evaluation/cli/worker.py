@@ -11,7 +11,7 @@ from collections import deque
 import threading
 import uuid
 from pathlib import Path
-from cli.client import BIN, CURSOR_HOSTS
+from evaluation.cli.client import BIN, CURSOR_HOSTS
 
 HERE = Path(__file__).resolve().parent
 READ_PREDICTION = """
@@ -54,19 +54,23 @@ def run(name, model, mode, snapshot, instruction, out):
         raise ValueError(f"Missing dedicated runner secret {secret}")
     tag = "lolbench-" + uuid.uuid4().hex[:12]
     worker, gateway, volume = tag + "-cli", tag + "-gateway", tag + "-sock"
-    image = tag + ":trial"
+    shared = os.environ.get("BENCH_SUITE_IMAGE")
+    if shared and not re.fullmatch(r"lolbench-suite-[0-9a-f]{12}:trial", shared):
+        raise ValueError("Invalid operator-supplied suite image")
+    image = shared or tag + ":trial"
     out.mkdir(parents=True, exist_ok=False)
     try:
-        docker(
-            "build",
-            "-q",
-            "-t",
-            image,
-            "--build-arg",
-            f"HARNESS={name}",
-            str(HERE),
-            timeout=600,
-        )
+        if not shared:
+            docker(
+                "build",
+                "-q",
+                "-t",
+                image,
+                "--build-arg",
+                f"HARNESS={name}",
+                str(HERE),
+                timeout=600,
+            )
         docker("volume", "create", volume)
         # Gateway has no host port; its sole client interface is the shared socket volume.
         common = [
@@ -259,13 +263,16 @@ def run(name, model, mode, snapshot, instruction, out):
         for container in (worker, gateway):
             docker("rm", "-f", container, check=False, capture=True)
         docker("volume", "rm", volume, check=False, capture=True)
-        docker("image", "rm", image, check=False, capture=True)
+        if not shared:
+            docker("image", "rm", image, check=False, capture=True)
         for kind, identifier in (
             ("container", worker),
             ("container", gateway),
             ("volume", volume),
             ("image", image),
         ):
+            if shared and kind == "image":
+                continue
             if (
                 docker(
                     kind, "inspect", identifier, check=False, capture=True

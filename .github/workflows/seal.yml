@@ -30,7 +30,7 @@ jobs:
           ENTRANT: ${{ inputs.entrant }}
         run: |
           [[ "$EVENT" =~ ^[0-9]+$ ]]
-          python3 scripts/live_series.py seal "live/$EVENT.json" --probability "$PROBABILITY"
+          python3 -m evaluation.live_series seal "datasets/live/$EVENT.json" --probability "$PROBABILITY"
           python3 - <<'PY'
           import os, json
           from pathlib import Path

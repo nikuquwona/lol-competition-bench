@@ -27,7 +27,7 @@ jobs:
           PHASE: ${{ matrix.phase }}
           HARNESS: ${{ inputs.harness }}
         run: |
-          root=examples/kc-t1-g2
+          root=evaluation/examples/kc-t1-g2
           records="$root"
           if [ "$HARNESS" = codex ]; then records="$root/codex-deepseek"; fi
           export RECORDS="$records"

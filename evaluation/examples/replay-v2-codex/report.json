@@ -1,0 +1,96 @@
+{
+  "release": "replay-v2",
+  "archive_sha256": "28e9113d3d60ec135b31b65ce0a0f0ab4e28c0cb8bbc772a63e5ab48c3b17fe2",
+  "harness": "codex",
+  "model": "deepseek-v4-pro",
+  "mode": "live",
+  "backend": "macos",
+  "planned": [
+    "worlds-2026-main-event-quarterfinals-4-g2-draft-lock"
+  ],
+  "trials": [
+    {
+      "task": "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "prompt_sha256": "fd970ad209abe6de9ee89a86d23fcb01c2dd04df6e88ea4171fbbff615c22fe8",
+      "snapshot_sha256": "64332942337bf961ccd9646dc905271f9f294c7fba53a55d0bf3eb85eb99ab0e",
+      "runtime": {
+        "cli": "codex-cli 0.167.0",
+        "model": "deepseek-v4-pro",
+        "phase": "draft-lock",
+        "snapshot_sha256": "64332942337bf961ccd9646dc905271f9f294c7fba53a55d0bf3eb85eb99ab0e",
+        "boundary_probe": "snapshot accessible; labels, personal shell config, public IP and second loopback listener denied",
+        "upstream": [
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          },
+          {
+            "path": "/v1/responses",
+            "status": 200,
+            "detail": null
+          }
+        ]
+      },
+      "status": "scored",
+      "prediction": {
+        "p_blue_win": 0.35,
+        "p_blue_ahead_15": 0.61
+      },
+      "reward": 0.7527,
+      "brier": {
+        "p_blue_win": 0.12249999999999998,
+        "p_blue_ahead_15": 0.3721
+      }
+    }
+  ],
+  "summary": {
+    "selected": 1,
+    "scored": 1,
+    "statuses": {
+      "scored": 1
+    },
+    "mean_reward": 0.7527,
+    "brier_on_scored": {
+      "p_blue_win": 0.12249999999999998,
+      "p_blue_ahead_15": 0.3721
+    }
+  }
+}

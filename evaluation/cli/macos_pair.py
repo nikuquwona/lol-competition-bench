@@ -14,10 +14,10 @@ import subprocess
 import tempfile
 import threading
 
-from cli.gateway import Handler, MAX_CALLS
+from evaluation.cli.gateway import Handler, MAX_CALLS
 
-ROOT = Path(__file__).resolve().parents[1]
-TASKS = ROOT / "examples/kc-t1-g2/harbor"
+ROOT = Path(__file__).resolve().parents[2]
+TASKS = ROOT / "evaluation/examples/kc-t1-g2/harbor"
 MODEL = "deepseek-v4-pro"
 PREFIX = "worlds-2026-main-event-quarterfinals-4-g2-"
 PROFILE = """
@@ -64,9 +64,9 @@ def save(path, data):
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
 
 
-def run(phase, out, binary, check_only, budget_prompt):
+def run(phase, out, binary, check_only, budget_prompt, *, task=None, model=MODEL):
     out.mkdir(parents=True, exist_ok=False)
-    task = TASKS / (PREFIX + phase)
+    task = task or TASKS / (PREFIX + phase)
     token = secrets.token_hex(24)
     audit = []
 
@@ -88,7 +88,7 @@ def run(phase, out, binary, check_only, budget_prompt):
         srv.fixture = False
         srv.remaining = MAX_CALLS
         srv.lock = threading.Lock()
-        srv.model = MODEL
+        srv.model = model
         port = srv.server_port
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         for folder in ("app", "home", "tmp", "codex-home", "bin"):
@@ -143,8 +143,8 @@ def run(phase, out, binary, check_only, budget_prompt):
             srv.shutdown()
             return
         prompt = (task / "instruction.md").read_text().replace("/app/", "./")
+        (root / "home/.zshenv").write_text('export TMPPREFIX="$TMPDIR/zsh"\n')
         if budget_prompt:
-            (root / "home/.zshenv").write_text('export TMPPREFIX="$TMPDIR/zsh"\n')
             prompt += (
                 "\nBudget: make at most six shell calls. Use the first calls to inspect this snapshot "
                 "and query the starters and past games. Write a valid prediction.json by the fourth "
@@ -160,7 +160,7 @@ def run(phase, out, binary, check_only, budget_prompt):
             "--ephemeral",
             "--dangerously-bypass-approvals-and-sandbox",
             "-m",
-            MODEL,
+            model,
             "-c",
             'web_search="disabled"',
             "-c",
@@ -200,10 +200,7 @@ def run(phase, out, binary, check_only, budget_prompt):
                 raise RuntimeError(
                     f"{phase}: CLI exit {rc}, HTTP statuses {[r['status'] for r in audit]}"
                 )
-            import sys
-
-            sys.path.insert(0, str(ROOT / "scripts"))
-            from score import read_prediction
+            from production.score import read_prediction
 
             prediction = read_prediction(work / "prediction.json")
             if set(prediction) != {"p_blue_win", "p_blue_ahead_15"} or not all(
@@ -217,7 +214,7 @@ def run(phase, out, binary, check_only, budget_prompt):
                 out / "run.json",
                 dict(
                     cli=version,
-                    model=MODEL,
+                    model=model,
                     phase=phase,
                     snapshot_sha256=hashlib.sha256(src.read_bytes()).hexdigest(),
                     boundary_probe=probe.stdout.strip(),

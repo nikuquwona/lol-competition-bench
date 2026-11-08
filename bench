@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""LoL Competition Bench · operator commands"""
+
+import sys
+
+COMMANDS = {
+    "simple": "Run a credential-free baseline against a released task",
+    "e2e": "Evaluate one native CLI and model on a release selection",
+    "init-game": "Create an editable lobby or ordered BP observation form",
+    "freeze": "Create a label-free task from an observed lobby or draft",
+    "forecast": "Run an isolated CLI on an unlabeled task and seal its prediction",
+    "submit": "Record the first forecast for an entrant on a trusted clock",
+    "settle": "Attach a published result to an immutable observation",
+    "scores": "View eligible receipts for one settled observation",
+    "history-add": "Import a completed game as dated historical evidence",
+    "release": "Package scored tasks with a reproducible manifest",
+}
+
+if len(sys.argv) < 2 or sys.argv[1] in ("-h", "--help"):
+    print(__doc__ + "\n\n  ./bench COMMAND --help\n")
+    for k, v in COMMANDS.items():
+        print(f"  {k:9} {v}")
+    sys.exit()
+cmd = sys.argv[1]
+if cmd not in COMMANDS:
+    sys.exit(f"Unknown command: {cmd}")
+try:
+    if cmd in ("simple", "e2e"):
+        from evaluation.suite import main
+
+        del sys.argv[1]
+        main(simple=cmd == "simple")
+    elif cmd == "forecast":
+        from evaluation.pending import main
+
+        del sys.argv[1]
+        main()
+    elif cmd == "release":
+        from production.release import main
+
+        del sys.argv[1]
+        main()
+    else:
+        from production.intake import main
+
+        main()
+except (ValueError, OSError, KeyError) as e:
+    sys.exit(str(e))

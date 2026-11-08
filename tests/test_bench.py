@@ -5,11 +5,10 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
-from build import earlier, eligible, snapshot, write_task
-from score import score
+from production.build import earlier, eligible, snapshot, write_task
+from production.score import score
 
-GAMES = json.loads((ROOT / "data/games.json").read_text())
+GAMES = json.loads((ROOT / "production/data/games.json").read_text())
 
 
 class BenchmarkTest(unittest.TestCase):

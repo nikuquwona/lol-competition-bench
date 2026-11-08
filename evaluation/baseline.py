@@ -4,8 +4,8 @@ import argparse
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
-from build import ROOT, eligible, snapshot
-from score import FIELDS
+from production.build import ROOT, eligible, snapshot
+from production.score import FIELDS
 
 
 def predict(view):
@@ -46,7 +46,7 @@ def main():
     if args.snapshot:
         print(json.dumps(predict(json.loads(args.snapshot.read_text()))))
         return
-    games = json.loads((ROOT / "data/games.json").read_text())
+    games = json.loads((ROOT / "production/data/games.json").read_text())
     groups = defaultdict(list)
     for g in filter(eligible, games):
         prediction = predict(snapshot(games, g, "lobby"))

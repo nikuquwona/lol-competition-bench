@@ -1,115 +1,56 @@
 # LoL Competition Bench
 
-用 Harbor 比较 coding agent / harness 在同一份历史资料上预测职业比赛的能力。每局有两个独立的观测时点，每个任务提交本局蓝方最终获胜、蓝方在 15:00 经济严格领先的两个概率。历史资料可以逐条检索，任务容器断网。
+给模型一场职业比赛在某一时点的资料，让它预测蓝方赢下本局的概率，以及蓝方在 15:00 经济领先的概率。同一小局在 **BP 前**和 **BP 锁定后**各出一题。两道题共享历史，模型使用独立会话。
 
-## 2026-11-08 回放数据
+当前回放版本 **replay-v2** 含 99 小局、198 道 Harbor 题。覆盖 26.17 的 LPL 资格赛及 26.20 的世界赛。打开一份[实际题面](datasets/sample-draft-lock.md)，可以看到参赛模型收到的完整指令。
 
-| 赛事范围 | 职业赛补丁 | 原始小局 | 可评分小局 |
-|---|---|---:|---:|
-| LPL 2026 Regional Finals | 26.17 | 12 | 12 |
-| Worlds 2026 Play-In + Main Event | 26.20 | 90 | 87 |
+| 目录 | 职责 | 从这里看 |
+|---|---|---|
+| **production/** | 整理比赛事实，校验版本和 BP 顺序，按时间截取证据，生成任务 | [出题与新增对局](production/README.md) · [题面模板](production/prompts/forecast.md) |
+| **datasets/** | 保存已发布的 Harbor 题集、版本清单和摘要 | [题集目录](datasets/README.md) · [v2 清单](datasets/replay-v2/manifest.json) |
+| **evaluation/** | 启动 baseline 或真实 CLI，收取预测、独立评分、汇总失败和完成率 | [运行手册](evaluation/README.md) · [v2 实跑报告](evaluation/examples/replay-v2-codex/report.json) |
 
-47 个系列赛，21 家不同俱乐部的赛事名单，107 个实际出场的选手名，990 条带赛后表现评分的选手场次。世界赛第一场半决赛的 3 局缺少逐人技术统计和 15 分钟经济差，仅收录结果。范围限于这三项赛事，两个版本相隔的其他补丁未必没有职业比赛。版本按每局数据核对。资格赛阶段样本较少，应分补丁报告分数。
+## 先跑一题
 
-- Riot [世界赛赛制](https://lolesports.com/en-GB/news/worlds-2026-primer) 与 [官方赛程](https://lolesports.com/en-US/leagues/worlds)。在本次快照中按队伍、日期和比分关联到 40 个系列赛的 Riot ID。
-- 腾讯 [世界赛](https://lpl.qq.com/web201612/data/LOL_MATCH2_MATCH_HOMEPAGE_BMATCH_LIST_246.js) 和 [LPL 赛程](https://lpl.qq.com/web201612/data/LOL_MATCH2_MATCH_HOMEPAGE_BMATCH_LIST_237.js)。47 个系列赛均有可核对的腾讯结果。每个链接和逐方得分见 [官方来源对照](data/official-matches.json)。
-- Leaguepedia 的 [LPL BP](https://lol.fandom.com/wiki/LPL/2026_Season/Regional_Finals/Picks_and_Bans)、[Worlds 入围赛 BP](https://lol.fandom.com/wiki/2026_Season_World_Championship/Play-In/Picks_and_Bans)、[Worlds 正赛 BP](https://lol.fandom.com/wiki/2026_Season_World_Championship/Main_Event/Picks_and_Bans) 提供手工记录的动作顺序。每局核对补丁与两边选出的五个英雄。顺位保留先选方和红蓝方的区别。Leaguepedia 内容归原贡献者，按 [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) 署名；衍生 BP 数据沿用同一许可。
-- [RiftWise 数据导出](https://riftwise.gg/stats/data) 的版本 20261108041551 提供赛事名单、实际首发、K/D/A、15 分钟经济差；赛后选手分按该站公开的 role/year 基线、权重与公式重算。例：T1 对 KC 第一局 Peyz 为 8.5。这个字段表示 RiftWise 表现分，腾讯观众投票分未收录。赛后评分会引用截至快照日的赛季分布，所有历史预测输入均剔除该字段。
-- [完整来源清单](data/sources.json) 记录 URL、抓取时间和原始响应 SHA-256。[选手和教练名单](data/event-rosters.json) 是赛事级回顾档案；任务侧只给本局出场的十人，以及从历史小局可观察的队伍、位置、英雄和表现。
-
-## 运行
-
-使用 Python 3.12、Harbor 0.25.0 和具有 Docker Compose 的 Linux/Docker Desktop。数据已提交，生成和评分可离线。以下命令在仓库根目录执行。
+从仓库根目录使用 Python 3.12。已有合适解释器时可直接运行 `python3.12 bench simple`。使用 uv 的本机可以这样创建仓库专用环境：
 
 ```sh
-python3 -m unittest discover -s tests
-python3 scripts/build.py --series worlds-2026-main-event-quarterfinals-4 --game 2
-pip install harbor==0.25.0
-harbor run -p tasks/worlds-2026-main-event-quarterfinals-4-g2-draft-lock -a oracle
+uv venv --python 3.12 .venv
+. .venv/bin/activate
+./bench simple
 ```
 
-Oracle 只验证打包与打分，预期 reward 为 1。运行全部 99 个 draft-lock 或 lobby 任务时，指定不同的空输出目录。使用真实模型需要能在宿主侧调用模型、在离线容器内调用工具的 agent adapter。关闭 provider 的托管搜索、浏览器、远端 MCP 和跨局记忆；需要从容器直接连接模型 API 的 CLI 不能按默认断网配置直接参赛。每款 harness 使用独立的新会话、相同 checkpoint、推理预算和快照。
+这条命令从发布包选出 KC–T1 第二局的 BP 后任务，验证摘要，交给只读选手历史的基线，再用真值计算分数。终端显示完成率、两个 Brier 分数及报告路径。全程离线，无需 Docker 和密钥。
+
+## 跑一个 model × harness 组合
+
+在配备 Docker Compose 的一次性 Linux runner 上安装 Harbor 0.25.0，并在宿主提供专用推理凭证。下面先列出题目，再让原生 Codex 使用 DeepSeek 完成同一局的两个时点。
 
 ```sh
-python3 scripts/build.py --phase lobby --out tasks/lobby
-python3 scripts/build.py --phase draft-lock --out tasks/lock
+./bench e2e --list --series worlds-2026-main-event-quarterfinals-4 --game 2
+./bench e2e --harness codex --model deepseek-v4-pro \
+  --series worlds-2026-main-event-quarterfinals-4 --game 2 --out .work/kc-t1-pair
 ```
 
-输出协议示例为 `{"p_blue_win":0.64,"p_blue_ahead_15":0.52}`，写入容器的 `/app/prediction.json`。独立 verifier 读取这份文件，每局 reward 为 1 − (胜负 Brier + 15 分钟经济领先 Brier)/2。两个概率均报 0.5 的 reward 恒为 0.75。汇总时保留两项 Brier 原值，按相同小局配对比较 lobby 和 draft-lock，统计区间按系列赛分组重采样。
+省略选题条件会运行整个版本的 198 道题，并产生相应推理费用。可按 `--phase`、`--patch`、`--task` 或 `--limit` 缩小范围。在 GitHub 的[隔离运行工作流](https://github.com/nikuquwona/lol-competition-bench/actions/workflows/native-cli.yml)触发时，无需给个人电脑安装参赛 CLI。
 
-真实模型可用 Harbor 内置的宿主侧 Terminus 2 驱动离线终端。先在宿主配置模型提供方的凭证，并将下面的 MODEL_ID 换成 Harbor 支持的 provider/model 标识。镜像构建阶段预装 tmux 和 asciinema。
+## 模型能查什么
 
-```sh
-harbor run -p tasks/worlds-2026-main-event-quarterfinals-4-g2-draft-lock -a terminus-2 -m "$MODEL_ID"
-python3 scripts/baseline.py
-```
+| 信息 | BP 前 | BP 锁定后 |
+|---|---|---|
+| 赛事、阶段、补丁、BO、局号、红蓝方和当局十名首发 | 可见 | 可见 |
+| 截止时点前的比赛、历史英雄和 K/D/A、胜负及 15 分钟经济差 | 可在本地检索 | 同一份历史 |
+| 当局禁选的英雄、动作与真实顺位 | 隐藏 | 完整 20 手 |
+| 当局赛果、15 分钟经济、赛后评分、后续局、全量数据库 | 隐藏 | 隐藏 |
 
-选手历史基线仅用当前十人之前各局的胜率和 15 分钟领先率，经加一平滑后按两队平均。99 局逐局回放的胜负 Brier 为 0.2465，15 分钟 Brier 为 0.2554；固定 50% 的基线两项都是 0.2500。它不使用 BP，两个预测时点的输出相同。这里的选手历史局限于本次收录的赛事。
+比赛采集器可以联网。参赛模型通过 shell 或 Python 搜索冻结的 JSON；实时网页、外部搜索、远程 MCP 和跨局记忆都在评测范围之外。四款受控 CLI 的联网权限仅通向指定推理服务。Cursor 走厂商后端，单列结果。历史回放无法排除模型权重已经记住名局，严格盲测应在真实开赛前冻结资料并封存预测。
 
-## 时间边界
+## 下一场比赛怎么加入
 
-- **lobby** 假定双方已确认首发和红蓝方，仅给选手名字。**draft-lock** 增加 20 个 BP 动作。两个时点均隐藏本局最终分路、经济曲线、赛后数据、系列赛最终局数及比分。
-- 同一系列赛仅开放编号小于当前局的已完赛记录。例如第四局能看到前三局的结果和 Fearless 已用英雄，第二局不能看到第三局。跨系列赛仅开放完整回放已在腾讯编目的系列赛，且其最后一局回放发布时间必须严格早于目标系列赛时间。使用排期与统计源时间的较早值作保守边界。同日其他系列赛没有可靠回放时间则不进入历史。
-- 每次构建都重新从允许字段生成快照。Docker 只接收该任务的 environment 目录。评分标签、全量数据、解决方案和其他任务均不挂到参赛环境。不要把仓库作为模型工作目录。
-- 这一版是**历史回放**。回放证明当时已公开的比赛可以观看；赛后勘误仍可能改变归档字段。模型权重也可能记得公开比赛。正式盲测应使用赛前或 BP 锁定时实际截取的输入，并在开赛前由有时间戳的第三方存证预测与快照哈希，赛后再关联标签。回放分和前瞻盲测分应独立报告。
+`init-game → freeze → forecast / submit → settle → release`
 
-## 重新采集
+BP 结束时，录入实际首发和 20 手动作即可生成没有答案的 Harbor 任务。赛后另交胜方与有符号的 15 分钟经济差。发布时沿用当初冻结的输入和题面，结果迟到也不会重建一份不同的赛前历史。[完整命令、示例字段与时间规则](production/README.md#新增一场小局)
 
-```sh
-pip install -r requirements-collect.txt
-python3 scripts/fetch.py
-python3 scripts/collect.py
-```
+## 如何读成绩
 
-原始响应保存在 git 忽略的 .cache；缓存同一 URL 可离线重复归一化。腾讯及 Leaguepedia 的当前页面可能更新，历史 RiftWise 版本也可能下线。应保存每次发布的冻结 JSON 与哈希。数据用途及转载受各来源条款约束。
-
-## 前瞻盲测入口
-
-在 Riot 标记比赛尚未开始时，已为 **T1 vs BLG** 冻结[赛前输入](live/115660540726095121.json)。计划开赛时间为 2026-11-09 06:00（北京时间）。这里预测 T1 赢下整场 BO5 的概率，尚未确认的当局上场名单、蓝红方与 BP 均不进入这条赛前任务。该赛道与逐小局回放分别计分。
-
-只将该 JSON 提供给一个全新、无法搜索的模型会话。参赛方可在开赛前手动运行仓库 Actions 的 **Seal pre-match forecast**，填入 event ID、概率与模型/harness 标识。工作流仅在 main 分支执行，会重新检查 Riot 的状态和计划开赛时间，将输入 SHA-256、提交版本和 GitHub run ID 写入带平台时间戳的回执。取首条合规提交作正式成绩；保留 GitHub 运行记录和原始 artifact。仅有本地文件不足以证明提交时间。这条赛道目前提供输入冻结和独立封存/结算工具，尚未自动调度模型参赛。
-
-```sh
-# 新场次：在赛事管理端冻结，commit 新输入后供参赛方读取
-python3 scripts/live_series.py freeze live/EVENT_ID.json --event-id EVENT_ID
-# 比赛结束后，将该 Actions run 的回执下载至 receipt.json
-python3 scripts/live_series.py settle live/115660540726095121.json --receipt receipt.json
-```
-
-结算读取 Riot 已完赛结果。赛程变更、事件滚出该页面、缺失结果或哈希变化均会拒绝结算，应由组织者留档复核。
-
-## 已生成的 Harbor 题包与实跑示例
-
-[完整 v1 题包](datasets/lol-2026-replay-v1.tar.gz) 包含 198 个可直接交给 Harbor 的任务目录。用 `tar -xzf datasets/lol-2026-replay-v1.tar.gz` 解压。每道题对应一小局的一个观测时点，附带独立 verifier 和 oracle，参赛工具只应读取本题 environment 中的快照。题包内的结果仅供组织者侧使用。
-
-[KC–T1 第二局 DeepSeek 对照](examples/kc-t1-g2) 包含这两道题的展开目录、首次 API 会话、工具返回及预测文件。本机用 deepseek-v4-pro 的 function calling 读取当前局和查询命中的历史行；GitHub 上的 Harbor regrade workflow 可以在无需 API 密钥的情况下复评这两份预测。
-
-## 五款原生 CLI 的隔离评测
-
-在私有仓库的 [Isolated native CLI trial](https://github.com/nikuquwona/lol-competition-bench/actions/workflows/native-cli.yml) 选择 main、赛局、时点、harness 和模型。每款 CLI 使用独立 GitHub 托管 Ubuntu runner、全新容器和 HOME。本机无需安装 CLI、启动 Docker、登录供应商账号或修改 shell 配置。
-
-| harness 参数 | 实际程序 | 固定版本 | 模型通道 |
-|---|---|---|---|
-| claude | Claude Code CLI | 2.1.319 | Anthropic Messages 协议 → DeepSeek |
-| codex | Codex CLI | 0.167.0 | Responses 协议 → DeepSeek |
-| pi | Pi CLI | 1.5.0 | Chat Completions → DeepSeek |
-| kimi | Kimi Code CLI（@moonshot-ai/kimi-code） | 2.5.2 | Chat Completions → DeepSeek |
-| cursor | Cursor Agent CLI | 2026.11.05-86047df | Cursor 账号支持的模型；单列 vendor 结果 |
-
-```sh
-# 无密钥的集成验收。四款 CLI 由协议测试服务要求写入固定预测，Cursor 检查启动、服务连接与未授权行为。
-gh workflow run native-cli.yml --ref main -f harness=all -f mode=smoke
-
-# 真实预测。事先在仓库配备专用 Actions secret BENCH_DEEPSEEK_KEY。
-gh workflow run native-cli.yml --ref main -f harness=all -f mode=live \
-  -f model=deepseek-v4-pro -f phase=draft-lock -f series=worlds-2026-main-event-quarterfinals-4 -f game=2
-
-# Cursor 的 vendor 预测需要专用 BENCH_CURSOR_KEY 和该账号可用的明确模型 ID。
-gh workflow run native-cli.yml --ref main -f harness=cursor -f mode=vendor -f model="$CURSOR_MODEL"
-```
-
-smoke 的固定提交仅验证真实 CLI 能否调用本地工具、向 Harbor 交付 JSON、由独立 verifier 评分。live 的 all 包含前四款。供应商要求和默认系统提示词、上下文压缩等依旧会随 harness 变化。输出 artifact 只保存运行标识、模型与 CLI 版本、两个概率和评分。网关不会记录密钥和请求正文。基础设施错误作为失败单列，汇总时同时报告成功完成数与总题数。
-
-**隔离在哪里生效。** Harbor 将当题 snapshot 和 instruction 交给一个单独的 CLI 容器。CLI 使用普通用户、只读根文件系统、临时工作区，Docker 配置为 network_mode=none，运行时验证只存在 lo。仓库、Docker socket、个人 HOME、其他会话、oracle 和真值均不进入这个容器。四款 DeepSeek CLI 只能通过 Unix socket 接触本次专属推理网关，使用占位密钥。网关持有真实凭证，把请求转给固定 HTTPS 主机，仅接收指定模型、指定推理路径和本地函数工具；跨会话引用、托管搜索、远程 MCP、远程文件、任意 URL 转发均被拒绝。每题网关限 40 次请求。CLI 退出时只读取小于等于 4096 字节的常规预测文件，拒绝符号链接、FIFO、重复 JSON 字段和额外字段。评分在独立 Harbor verifier 中完成。每次运行使用唯一资源名，在 finally 中回收并复查容器、socket 卷和镜像；即使任务失败也执行资源检查。GitHub 回收整台 runner 及 Docker 构建缓存。强制终止或机器宕机时，最终回收依赖托管 runner 生命周期。
-
-**时间边界和仍然存在的作弊空间。** 模型只能向前翻同系列的小局；其他系列必须在目标系列开始前已有完整回放。累计评分与当前赛季总榜不进入输入。测试主动篡改后续赛果、经济差和赛季评分，要求两个预测时点的输入都不变。历史快照使用今天整理的归档，可能包含后续勘误；真实队名和阵容也可能唤起模型权重中记住的结果。严谨的盲测采用赛前实际冻结、带可信时间戳的首次预测，再于赛后结算；组织者须核对服务器回执，不能信任自填时间或挑选多次预测中的最好一次。Cursor 的 TLS 在供应商侧终止，网关只约束客户端可连接的后端主机，无法证明其服务端没有检索。vendor 分数与四款受控成绩分开。仓库管理员或自带评分器的参赛者不在隔离信任边界内。
+每题两项 Brier 等权，reward = 1 − 平均 Brier。蓝方恰好平经济算未领先。始终报两个 50% 的 reward 为 0.75。题集报告同时给出选择数、成功数、失败数、平均 reward 和成功提交上的两项 Brier。失败按零 reward 进入全题均值；不同提示词版本、模拟工具测试、Cursor 厂商组和真实前瞻结果分别报告。

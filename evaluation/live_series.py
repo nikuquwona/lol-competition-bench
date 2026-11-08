@@ -7,7 +7,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import Request, urlopen
-from build import ROOT
+from production.build import ROOT
 
 
 def now():
@@ -44,7 +44,7 @@ def freeze(event_id, path):
     ts = now()
     validate_open(e, ts)
     history = []
-    for g in json.loads((ROOT / "data/games.json").read_text()):
+    for g in json.loads((ROOT / "production/data/games.json").read_text()):
         if g["replay_published"] and datetime.fromisoformat(g["replay_published"]) < ts:
             h = {
                 k: g[k]

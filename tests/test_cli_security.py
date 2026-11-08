@@ -11,16 +11,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-sys.path.insert(0, str(ROOT / "scripts"))
-from cli.gateway import validate
-from cli.worker import READ_PREDICTION
-from build import snapshot
-from score import read_prediction
+from evaluation.cli.gateway import validate
+from evaluation.cli.worker import READ_PREDICTION
+from production.build import snapshot
+from production.score import read_prediction
 
 
 class IsolationTests(unittest.TestCase):
     def test_future_poison(self):
-        games = json.loads((ROOT / "data/games.json").read_text())
+        games = json.loads((ROOT / "production/data/games.json").read_text())
         target = next(
             g
             for g in games

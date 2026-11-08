@@ -1,0 +1,1791 @@
+{
+  "format": 1,
+  "version": "replay-v2",
+  "archive": "tasks.tar.gz",
+  "sha256": "28e9113d3d60ec135b31b65ce0a0f0ab4e28c0cb8bbc772a63e5ab48c3b17fe2",
+  "count": 198,
+  "tasks": [
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g1-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "a5a8848ca7882de5f6561b0fd43b7cd8c0c602a888fcc56977d52a5111889200",
+      "prompt_sha256": "04440ee79e458c663bc1634b305f73bc05e8fa33382b11791430f718c18fa3fa"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g1-lobby",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "c4eace85f68f0b241152da8773708f8b3bc509652b8e8a69195aeb50ce3ced98",
+      "prompt_sha256": "86f531b91071dbca9dbda486291a9513334de2c52e4ffd8b22296b51b2c2071b"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g2-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "073cb845de47acaf57a8bbcbf9410891da9a632588614b1b4782f56d87938f67",
+      "prompt_sha256": "249b37c75edbe581529e7f4fb11d482553569f9ba88377a1bd727c64101e1092"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g2-lobby",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "5b317fede0b7e1f9780282e935c3ac694a9a0bd8e6ea123f29b39e391f4cacbe",
+      "prompt_sha256": "8c09390cb7240e9b4989692f7027593ebed17c18e1725bb1ccae2a4188a4a9a0"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g3-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "8726180cb36849d5d86306f6715e52dc74adb0181831a1ce7fd7421d664e11d6",
+      "prompt_sha256": "58b7b339084ea2aa4ee07c166d97d7ca7f85ee3107418edcd37827f0711d6112"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g3-lobby",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "ec19ad68911b272dfd93d33bfca75a83ee69dd13fe30fcf7599624030623f93d",
+      "prompt_sha256": "e34171245eaa498936d3855f98081f9bdb522274a5543291fcbced68d432e5a5"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g4-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "9cf5bd233454ea27cfc626b7fed4aa3530d2a256f805e5e8e25492b8cf7922af",
+      "prompt_sha256": "50fb6c9643ae526b04b78884ae129df31cb8660e5a62720aaf3037a2fa347c68"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-1-g4-lobby",
+      "series": "lpl-2026-regional-finals-round-1-1",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "a4acf484873b42ab0a58028135b2a9bd2ca3f8b28efc191ccedfac1d9cf55e92",
+      "prompt_sha256": "47b0aeb03a9301eeb7ac4fd77b5e7d30246df36ca5335335624d4db7a3dd4839"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g1-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "46ecdb35928a38c1faed668ae7a3123382c45df97fff76ba4ac8254e862f09c7",
+      "prompt_sha256": "a3541ca727535fab53178747fd86e9ee0be8651d06847f24d1bfb35e215e8fb0"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g1-lobby",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "9b952d8d342ddf1942eb12bc776eebfc78508313c64b18ab5f102e40f7cf5320",
+      "prompt_sha256": "728b6263de8b777eee58836efaecf2821ae0524d4da03676ac4491ec40e6c618"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g2-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "6f6700c9eb52bf0c0a2d6cf3ac64f97143cc7f20f47549753c93347c810bf2a1",
+      "prompt_sha256": "4dd18e8edf2da4e2a476f0010b7ec9c22e2420478ace79da51cc10b9e2ee309a"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g2-lobby",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "61a0aa69fc932fe5cab395b897ecbd6efe47a14371ba182c468f7fb85990c17f",
+      "prompt_sha256": "b3080dda4f9362676b0205a9670018e9488184de73b97b9581636441e007b382"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g3-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "2568cbcef6c19b349f4a5a9abef4820c7e729b813e229f801f677919f9f18675",
+      "prompt_sha256": "6566a805a722471e6836f6105c1575ca7142797e71b2eb17236eeee1aecd317c"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g3-lobby",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "ccea11c4e7d7a084c573231aad66d244fa177dcb974edb788926a7cd76c803b9",
+      "prompt_sha256": "a8f2e4f91ecd7d8eb4e450fd4dceb0eaf1eec2a14da8f6379aecfa69d8251e8b"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g4-draft-lock",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "cd3a4f521e5b4020a46885858eee2d86e588b6a13cbfc95e9a3ae795c2b3a0af",
+      "prompt_sha256": "493bd3c411429cb7f702f764281b04faf6fefe65d93e535392295a3c99ddd66c"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-1-2-g4-lobby",
+      "series": "lpl-2026-regional-finals-round-1-2",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "4420fe8ce0acf88020db4508d57e2d5eaebc7a60514e675c32ba4f0e702e41cc",
+      "prompt_sha256": "1425e138a63cd36bda2d06f00bca5b76184a6e358ecff3f4b6d191713b1fe1b0"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g1-draft-lock",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "9083b61b37cb363f662972f98d155c8b9ddf09b551a93abe578295d9b29ce4e6",
+      "prompt_sha256": "615c5474e50feb9d183036fc5291c6e16593b49ab62827be183282274a335a94"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g1-lobby",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "e6e7f30876b19a1eee7e930f3bba013ea8e9c9bc91425598664e21710f0b476f",
+      "prompt_sha256": "64de5c3dd6d05638df4e548cd60cf338baf043aa5891175ce111a40cd16d525b"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g2-draft-lock",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "64bcd7b13ed1164c407730aea12e6525b6b25d46d5026a26ef399402405d9a22",
+      "prompt_sha256": "ca66ef4161f15b45697d20d951880e91305d7e240705bd59f65e35d2aa3598f9"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g2-lobby",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "7fe5957bf5dcc11047f867f6fc92ea79024fd46359d4a258836097f68924fc3b",
+      "prompt_sha256": "e3dbdd9db5600d3f00fac250663ff6e98320d1081fac59929ceb568c0a9c1621"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g3-draft-lock",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "4c9e47c0dff2c9cbc33d3e17a9b14d960f37b9af57df2e4b5bf3668c20cf2b63",
+      "prompt_sha256": "07033eae9a3c43dd17d12c8c91aca706dc76ccc0918bfcefca35f567edc2d2fb"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g3-lobby",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "ad5ab8c554d6ebc1344700398a942c999cc91417593eb959b2880fa9950f7a35",
+      "prompt_sha256": "2aa86557107ecb542a281548920705301387b09d7c4772eb786961436bea35b0"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g4-draft-lock",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.17",
+      "snapshot_sha256": "b5b4c4730085e6487cbc4bde43f9e3562f705f1137a28be4c560f7e6952cc158",
+      "prompt_sha256": "bb7d4eb11a83a65277513f72532b47855cba12a3405aafddf179f859cd3f457e"
+    },
+    {
+      "id": "lpl-2026-regional-finals-round-2-1-g4-lobby",
+      "series": "lpl-2026-regional-finals-round-2-1",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.17",
+      "snapshot_sha256": "f0f133bbe4eaec0dd83715385453999cab4b8ad3e364edae5110764697bcfdd6",
+      "prompt_sha256": "8309d08c56df0f9808f41085969cb29961cb20c60678e76c1d761c8d4afd264e"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "08fa1aa49a9509ebd7a4798baee9bf86e39f9ef27726264704ac5565e14e9868",
+      "prompt_sha256": "009d6725672160b6ebd4619285d642cd9c730b7733c05aa5ff7c491f57aada81"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g1-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "03ca0999c5f0764a74c909b41db83240b63c9f98510e428b6010df21d27892e3",
+      "prompt_sha256": "62114e13f1458fb419d5756f53f334b2eb9e745c9de11eae5d806f2cb4d3fe88"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g2-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "6e806c711555ed6c799a28ce68f76483a2bd8a4892c016b7350fd57ebe1ecf34",
+      "prompt_sha256": "e8d2a77a6feb40a21730bf96588ca3e08af6ca716b4c1df37b158a904d48ad49"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g2-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "11b2227bef50c4c1d9beafae8b90338ca784c56dde3a8a2536237d8afbcea48c",
+      "prompt_sha256": "716db41b518b01863f61b3dfd345c9ae071313a0df42c8a8f6f3d2466713786a"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g3-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "2eb16d60b34b0b23f73618792ee8cc8bc7bdc6915404e1050c51d3ac7a8cf98d",
+      "prompt_sha256": "a3ba15bcdaec6fc6cc28af4e86e120c7550f9ee49efc3b8051bf8e8d69233028"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g3-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "49fd42ec4bff98f777292dd71112964a38810050b8645c780685395856bc4e90",
+      "prompt_sha256": "e0d9845dd9bf3940985bf5da2af03451511a466594f519bc362748bc54599c5c"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g4-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "8b2003b957af15680e11dc74fd65b3a1b25e1eefa5603dd4676a64cac0fab19e",
+      "prompt_sha256": "de99b2739e99868c87534f438954dcf0a076ec3e89a0e00bfa457f883f8601a0"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-1-g4-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-1",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "bc8512924b13b2f4a8d8d40c7785dec303a3f651bcfe77a5bdbc148cac6d1b2c",
+      "prompt_sha256": "b0e684178c2fe1da24d7193959df30210814038d45bb283a691ee11c1a549888"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "6178bc090ea24630224985ec7b17aaa18f132850242fd4b733928f53a7f6c894",
+      "prompt_sha256": "4c44479f60128069f5d1a8b95ae49ed9f8d91deab8c023d362b3ea9fec67debe"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g1-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3d663af2ab4fc0f67758fd552c59bf91b7398e480dfee314d255357f045cbb30",
+      "prompt_sha256": "51baf53b8437d9c0e13b1d63f858d0361ea570708729d5348e8fb2834e502a4e"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g2-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "0c7eddf47d9e1bff2a1a510e05febc128884f10c43dc36370fbefe190e0de413",
+      "prompt_sha256": "899613e33cf65c2a591afae9e8ffe139aac83c71f983b0cd46667d53ba8be437"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g2-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "182bc252f5c15675ec36db32a105e9fd1b369fd83e73c91feea959dac7f8dc4d",
+      "prompt_sha256": "bd215f2879c434afb9ec130a6c36f8a9ba58c598fb414886f1fba87d9157848e"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g3-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "eb9b10be1618e19059b59ba289ebd21f5e3a06277aec485a5ed901a76dda48c3",
+      "prompt_sha256": "b5316f69044980c2ffdab5315cd95370dd5d68502ff5da253ce2fab0fd5633f7"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-2-g3-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "2430150246fb8c2e039003575d4056650121accc26401c586daa28b939227088",
+      "prompt_sha256": "d1037bc490ed97950a02cc9ce3f5fc7fc0aa9b0b3c369aa5a861dedbcb669b44"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "4fbf3fa3f2e91312db35c94248acb8f5fc0aa9e402088a697a9c23c196adfe5c",
+      "prompt_sha256": "1b87303f2369dae6a60de714745ee3223552157f2334a2252b032b02ba01bae2"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g1-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "54433270d1680e4b5c0cde665c89e5b1b18e2c76239106e9f7943f5ca52340f3",
+      "prompt_sha256": "f40b5752250087dd83d92a874c271320adc8fa44a742f6c24be8ad2029b34a62"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g2-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "24186f5812c018c57eb3c7b15551381b09b45b232aa70158c39180c58d44c989",
+      "prompt_sha256": "9f3783394c1f19e00f88b54db285cbadc7a8ff3afc47a2a7c4c08e90ec4eae2e"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g2-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "8f7079b3261a4fd440343cf20c0baf278cb377972107046d945652cac3db940d",
+      "prompt_sha256": "7ed9d7772bc05443ed6a7de3984e296af91efc9b7fa854185e8d6aec2e3871f2"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g3-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a56649e9f03fc2933ff7fc94fb1e92e4db1e6f1c73c9591cc57b3e7628949461",
+      "prompt_sha256": "742184cc74ce40c2071107ad77fbcaa7f306c27b00dbce18b43b0ff681474030"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-3-g3-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-3",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "08ea1c5582e416e836d6f230ae3af4f7430269c09003e61e25dc476c0affa615",
+      "prompt_sha256": "f83b3d0c2ce1c9dfa8b96f7c4fd752132dd477957d878de799c7abd22130f853"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g1-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e046febf299420e5f74035121c7c56acae2450c1f637e8f64f8b5f74702f4099",
+      "prompt_sha256": "d44098b75383487ab0280fa921e1faf7d8185a89ed66df4793e834d39a6c5308"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g1-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "1205b9586741260f5eba0fbadc13aeddcf7d7cfedce688879ee52be57cd8ead2",
+      "prompt_sha256": "5fc513c56e6279089cb7fcbe769ea91b066879734436b29dc6a3790f89533246"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g2-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "64332942337bf961ccd9646dc905271f9f294c7fba53a55d0bf3eb85eb99ab0e",
+      "prompt_sha256": "fd970ad209abe6de9ee89a86d23fcb01c2dd04df6e88ea4171fbbff615c22fe8"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g2-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "21e9b1afa588def61725d18eec88c08e1286b0326f5be0a39c7358af1e356d58",
+      "prompt_sha256": "29ce12f20acd3af6da1212029fe32a22a9a640cee6041fddad035860447665ae"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g3-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e0cd78865bae9f06cae2abefe13c17bc14d08b3c525bf0b8dd276366891feceb",
+      "prompt_sha256": "442335c7713c8f473db69f26f323a1ad571ccbe3ab3696fd5b2b52e03aaf7376"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g3-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "22f8b6dbfef7a9c3ace7ab2169533d3d5be07a1ba9324873d08be25fe528e976",
+      "prompt_sha256": "f96f32de191b9e4b88a3bfca25db3cf920b09eea769229db58d2d7955b3dd7a9"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g4-draft-lock",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "38ffb4ab1243c4b8883afc60449237b5441178316c91c706c48f39563176309f",
+      "prompt_sha256": "8db8c238ea36402986b29feec720cea94afd73b67d23fe5e55e33a0cbcc8cf3c"
+    },
+    {
+      "id": "worlds-2026-main-event-quarterfinals-4-g4-lobby",
+      "series": "worlds-2026-main-event-quarterfinals-4",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "c1aa9b4bb9efbce6810e322d62005bf9d182c395140842d4c91a5326ff75a5ac",
+      "prompt_sha256": "5ffa0252feaf189f00d8e8d1a4a540b1f6cb711e823fed25d446cb4e350dbab0"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "c309c204d5ac4abe87162a4e2ab21b5259d6866c9c0395e33303a84d9adc913a",
+      "prompt_sha256": "50c57fb89073e5f6647ef707cc7477c1be68770c6ba1bc1778c4c87bbae3a2a1"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-1-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "540d4a2ba89c4fb3bbf5b1b480cea2cc4b1bbac755bc0c8aaa6cde535a7e9c16",
+      "prompt_sha256": "950cf8cdd1f3739293183594a16e5d8313001be013cf15eb2991631f1556d78b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "c062637c4d4c7466ff2a76dda6fda51a043d05cc514a20766825e10c1af94988",
+      "prompt_sha256": "55101df642ed7c30f1d4c832aeb057e520c8519148e1822d887aac2d2f83297a"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-2-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "9ed9856b845d86255f438407aa49df1b3f408cae2e3f3c910bf5cc1b3074f4a2",
+      "prompt_sha256": "a740cc64311765b8018818fa424ce206ae88ea0037311c9bf3489706de031438"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "23efdbbe78b9ad6e50d58e7bfc501e005cce106a4196670cafeffd71b5f47451",
+      "prompt_sha256": "25fa72132aa7049781a71e50ea4257d077594c2d15c25a297a0b8e81aed75312"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-3-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "97dca148eff10667fa80e3c944ee6132dc9e60a73241c4e3daa96dd337968f0d",
+      "prompt_sha256": "06ef0aba823ae78b2e88f2149b0ef1ce1c8e231627e4e89b09942f0b48a0b2cc"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-4-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-4",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "cdca959206a4718f8f53360c067f8fb010b2a7b004d1dad3792af09dd37517df",
+      "prompt_sha256": "88b9b1cb44e030c491e178a5e8529e1f011b8d4c604c04c5d53d8cace3a8ae28"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-4-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-4",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "71e23417dda66a29316b71a3fc49bf258b1743457b8c4d8ba34d68da2b17bc0e",
+      "prompt_sha256": "637f7b9e88edfdb37660c168b8aca1c62a3e6df21090b3d82aa43cf04d757221"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-5-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-5",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "71a6b79a50988b938d9167ab66e29299e7eaf165ee9e706152bcbb4e3593b40d",
+      "prompt_sha256": "3c679d830066f27a0ea1bdf3963972471d28a72fc24d594b5b91353036ef4b0c"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-5-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-5",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "6f60dcf500bf9cb5c911447e86087400dfa0f3624ccd149de95aed9410c1c187",
+      "prompt_sha256": "5d0e5157cfb0dd2881018ed8e68c0a9961510df2c98e909113f8a6b9a4ec40df"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-6-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-6",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "3a0a65e8626269cdfb7bfa568627d93f5b9ba89bdc89af2481824dbf29fcfb4e",
+      "prompt_sha256": "7e37add11db47503731834bff43414437b498fe10488929a22c63418d0eb4dc1"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-6-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-6",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "e42f445aa1fe7caa08053da382867110d05fd4e81236408e0fcb64c2f967394d",
+      "prompt_sha256": "4dd54efbb46afd38b3362a3a086c53bfb11052acec7a7049f9a4632ee1707b7b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-7-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-7",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "9d00c621589479a75a1d78d015144c4bfbb9919c77a96263e0f7999dd36ecb8f",
+      "prompt_sha256": "30766702a9ec007cb2551772c35d4d9d95b69e987ee8d3282a7a125e1d98c0ed"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-7-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-7",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "676dc0ca7c38fa4f27e3af7eec5adc89fdda24b9ce4e11881b00a0a2fd3051c2",
+      "prompt_sha256": "6a650d99549e81773119d24663c3e418c552801e87ad247acb2d4d89ba0d8932"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-8-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-1-8",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "2099a1c90a4704485a8460b611f440d66cefd2c0eaf0debde6d28bd029c4b46c",
+      "prompt_sha256": "34aa9e02178ccc64128d877333407069e87636ece432c0320c36c623a91f1f8b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-1-8-g1-lobby",
+      "series": "worlds-2026-main-event-round-1-8",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "9e354d362dde930f63d5f6ff4b89cb5c74f19eb82ade1e5fbfaadbe4ef1d3363",
+      "prompt_sha256": "9ad31a54e668765212d370a2b927cedfe81519b9d7d18e9ebf2c6bcabe9926c4"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "2cb865314d616d727b68c8db462d84a38935b25c331f42e7cb6293bed5a205cd",
+      "prompt_sha256": "a1776adb119b6cdd5b64bf5a03f348ba2f6cdd462eb3d5844666f75931d9f719"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-1-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "7112df220277739d939c3de54a9caee45f9911336d7ae86f83d8d2cb342831d8",
+      "prompt_sha256": "f70e121e8b22466717a696a352c9d50221ec0f600b0001ac21f8f5ffe16b7e85"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ae15d46a579bedcf1d78328908006f22eb7a6d97dbd08c90a4fc41173997eda3",
+      "prompt_sha256": "8107ad9d2bf50195e391ea1818300e1a86f08eef67bfae4be66c4b4299ce1598"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-2-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "841bc7c3a0a0576c5f401030cea772dd9c9d1115bd2f66202bbc08703b4bea70",
+      "prompt_sha256": "22b83ae442c36b4d6fc2d6762c673a2ed51e67cbc5a0047a85a5dd96c952702e"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ec15a2c70d38d57758db6c486c39005c0472333a277d37145071d9f10de9bb73",
+      "prompt_sha256": "ac084f8f4df60cab452e374f4aaf4dc372e7a9ce681fa4a97b181727f8dcbb5e"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-3-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "dc59aba31af81dfca22bc66f75aa4d5a23fb1a03c935d071316b0192c4af85ce",
+      "prompt_sha256": "eaafa00ff504e34111e4f689387cf542b6f137b79c41727c23e96398c4ea021f"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-4-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-4",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "91ed0b4dc51ab254b1849cebbd51c895d6babad007457c4d63691318386e5fe0",
+      "prompt_sha256": "261573c2be5818f0679a6d6e930e1e1e2780f340df02743aa23ca8289c41900f"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-4-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-4",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "e1ae124b04a0dd22d1a832dc9128ab749db13b9852347a496d45ff012a1eac9f",
+      "prompt_sha256": "7be0acc152829e7d426a1634b3004e349eb2315397920c88672c813c0abb2689"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-5-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-5",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "37eb5abc3c99348192904ced8424b0547c7639ea9be7cbd5f57c948069bc235a",
+      "prompt_sha256": "986a4b98c77de57d2fbf0f17d561c412214d77d26b2c7eec43a21986964e1c30"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-5-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-5",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "8fb5ebaa74d7ae3c51dfb8ce24fc2be6dec4efe29887f056f21082294eaff65a",
+      "prompt_sha256": "46d5405086f62171689732eba1d773f3a1feda63bd50c4f78e351a6bcb052586"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-6-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-6",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "dc33f31d844031242a1f27eecf248022c32c87d1ecfc3ba2fd253913b566a4e0",
+      "prompt_sha256": "8b0b147b58ec3a9e3bde94216c79027033e5556d729f92d6e2130b57d6282d9c"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-6-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-6",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "6cf6826ce5a6e164c613ac13df5759f4dce029446c856ba79667f331697c90f2",
+      "prompt_sha256": "727ee04536451317d36e0e00677178ea87ea952e0ce26c916239f2c0ca2727fb"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-7-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-7",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "4b8d062527337b8dbef47959e14a3ddcb20b4faa2ec452fd3a2e380fefa68a6f",
+      "prompt_sha256": "9af798af12674fe89458400cb4f51a542cadd0009b3b408dc5ed3aeb67bd5d39"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-7-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-7",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "17e94815fb0ba3392f4ee3ec6a1738a027beb5082c37a00de628457560e8e44d",
+      "prompt_sha256": "ab2f0f62abc6a40632c92b856411893bf215979bf2eb83bcd2e77a0b54aa1c65"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-8-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-2-8",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ed5444bc1b7c937a9fa5179169625a7a9270af958ce4dbbdbe461a4811109cf3",
+      "prompt_sha256": "5c8830ea90ca23b064461a911939951985855b656f13dec4a21b3ebf7d9fb9f1"
+    },
+    {
+      "id": "worlds-2026-main-event-round-2-8-g1-lobby",
+      "series": "worlds-2026-main-event-round-2-8",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "55cb0641eb6d6a82347ec9530842a09371575a18a9448036209f442dd1428a22",
+      "prompt_sha256": "c2020d9458cb85297c3782c5d5d78927583bd8a8a96fd84de22652e27703ed55"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "91ec771ed1ce26b7e67dab319ae3cb43f2befd598294a3ca74f4144d0301bcb8",
+      "prompt_sha256": "c2bfd35c93c7b873bcfaec365da0530e3092b29b5ec7804619e72615d08db30b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-1-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "006c0688ba1160a5544e6153c786ded63eaa313569bb61e8d2658434036e74ad",
+      "prompt_sha256": "480b5f71da7ccca97ae66e0c33915d9210d50c36ef4190d35405fd4f6644b3db"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "7cd506282487489ed90780cff8c357e68394c490d7cfb8b8a473c68729544b17",
+      "prompt_sha256": "12049e57852b209b587dc17c05cb056cf60b495867d15b03c2f6a9d403301f97"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-2-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "c1c209b8535dd0d150ae8630ec17dbe952867c6ad32ab2758c438fdb44f054e7",
+      "prompt_sha256": "793ffd2611760957ce47e0df3df47163b74c8a2fee550599c99f934a9e8503e4"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "f8e7420f45f9895a5224f1d5739367f67626c9671b0b3729e7def555e509dd4b",
+      "prompt_sha256": "53fc281907ecf554fc8777c5490ccf4be13ef2c3ab67cec7a5cd10002d29ed40"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-3-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "1ad0dfc90dea2cda4026ec9ca1a57720e64bd50816a5a7a9a25212215c27e530",
+      "prompt_sha256": "e3ee3e59cf8c9093fc52be5e979abb71d951009b71c445f8150bc84f0ad4f87d"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-3-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-3-3",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "f5b1a748aaf112a30f07dd456f590e36725be08cb37476f2364bd724d0975094",
+      "prompt_sha256": "9b466a60531578b0eb3bd331b5943fa30670b52138448212c1b01dbbd809b554"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-3-g2-lobby",
+      "series": "worlds-2026-main-event-round-3-3",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "9f3c491c3201b50b145f3b48203c3e01a3d9629ef42e3c30bcf88c0eff2b218d",
+      "prompt_sha256": "afe2fde5348e3e0ead03d4646d60528fa0f310f63069f91d8c83257f2d489e91"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "9fe05186b918b264373d32934b5f657520d566b7e35927900f5ef5e1ea2cfa8d",
+      "prompt_sha256": "6ea960ebc8c9f21af7b5bda992ad67fa3eb11ae2e0ccb0e8100fc7aa706753fe"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "5d38592b6ff3c13b2afb93809452610e3da7156884ddf0fa3f8beb7237e2ba61",
+      "prompt_sha256": "ba722ffda18ff931b4b42c2a90a1790cfa6caa47a6f460dffbcc78c304778391"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "44d514a3e666c6a31bcb4c642560fe67270d4bf283e77ae65314a498ea0b96e4",
+      "prompt_sha256": "04847b38b0a4245be1b27f4b515bdbfc2dd45288c433a92f73dba9d4a4722269"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g2-lobby",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "bb62c724ff7d0905b6644ffdc40eba6096d530685c7e984b70b733c0b836f8c0",
+      "prompt_sha256": "d14217e4cb7b6ad3e070c111d6ee54e9b0fa24e674723e4c82924287eabedd8f"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g3-draft-lock",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "80ca6bad37ccf307fdf0cb2ba68d53fb47540a208ec00c4c45d865bb1df9bb4c",
+      "prompt_sha256": "239011df2c16805e0f997910a2b2b6214eefaf4ada73f4e8645714cd4b4ff0f7"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-4-g3-lobby",
+      "series": "worlds-2026-main-event-round-3-4",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "4fc69741a74f4586177f04fa8cc9efb1dab46337958b6bd8dc532486619dbab9",
+      "prompt_sha256": "46fe603d08125d330977a6e683a195ac6661286ce8832e311b276b97b7146e78"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-5-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-5",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "7d28e207e6bb7c24cc30ad3fd602048bbfd96d614be265eef1bf4a13b6609a7f",
+      "prompt_sha256": "76f9c8a33d822f0263925c9be26bc290c8f32f28112e9abc17f0e2dfddc6d36e"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-5-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-5",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "5575881f2a4e999f2bfc67d7b4915c2998c27512f31b0424d2bc71aaea91349e",
+      "prompt_sha256": "f5b0ce2f560cc30891a1880eb480f924ca0bfe8bde9c6f82cdc3c946d34d6181"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-6-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-6",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "b9970171145ce38e8f70d931b485fad1822fc37ec7d17a14bd96899392462a5e",
+      "prompt_sha256": "1199cad7d7317da7a0067c2d9eb4f7767569599c1031f3caf53725e3b5e91a8d"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-6-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-6",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "826246aad13cd3613cba8e1160a4c18253b4561a604a7b2979f2b56988f98983",
+      "prompt_sha256": "6260ccd4bde6cda1e4587e46b2cfe03e4c101cad91ede93d4d91c52ee52f40aa"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-7-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-7",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e74051065cf151007d9ab2e83c50a0e9d2b19ea0f53ea500a17e5c0644a1af12",
+      "prompt_sha256": "5a31377874d3269ca9479edf67e22bace3b7d705912a6a001643c39c4815080b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-7-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-7",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3a1c342524f41ab86b686e49ce387f94b6f8e432972018800080b8980c4e9101",
+      "prompt_sha256": "189a14bead2992d59d8bf888c89befaee34d06689be51d9c6c22d019223089e7"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-7-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-3-7",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "68cd42927432eb65ad3921996d6d138750a8d3d1878dcc1a4ae8b2b3b698817d",
+      "prompt_sha256": "5a80fd8abe0b95bbee86400306991773f2bf0c43a1f075f66fcb1c5a943cc8f0"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-7-g2-lobby",
+      "series": "worlds-2026-main-event-round-3-7",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "54ba566427ca80eca4d6c9ebb7b12009b8dcb8d3d4c5d07c7bb1ed67a18b10fc",
+      "prompt_sha256": "d92098fd064b0d940f8dcaf16fa03389906380cbfb309c6d821241bc759658a7"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-8-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-3-8",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "91b20e6e143f7ddd07badfc9fba0c227c65aaf2174eae85a60d82ea78cc72c73",
+      "prompt_sha256": "f34847a603e9d9fccb9f6131ec015ac544bb383b6458f9044b0e42a66b50d650"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-8-g1-lobby",
+      "series": "worlds-2026-main-event-round-3-8",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "4979c00baaf6ef66145ed085ca31e65f3c7be79e74ec3334a114ef2b628cd7bd",
+      "prompt_sha256": "c0927ace445f55473b431d2e9462de6feee032a635df8efcb77fbc0421bb70d6"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-8-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-3-8",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "38efaa3957058b6237f650d4104c3d896c1a8ee232bfc9de19ce8f10e3bb53e5",
+      "prompt_sha256": "2eb7a8e32037752f3b1a51f0f7919a962ea362a7ad12636913e203893b24086b"
+    },
+    {
+      "id": "worlds-2026-main-event-round-3-8-g2-lobby",
+      "series": "worlds-2026-main-event-round-3-8",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "b7c8778858ffe0409247088b8e72a2f0ff0ec4ba8e5b1c065285c003ee472a7e",
+      "prompt_sha256": "d7cf094b137d1014730ab7fb79036a0ecea9dce5b1169d907e8cd71c86faca80"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a07eeb4258af2eba51a25278a52e1bad236d12eb4834328740d143c32e262495",
+      "prompt_sha256": "13f3e8f64d06fd4ecc2f38aee88d3d428959c75a0ff282f652a8d6f40818577d"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-1-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "76a4539c5dd76c54d26dc0f7d8183ff5c956c7497f303dbab19d5fed2e5bda9a",
+      "prompt_sha256": "d94d1aa180b68c30b601b4ad8ac8c7b33354bff78e3ccd83d2179e228d148927"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-1-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "b18b1e54215e2a349930078237eec0bf8594b7f23e4d61417616adf490d8e27f",
+      "prompt_sha256": "b61bc5d9779e6252e3fc5cc9e0f2a50de1dbfc6b3448b3eb45eb33314ff08850"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-1-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "7a8e837c77e52497bcad5dedb4cc36979b222026f7d7f1867138c76aa6fef215",
+      "prompt_sha256": "6e23a6182d50307f945446e7688a34f82047fb54be4552a80e3d914edecd50a9"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "7dce9612c33589f0d09b7dee08ec06af27571497c3fe0e1dec2182fc048f620d",
+      "prompt_sha256": "280fcb4745173b9a5eb38fc0a7dee0a3621cd3d264624814ed4a637f31d2fa81"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "4ea7e2263d4fdd50c75c6263ecf5358150285455abda8f77bd1ef3fedb56a9d2",
+      "prompt_sha256": "61eaa2bba91cae4b635ac1e7a641f45379670141fb48c3856e98a84abd4c174f"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "8b84e5e8a94226cbcb3f010fe723620e9ce64596efce9e78c03b0a9c35cfaf16",
+      "prompt_sha256": "dc11f0a91910929cfd4f696cd0c56c84fd02a8867d99f9a94ab8fbce6d87fa57"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "53648f1ab76f2f68b3cad23b56632b3a60edb083acd3f77ff0d6ca9458a690b2",
+      "prompt_sha256": "a6b5cdd8816ec14b78791d5f49cb36498bcf6eb75d76eac47484c752eb3dde45"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g3-draft-lock",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e571acdbe010cd31fb4b431e0ca75a0e345b4dc20846fd9cc171ca64cd10ba28",
+      "prompt_sha256": "c29b964d0d89d5aaf0b8a3507f63dd041eecb1e67c4c5f473fc420c77f06adc6"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-2-g3-lobby",
+      "series": "worlds-2026-main-event-round-4-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "4f3eed2a8e15be8d2a645bad6c7f102ff73daed4fa33f0859299ec4f1523a593",
+      "prompt_sha256": "e00b90e2e829ddac57c795c1c3663face1febee13626cc99f0663b0cf80f0e8c"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a3ac9b7cdaa4fbacdd5d013de0ff7e5170dbc5382eeacf872c17feefd2f664da",
+      "prompt_sha256": "cb5f45021c95164dc939190a44c1c5ef0f7c6fd1e32444becc89c5e10e3a2146"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-3-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "4356e45687d052b7a5f152c79a7c0f72671cefba24fda158e01b74299d0a7148",
+      "prompt_sha256": "b2c0176faec56633f2fb7287d5f4ac2cb59c89a1eddc9a075f8050e8336880ad"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-3-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-3",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a7a62d895da26fec2ad21a5fbfd59c35c5f7e368770a81dafbbd16f2b2d6cd76",
+      "prompt_sha256": "5437040ac4f1e8a246263276b87369a7c547ae3578e45b6fe0b7f58136154e6c"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-3-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-3",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3be8cc3048b084d8c9e78b0823c019365a5b1056a3c2677521e929c479ded899",
+      "prompt_sha256": "1bac4ecaf7791f32964b8f1c3bb54e1fb9d09828d68e255c59974f815671b72a"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "648db0e63da78c2703ba13805df7f7f8bf3719e719a5d12659819f9df75bdfcb",
+      "prompt_sha256": "b450d332f51bb00ab4bcfa072cfde049778fedc2c3f7baddcfe4248723efebaa"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "9dfa79e9a1df9ded6b025161ec523258d58d2a3d8dc562430cca4ca5e90ff90a",
+      "prompt_sha256": "1941dd4cd11fad38383ce37249fc35df57c2c9465ebce3e2546a1e7fcd4d4a92"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "6247b87811aed47b9678138cc9b08f05a8bf417e3ba5e1897b52349d8253a43a",
+      "prompt_sha256": "790821827365b1402b9c54dda029a3b7d93c9a933df6ba201ce1c0f728f207d1"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "21d6dab4ac3bc5afc19a6561e93e5808604b4203efd39913f239261041adc97a",
+      "prompt_sha256": "88b145b99a498c46e10f00224b8614413b3ee72cc43e98a471ad1fcf78bb3fd4"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g3-draft-lock",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ffd90f059944d224c0b07e9cd13bef14a77fb0891fbf0de7de6d82953341a312",
+      "prompt_sha256": "2f9451fc1c24820386a4d57b62886b1d54069e0d01d4d770353a77f519bbc465"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-4-g3-lobby",
+      "series": "worlds-2026-main-event-round-4-4",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "b663a723363dede97ecdc96b70ef765ad7a95b636f8567bdaad5a7faf73fa6f1",
+      "prompt_sha256": "ba18bc4e646121ff9865148f56bf1f9b77df3e5303b20102076a3847e7bdda67"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a9bab70a4a5b8df20c7074b51d9c3cdebcc94789e3daf3938b6292821109191c",
+      "prompt_sha256": "e39d1edc17d71863f9a7b0f403752b887eb5932b303f7acd2be685e77933033c"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "0e67514be9fd054f2784cb70ff5a750307180be73056bba37f9e67d8ba6d170a",
+      "prompt_sha256": "33301c1caa9d6a388abe2244d6b5da73b6f619e451c2ff0e89c6ef7863ae3190"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "536ee90f7d44e07110b48149d0dd6ebc0346163399c0ca188b136722a7380d3b",
+      "prompt_sha256": "a2debeb6b5bdb0528cee7cf7357410f5cc9827ed79b65666a1cd3727c2995366"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "13849661a130a1c14859a0472cc57ce85e15ebe2d0217865d88a29614982de6e",
+      "prompt_sha256": "da4a9b37b0a98b54e2b56586a75fe065869b2df6869b1a55cd5a4e7bfcec2821"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g3-draft-lock",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "436b079926145d96bcf6a8b0b322e9b77455148f36765c43d55b2e5e2af0df5d",
+      "prompt_sha256": "456e690030f108a6e7f3c611c7b45de1af419d037489f47ada37088ee0411d85"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-5-g3-lobby",
+      "series": "worlds-2026-main-event-round-4-5",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "76b9df00183d763fb5f79b186e17811e5041c245c54cd01d8ebadfc59232337e",
+      "prompt_sha256": "14d5f67275179f5dcd921868799d31936bfce348930566acf832974de19cc949"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-6-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-4-6",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a5c5f2c70f65460e55168ca245cc111c42592f5fe4a48968d77ebb90640d1136",
+      "prompt_sha256": "8289e6f1afdbc807b7b36cea430eae60e38b9a7443b0097bc932b65fda5d770d"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-6-g1-lobby",
+      "series": "worlds-2026-main-event-round-4-6",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "2a9b0f5e68c8ceab5468ab7ab702dce15a8fd2262078ec9b13c426bc7970735b",
+      "prompt_sha256": "d5d24c755541294e61c3c12d4c238e7260dfe54638b0d02ec2c98b894649b0e0"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-6-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-4-6",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "d26f4a1330f64dc55822d9398ba9bd91a78f65ac41182067a31d36d09559ab32",
+      "prompt_sha256": "64d88479b80237e3b971d8f2b390fa1cb4d10cde7df8e49d99e99882b5bbd931"
+    },
+    {
+      "id": "worlds-2026-main-event-round-4-6-g2-lobby",
+      "series": "worlds-2026-main-event-round-4-6",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "09e5971d1d5595bb694453125ed59f5e08f949dd9f854ceb1d0c71bb6d531045",
+      "prompt_sha256": "78a8b2dbd5c89376e1b865be9eb659463dc9a99aa1628dbc09c952e2d4d5be9e"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-1-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-5-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "c418feb8879c3ab50edc8af36859909afe98d5ce877de6b8f21ccc879581579c",
+      "prompt_sha256": "c3caceb8806c6e6e34c60cf9a04615613110988e91d840e98910824af1deb0ef"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-1-g1-lobby",
+      "series": "worlds-2026-main-event-round-5-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "2c6c1f1a2c5d12c6b5b7e53b914733bb7a299c6f2313ecb3b98f59c53613200b",
+      "prompt_sha256": "94ca5546ab18213c6184a6de404e3bdc6fb6e9068cf91202d74761783fd9c583"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-1-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-5-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ba5582a28033de2a977257b3a8de55b5ae28e61dee64ab4343c76f53ede97c57",
+      "prompt_sha256": "61034e439d18da8cf1bced31dec2dcd27d812d1f1f8b4124f24e15d855c93729"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-1-g2-lobby",
+      "series": "worlds-2026-main-event-round-5-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3c359e062e68659df0043c2afd84af88c3cd4a5ed05e05001e683b3d570e023d",
+      "prompt_sha256": "6b156da9a3e77d100195ebb32a381a985b97f1ed0290440a5011ba36ba8a3b49"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "f7dca2985e60764dd0079b903e6425ef922a1ed0640ab34819e648108ca4a9e1",
+      "prompt_sha256": "bc2a28ccf0944825bbae40659fe0eec7cf834d658e0723bfe560a24d163f7cc4"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g1-lobby",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3a2e18e063ef04de2ccb8486ea7a4f769084d914a7d014771a579365535d6bb6",
+      "prompt_sha256": "f210df2e35598bbc0f404c57c9c805df4e87a38b626018b405df49ebcd6839b5"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ea0d993c5022415d37e57973e86a735644a7ac01bbb6417846c58f1f5462233c",
+      "prompt_sha256": "b76d110db5fcb530d81bcebaa0c6ba5b507c6ccc144af76cfb44d2a9b6d3c11a"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g2-lobby",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "8338eacfb10d01bc0d4fd25b376515706bae26f0f6be40d4981d5f65d7222338",
+      "prompt_sha256": "7d3f9adfd3fb62dba0b004234e169ef907b54c4f2b3e00e4f138502f596f5be2"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g3-draft-lock",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "51f791f2dc2ea253222761617a2a39e68f10b16191011687bd46c13d3f79d7a2",
+      "prompt_sha256": "3fc306a33c49cd4c520afcde3b1fdccd41e8ef57bc43bd38b4300289f85527cb"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-2-g3-lobby",
+      "series": "worlds-2026-main-event-round-5-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "11e5794eec27062d4cd206b13037bd687bef1d5cfbee235ca443fe290cb94596",
+      "prompt_sha256": "45404ce19f32cfbd9843847bdadabbd5769f19056601524810e6933d81b9b3ac"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-3-g1-draft-lock",
+      "series": "worlds-2026-main-event-round-5-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "88abbfa0a06b3150ef4bf4c2dc797d5f6ae3654b47b9843e8147b3c60cbd5ef1",
+      "prompt_sha256": "da95ed4b9cf54f2e6d03be0c077a8efdb4dcc557354ec0002eb5f438c40c2e51"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-3-g1-lobby",
+      "series": "worlds-2026-main-event-round-5-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "ced17640821d83626a8c3dd666656b4890be8b7d5688c105345cb1a9be0a14b7",
+      "prompt_sha256": "2ff24ee1bb8073b22f54651805fbe3499a0182ad2ec300a96dd377765d6425dc"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-3-g2-draft-lock",
+      "series": "worlds-2026-main-event-round-5-3",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "7986dd0740dcfd0dbb8a3079dc9cea0f7ae5254fe4a841f91d446ab46f552b48",
+      "prompt_sha256": "50bc3b37c347307be3768fac5a2d695a35b5d6d5ca9c82f35c0b3d9dc9191d90"
+    },
+    {
+      "id": "worlds-2026-main-event-round-5-3-g2-lobby",
+      "series": "worlds-2026-main-event-round-5-3",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "12f32b44d18ea5de2f8c420c49a45f78e6ad778331f35d86ee2b267a0885aa2e",
+      "prompt_sha256": "4b5ca62782aef9865e0e4b2a1905ac02a054f1eff6c37bb09408b0b38a3f772d"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "2f8d63b8bd64cbb5aba910f437c25aa56a5c59fbb059da0acc4802c8a8c48f7d",
+      "prompt_sha256": "5874895c35896899211f6eab697e212184d8056d05279ba090cb5dcf8daeb2b9"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g1-lobby",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "b91d6330f68565a77749fe2fbccbfcca8e56e1be670509450df80eda1d8fe715",
+      "prompt_sha256": "07dbc8df9f928a7b1c6d9a8de5ce160a787dffdad48ca17a60da10ba41ab6495"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "8662d0b14e796aded9e836d8d380df2ee7601f2a08c700ab4a8eaa9104e1db2b",
+      "prompt_sha256": "e63b0da6a6af953248cdacd37c164c8833954af32a44decd04e087fe7fdc4a60"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g2-lobby",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "6b81d376aa09b11c8fea733bd87795e780503ef848da6fa3cae3405ab261f17c",
+      "prompt_sha256": "4d232fa17ddcba47d52a1358bc99bf14b18bf8718b3589db2b1c28a7e70fec76"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e458e663fb94b1adcf63dc703d4db39368ff16a0d49b69af3e9372c83e05ac4b",
+      "prompt_sha256": "34005a3242954c55bc8fc6c9e5ff43ebff4e3370167c934767b0a50a76b289b2"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g3-lobby",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "3d3f79c4633aab97ecbafa8e2a53afc2e1af735e69b0dd2eb7af3024969f3450",
+      "prompt_sha256": "d1b3e6f30c0d392ca1129db6a4665ceee24466ecc8c7b2c03b20a9e138c80a22"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g4-draft-lock",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "a9ff6025728e666c6725600a0a4ca3887365a0c054a9bb52323f8c749d58044d",
+      "prompt_sha256": "09f032f38ca883de32a6453925a0cdf6a02106ab1862b8626b83db095e793309"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g4-lobby",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "766110e73fd65af198d8938fea43f4911cd7bf3d1719680deccf497bc79a1a30",
+      "prompt_sha256": "a7e098a9bc8f5a83dd227db8197cf2f02bf209bdc79b2c9a33409ea5fa91c21f"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g5-draft-lock",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 5,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "9b79980ae9363fdbd2eb6b14b5f78e27a3c1b21af7f3d6d3b30cc090da108792",
+      "prompt_sha256": "de681fe3fdafd64ae97c0170077dc7a7a539d3db05ec60b9d0a303152405a7c2"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-1-g5-lobby",
+      "series": "worlds-2026-play-in-round-1-1",
+      "game": 5,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "17ae9e037f518cf8ce9caf97596659193441a1aa0ffb53afef670aa72b9b33ca",
+      "prompt_sha256": "414397a2206caf5839b210a75680c5bab98a22686034fb10187597fecbbc3915"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "9e274feee756f8a9be17397be4ab29de05ff1b3b2ed5628e9c99b375d09a940c",
+      "prompt_sha256": "3dceae4bb0f34d419100676ad81d4cbb4d8cec147c0956081c91154103dcb613"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g1-lobby",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "0bf6eee75320ee15d580a65c1f0eb0acea9425d36420d2883e49056936b3b88a",
+      "prompt_sha256": "a89166709b6b50e8bb912d7b3b620de158ba5ab96cbeb6c76fa6c7ef8d49de37"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "eb83fad49c8de6bf51e2ded8b4c3c799d48921a20e3cd1ba1165c8c84780a26d",
+      "prompt_sha256": "0ca497b8cfef7b3ce02cce4b7006d4c9cb97d7de4ae368f05fc5f7ce396d5d5a"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g2-lobby",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "af884b0888a307e0644cbf349ede55ab8069c1775118ee6e5a1b61f942fc0333",
+      "prompt_sha256": "33d90295515dd4786f53fce7d08a3b46b68d92dcaf58cfe4fa275e0cba7c9cc4"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "da91d7af1d6acc5e6e6593f2612d023d32e1304af48154921505b74068e77f3f",
+      "prompt_sha256": "6bfbefae515e3540427426d85ea45946cc4127825e1948b5859c8752026ff84a"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-2-g3-lobby",
+      "series": "worlds-2026-play-in-round-1-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "d5dddd467b53554f590f0e285c7bd22d82c294b0680f695b44bb604d4db282a1",
+      "prompt_sha256": "4c329c9e094371c5c0b8fd433d31903ad7c51d4b165c6daee04674a17d956e08"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "4a361b3dfa620e2ec01d6944a2134a5ead7bac663b4e2aa70e27b941346dfe0e",
+      "prompt_sha256": "13cfc0bc4edc9bc37b6dbb1c5fc2369635ee8f03c3970e617de321cdb801db29"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g1-lobby",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "b7701ffe0af3575d1740273bc60b88f96f78bdefba2e5196bb361e46830518a5",
+      "prompt_sha256": "04601a431620143395f93dc5e858e68fb397ad16d5fa8a5d7680677dff9d5919"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "001c4427b8a0122b0bf0202eaca26c3c0c03250e10238320fe43f2a232738d33",
+      "prompt_sha256": "d83aaabc3b88f96c50a4b27949d3ee90bceeade5042d1fa4e8252609e1864b6f"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g2-lobby",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "b8e9396bd9a146fdffc01731015516c71a9075eacacaf8b19380935004a7cd05",
+      "prompt_sha256": "709d965ccdb8a6516052cfe851e21c5e8343ea0de1fcc89a059991873eac952c"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "0a42369fff2430b4836dba2158199c5780dc2316f29803a7e8a8c60c1e3887c4",
+      "prompt_sha256": "7a51887befcbf5868fc9ebeac6349d6a9b48777d50a778c6d1c3b4b0515764a5"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g3-lobby",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "e518602898fda9b23a6ec4e30cb1636a4f4d8f0bf54919175ca4179b6a409202",
+      "prompt_sha256": "069f4995796cee846d23c38b239a6b273db689b7f417b9e9a503199a3eef34f9"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g4-draft-lock",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e22386208a993ee7961f5fe3f860271cf883acb8200abede10863934c268027f",
+      "prompt_sha256": "81bcee42b5d87d1bac2be6a2b000ca4fdc53d301bbca479e91d3983c3303f6ff"
+    },
+    {
+      "id": "worlds-2026-play-in-round-1-3-g4-lobby",
+      "series": "worlds-2026-play-in-round-1-3",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "192fa1e8d5cefe0ccad17946dfb0f7180a9af0d083925635032d51c8ecd4207b",
+      "prompt_sha256": "6c55bba84d48ebdc9ee3eae96acf96a98ff85d6d117b5a8e430618d9c1b09c99"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "0af58595b5eec6c6d69000300fe98247cf814a1c9c0c60b957fe6d2800401288",
+      "prompt_sha256": "942c08536bf9f30df2eb1d281f727dc8c353b7df6f6c107b0998b27a3d3f8c2d"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g1-lobby",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "db99dc15ffae8b1f2c63dba242918b6696045c51679d3b40c950b5d126970b86",
+      "prompt_sha256": "c33314107566892aba59e0dd1e57145c8f922a7abb00a0572f6299fa97ce984a"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "3bf513d3c789b7ab16ebcf51fad78ba51a3a9268dad144642ffe5525a074da9f",
+      "prompt_sha256": "49df139f430dfb89d3873874d0f00b740c84e1d8d801e2365e859a43928fd5da"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g2-lobby",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "417e5675c1bf69fbf317368cabf184d1e157979a95068a96b70b51c9dcf265ef",
+      "prompt_sha256": "0ec64aaba54d407e4edab0682cfdebecebd08260324f0353c3eebb5900c79258"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "9e833a797d4e045b7a4aed9e5ccd94569e18bde4b90000956f12ed14cbc50b44",
+      "prompt_sha256": "40aec33930bdba6b9738a369a12de19948b517734ce592d1725e7fdc06bd7dd7"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-1-g3-lobby",
+      "series": "worlds-2026-play-in-round-2-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "074bf85ba95f27e47919cc0e5b78cb3811d1bea3c50048aa044f7e84f9d64712",
+      "prompt_sha256": "b88e40ba358e92f02e2a73f64ce46dda4a7cb23efe1bd2409c9546d40b1e17ba"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "8eeb9073a4943f0744730a5026570b871e5c17abf3407673e638f716d292b76c",
+      "prompt_sha256": "cac6218e0de539123a5744abe1edbc7a082ac26840092b3fbf2dca16d61f7cb6"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g1-lobby",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "df46f39b57cc88c778b449773ef178fe1b6ee5bf2125acac51ff20431babc3fc",
+      "prompt_sha256": "d4249a7eacdd49313296ea914c0d2aa22581e5f0e81957639b59d3d382535716"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "5674b74ec8758521be51a4781a219b0b4e09ba09873fb9a9a5aba2908d2d4977",
+      "prompt_sha256": "618594b4b4bec9c3cbb5d9d018064de68d9be05a05250ab90596f26723b9d1ec"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g2-lobby",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "abb6368d47369c2e885a0e78570ab8ae39d54d72e5deb7a5592d32bd66087c75",
+      "prompt_sha256": "853526754804e9b74e12f9b1d720183e98bd9d01d2d2e55c9f0111f9e27543e8"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "ed498c5ba290288ef073bf5e1730d61f99f700eaaee63f3220d901b31d4c2a48",
+      "prompt_sha256": "b7db070b6ab60ca0393bff3cc05137f703e31377495a691e21b6c250c1b48c33"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g3-lobby",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "692cce227e346242dbb9500c538c9b9c1efab48d5bd78d7561cdc7b444fb5956",
+      "prompt_sha256": "bad309f8801d1189722e6dfe96e4be51efdaf9f92b3a9461b5dbbcba1399e132"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g4-draft-lock",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 4,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "e2ece7998f907326918e0bf81252de4c7e4d5f58ebe54613190258a0cb927449",
+      "prompt_sha256": "dc8763bbc871c656dfa545791321de497b72b19bcf565fe7eb7b65c448bafe3c"
+    },
+    {
+      "id": "worlds-2026-play-in-round-2-2-g4-lobby",
+      "series": "worlds-2026-play-in-round-2-2",
+      "game": 4,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "a96558e739683861ad4426f3e12d1de34ebc2575198edcdf2ae742c2974aeb0d",
+      "prompt_sha256": "25ee93a40bba30b05b28789d5e40092db1b51029dc41d38b2492fd3818a735fb"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g1-draft-lock",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 1,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "75e779cb06b019a7f1c9631ec895c802eca29a2d1c8386eb215c531efa07e710",
+      "prompt_sha256": "b9fe7040fa8f472e3d2af853ed3c66bbd2086d0b4160d5a1eb6a70df9935e883"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g1-lobby",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 1,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "901b7c4a43744583312ea428177d02c6dfe758c056f4bf33d23f9f9fded76916",
+      "prompt_sha256": "aee5094a7ea05380b094f2bac301086030906ae0949d23e3d6e05c4eff32750c"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g2-draft-lock",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 2,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "f454dcd7018543e6144ee4ddf0ec3f2b411019a810c18a8b6dcbbf9a045e5cf9",
+      "prompt_sha256": "ffead00bc9eb64dff14539ff5aae495493b5b58bd1525df552e7f3e030d3302f"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g2-lobby",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 2,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "f0b44b016a5492da2e66bf3452c0a34307da4d099f09392f50bfc215a5fbd87f",
+      "prompt_sha256": "3d2d54cfa929aabb4a2330057147cdb703ebffb6d28f9d1de412342315b37de7"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g3-draft-lock",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 3,
+      "phase": "draft-lock",
+      "patch": "26.20",
+      "snapshot_sha256": "50a9e7c26c17b055425d50592563b15f19c341f42c74365dc75005112c78ccc7",
+      "prompt_sha256": "b0294b59beead9f98ec13b41a0a203be4e4116ed3cfa498556a90abf2f50855e"
+    },
+    {
+      "id": "worlds-2026-play-in-round-3-1-g3-lobby",
+      "series": "worlds-2026-play-in-round-3-1",
+      "game": 3,
+      "phase": "lobby",
+      "patch": "26.20",
+      "snapshot_sha256": "85c9da08bb21b5173b550217c67b19de6c3565399a4f4293433962261473c526",
+      "prompt_sha256": "1ee677439cefe17a02dfa6382283e9247b429b78b6f64518b5dcfba78000e7b3"
+    }
+  ]
+}

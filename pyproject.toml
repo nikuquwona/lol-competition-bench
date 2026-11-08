@@ -1,0 +1,13 @@
+[project]
+name = "lol-competition-bench"
+version = "2.0.0"
+description = "Point-in-time forecasts for professional League of Legends games"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+harbor = ["harbor==0.25.0"]
+collect = ["beautifulsoup4==4.14.2"]
+
+[tool.uv]
+package = false

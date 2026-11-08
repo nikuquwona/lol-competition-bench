@@ -6,9 +6,9 @@ import re
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 from bs4 import BeautifulSoup
-from fetch import BASE, CACHE, EVENTS, ROOT, TENCENT, fetch, obj
+from production.fetch import BASE, CACHE, EVENTS, ROOT, TENCENT, fetch, obj
 
-DATA = ROOT / "data"
+DATA = ROOT / "production/data"
 RIOT = "https://lolesports.com/en-US/leagues/worlds"
 UTC = timezone.utc
 CST = timezone(timedelta(hours=8))

@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 from harbor.agents.base import BaseAgent
-from cli.client import BIN
+from evaluation.cli.client import BIN
 
 
 class CompetitionCLI(BaseAgent):
@@ -38,7 +38,7 @@ class CompetitionCLI(BaseAgent):
             proc = await asyncio.create_subprocess_exec(
                 sys.executable,
                 "-m",
-                "cli.worker",
+                "evaluation.cli.worker",
                 name,
                 os.environ["BENCH_MODEL"],
                 mode,

@@ -15,11 +15,14 @@ on:
         default: deepseek-v4-pro
       phase:
         type: choice
-        options: [lobby, draft-lock]
+        options: [lobby, draft-lock, both]
         default: draft-lock
       series:
         type: string
         default: worlds-2026-main-event-quarterfinals-4
+      limit:
+        description: Maximum selected tasks per harness (blank for all)
+        type: string
       game:
         type: string
         default: '2'
@@ -54,7 +57,7 @@ jobs:
       matrix:
         cli: ${{ fromJSON(needs.select.outputs.matrix) }}
     runs-on: ubuntu-latest
-    timeout-minutes: 24
+    timeout-minutes: 360
     env:
       BENCH_CLI: ${{ matrix.cli }}
       BENCH_MODEL: ${{ inputs.model }}
@@ -62,6 +65,7 @@ jobs:
       SERIES: ${{ inputs.series }}
       GAME: ${{ inputs.game }}
       PHASE: ${{ inputs.phase }}
+      LIMIT: ${{ inputs.limit }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,10 +75,11 @@ jobs:
           python-version: '3.12'
       - run: |
           python -m unittest discover -s tests
-          python scripts/build.py --series "$SERIES" --game "$GAME" --phase "$PHASE"
+
       - if: matrix.cli == 'cursor' && inputs.mode == 'smoke'
         run: |
-          python -m cli.worker cursor "$BENCH_MODEL" check tasks/*/environment/snapshot.json tasks/*/instruction.md output
+          python -m production.build --series worlds-2026-main-event-quarterfinals-4 --game 2 --phase draft-lock
+          python -m evaluation.cli.worker cursor "$BENCH_MODEL" check tasks/*/environment/snapshot.json tasks/*/instruction.md output
           cat output/run.json
       - if: matrix.cli != 'cursor' || inputs.mode != 'smoke'
         run: pip install -q harbor==0.25.0
@@ -83,22 +88,17 @@ jobs:
           DEEPSEEK_API_KEY: ${{ inputs.mode == 'live' && secrets.BENCH_DEEPSEEK_KEY || '' }}
           CURSOR_API_KEY: ${{ inputs.mode == 'vendor' && secrets.BENCH_CURSOR_KEY || '' }}
         run: |
-          export PYTHONPATH="$PWD"
-          harbor run -p tasks/* -a cli.agent:CompetitionCLI --agent-timeout-multiplier 2
-          python - <<'PY'
-          import json,os
-          from pathlib import Path
-          meta,=Path('jobs').rglob('cli-run.json')
-          p,=Path('jobs').rglob('artifacts/app/prediction.json')
-          r,=Path('jobs').rglob('reward.txt')
-          pred=json.loads(p.read_text())
-          if os.environ['BENCH_MODE']=='fixture': assert pred=={'p_blue_win':0.41,'p_blue_ahead_15':0.57}
-          report=dict(runtime=json.loads(meta.read_text()),prediction=pred,reward=float(r.read_text()))
-          Path("output").mkdir(exist_ok=True)
-          Path("output/report.json").write_text(json.dumps(report,indent=2))
-          print(report)
-          PY
-      - uses: actions/upload-artifact@v4
+          args=(--harness "$BENCH_CLI" --model "$BENCH_MODEL" --mode "$BENCH_MODE" --out output)
+          if [[ "$SERIES" != "*" ]]; then args+=(--series "$SERIES"); fi
+          if [[ "$GAME" != 0 ]]; then args+=(--game "$GAME"); fi
+          if [[ "$PHASE" != both ]]; then args+=(--phase "$PHASE"); fi
+          if [[ -n "$LIMIT" ]]; then args+=(--limit "$LIMIT"); fi
+          ./bench e2e "${args[@]}"
+          if [[ "$BENCH_MODE" = fixture ]]; then
+            python -c 'import json; r=json.load(open("output/report.json")); assert all(t["prediction"]=={"p_blue_win":0.41,"p_blue_ahead_15":0.57} for t in r["trials"])'
+          fi
+      - if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.cli }}-${{ inputs.mode }}-${{ inputs.phase }}
           path: output/*.json

@@ -3,3 +3,5 @@ tasks/
 jobs/
 __pycache__/
 .venv/
+
+.work/
