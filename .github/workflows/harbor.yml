@@ -32,6 +32,7 @@ jobs:
           from pathlib import Path
           import json
           import socket
+          assert {p.name for p in Path("/sys/class/net").iterdir()} == {"lo"}
           for addr in ("1.1.1.1","8.8.8.8"):
               try:
                   sock = socket.create_connection((addr,443),timeout=3)

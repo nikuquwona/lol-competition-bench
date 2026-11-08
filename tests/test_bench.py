@@ -61,7 +61,7 @@ class BenchmarkTest(unittest.TestCase):
             write_task(root, snapshot(GAMES, t, "draft-lock"), t)
             self.assertEqual(
                 {p.name for p in (root / "environment").iterdir()},
-                {"Dockerfile", "snapshot.json"},
+                {"Dockerfile", "snapshot.json", "docker-compose.yaml"},
             )
             y = json.loads((root / "tests/labels.json").read_text())
             self.assertEqual(score(y, y), 1)

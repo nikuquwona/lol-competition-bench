@@ -106,6 +106,10 @@ def write_task(out, context, target):
     (out / "instruction.md").write_text(BRIEF)
     (out / "task.toml").write_text(CONFIG)
     (out / "environment/Dockerfile").write_text(AGENT_IMAGE)
+    # Do not rely on a phase-specific firewall for historical replay isolation.
+    compose = "services:\n  main:\n    network_mode: none\n"
+    (out / "environment/docker-compose.yaml").write_text(compose)
+    (out / "tests/docker-compose.yaml").write_text(compose)
     (out / "environment/snapshot.json").write_text(
         json.dumps(context, ensure_ascii=False)
     )
