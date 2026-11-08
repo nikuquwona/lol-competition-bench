@@ -27,6 +27,7 @@ permissions:
   contents: read
 jobs:
   select:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.select.outputs.matrix }}
@@ -92,8 +93,16 @@ jobs:
           r,=Path('jobs').rglob('reward.txt')
           pred=json.loads(p.read_text())
           if os.environ['BENCH_MODE']=='fixture': assert pred=={'p_blue_win':0.41,'p_blue_ahead_15':0.57}
-          print(meta.read_text(),pred,'reward',r.read_text())
+          report=dict(runtime=json.loads(meta.read_text()),prediction=pred,reward=float(r.read_text()))
+          Path("output").mkdir(exist_ok=True)
+          Path("output/report.json").write_text(json.dumps(report,indent=2))
+          print(report)
           PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.cli }}-${{ inputs.mode }}-${{ inputs.phase }}
+          path: output/*.json
+          retention-days: 7
       - if: always()
         run: |
           test -z "$(docker ps -aq --filter name=lolbench-)"
