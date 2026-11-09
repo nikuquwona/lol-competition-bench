@@ -13,6 +13,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlsplit
 
 from evaluation.draft import draft_static
+from evaluation.model_context import model_context
 from evaluation.run_index import (
     ASSETS,
     TEAM_MARKS,
@@ -29,6 +30,8 @@ STATIC = {
     "/app.js": ("app.js", "text/javascript"),
     "/timeline.js": ("timeline.js", "text/javascript"),
     "/timeline.css": ("timeline.css", "text/css"),
+    "/vendor/trajectory.js": ("vendor/trajectory.js", "text/javascript"),
+    "/vendor/eventsource-parser.js": ("vendor/eventsource-parser.js", "text/javascript"),
     "/media/worlds-2026.webp": ("media/worlds-2026.webp", "image/webp"),
     "/media/kc-walkout.webp": ("media/kc-walkout.webp", "image/webp"),
     "/media/t1-walkout.webp": ("media/t1-walkout.webp", "image/webp"),
@@ -41,6 +44,7 @@ FILES = {
     "events": ("trajectory.jsonl", "cli-events.log"),
     "stderr": "stderr.txt",
     "prediction": "prediction.json",
+    "context": "model-context.jsonl",
 }
 for logo in TEAM_MARKS.values():
     STATIC[logo] = (logo.lstrip("/"), "image/png")
@@ -254,10 +258,17 @@ def make_handler(index):
                         k: values[0]
                         for k, values in parse_qs(urlsplit(self.path).query).items()
                     }
-                    if filters.pop("view", "") == "featured":
+                    view = filters.pop("view", "featured" if not filters else "")
+                    if view == "featured":
                         featured = ranks["featured"] or {}
                         rows = (
-                            dict(e, release=featured["release"], suite="featured-five")
+                            dict(
+                                e,
+                                release=featured["release"],
+                                suite=featured["suite"],
+                                bp_before=e["by_phase"]["lobby"]["mean_reward"],
+                                bp_after=e["by_phase"]["draft-lock"]["mean_reward"],
+                            )
                             for e in featured.get("entries", [])
                             if all(str(e.get(k)) == v for k, v in filters.items())
                         )
@@ -267,12 +278,15 @@ def make_handler(index):
                             "backend",
                             "track",
                             "protocol",
+                            "rank",
                             "model",
                             "harness",
                             "selected",
                             "attempted",
                             "scored",
                             "mean_scored_reward",
+                            "bp_before",
+                            "bp_after",
                             "mean_reward",
                             "run_id",
                         )
@@ -361,6 +375,25 @@ def make_handler(index):
             if trial is None:
                 return self.send_error(404)
             mapped = artifacts(root, trial)
+            if parts[5:] == ["context"]:
+                if "context" not in mapped:
+                    return self.send_error(404)
+                query = parse_qs(urlsplit(self.path).query, keep_blank_values=True)
+                try:
+                    call = None
+                    if query:
+                        if set(query) != {"call"} or len(query["call"]) != 1:
+                            return self.send_error(400)
+                        call = int(query["call"][0])
+                    return self.json(model_context(mapped["context"], call))
+                except KeyError:
+                    return self.send_error(404)
+                except (TypeError, ValueError, OSError):
+                    return self.send_error(422, "Invalid model context record")
+            if parts[5:] == ["model-context.jsonl"] and "context" in mapped:
+                return self.reply(
+                    mapped["context"], "application/x-ndjson", "model-context.jsonl"
+                )
             if len(parts) == 5 or parts[5] == "timeline":
                 tasks, _ = index.verified_tasks(doc)
                 if ref := tasks.get(trial["task"]):
@@ -374,25 +407,33 @@ def make_handler(index):
                     from evaluation.timeline import build_timeline
 
                     events = mapped.get("events")
+                    notes = []
+                    if events:
+                        st = events.stat()
+                        sha = file_sha(events, st.st_mtime_ns, st.st_size)
+                        notes = read_doc(
+                            Path(__file__).with_name("rollout_reviews.json")
+                        ).get(sha, [])
+                    if parse_qs(urlsplit(self.path).query).get("notes") == ["1"]:
+                        return self.json({"review_notes": notes})
                     timeline = build_timeline(
                         events,
                         phase=trial.get("phase"),
                         prediction=trial.get("prediction"),
                         outcome=trial.get("observed_outcome"),
                     )
-                    if events:
-                        st = events.stat()
-                        sha = file_sha(events, st.st_mtime_ns, st.st_size)
-                        notes = read_doc(
-                            Path(__file__).with_name("rollout_reviews.json")
-                        )
-                        timeline["review_notes"] = notes.get(sha, [])
+                    timeline["review_notes"] = notes
                     return self.json(timeline)
                 return self.json(
                     {
                         "run": rec,
                         "trial": trial,
-                        "artifacts": {k: path + "/" + k for k in mapped},
+                        "artifacts": {
+                            k: path
+                            + "/"
+                            + ("model-context.jsonl" if k == "context" else k)
+                            for k in mapped
+                        },
                     }
                 )
             if parts[5] not in mapped:

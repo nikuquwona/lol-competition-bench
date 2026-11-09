@@ -4,10 +4,11 @@ import json
 from pathlib import Path
 
 SUITES = Path(__file__).with_name("suites")
+CURRENT_SUITE = "featured-five"
 
 
 def suite_names():
-    return sorted(p.stem for p in SUITES.glob("*.json"))
+    return [CURRENT_SUITE]
 
 
 def suite_ids(name, release):

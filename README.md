@@ -19,7 +19,7 @@
 
 第二条命令使用宿主 `DEEPSEEK_API_KEY` 调用 DeepSeek 官方付费 API。换用 `--harness claude` 可在同一环境运行 Claude Code。队徽来自[LoL Esports 官方赛事资源](evaluation/site_assets/teams/sources.json)。
 
-用 `./bench audit` 可离线核对这批原生轨迹、冻结输入与得分。逐题页可以展开完整 BP、定位到每次改判的工具调用，或复制地址分享某条原生消息。已抽查的模型陈述附有赛前证据。[五场轨迹核查](evaluation/ROLLOUT_REVIEW.md) · [赛事插画与摄影出处](evaluation/site_assets/media/sources.json)
+首页统一展示各模型与 CLI 的排名、阶段得分与交卷数。默认评测题单由五场十题组成。新运行的逐题页可查看每次发给提供方的请求和对应响应；缺少该记录的旧运行保留原始题面及可观察的 CLI 轨迹。`./bench audit` 能离线核对已发布的五场样例。[采集与查看模型上下文](evaluation/README.md#逐题轨迹的阅读方式) · [五场轨迹核查](evaluation/ROLLOUT_REVIEW.md) · [赛事图片出处](evaluation/site_assets/media/sources.json)
 
 ## 从一场真实比赛看输入、预测与评分
 
@@ -52,7 +52,7 @@
   --series worlds-2026-main-event-quarterfinals-4 --game 2
 ```
 
-打开本轮的 `report.md` 或本地站点，可逐题核对题面、输入快照、原生 CLI 消息、工具命令与输出、最终概率和评分。站点支持导出榜单 CSV、逐题结果和运行材料。已有运行可用 `./bench report <运行目录>` 离线重建可读报告。完整受控榜要求覆盖全套题，每轮失败或中断的题计零。Brier 只统计成功交卷。子集仅在相同题号集合内比较。[安装、后端与用量](evaluation/README.md) · [榜单规则](evaluation/RANKING.md)
+打开本轮的 `report.md` 或本地站点，可逐题核对题面、输入快照、原生 CLI 消息、工具命令与输出、最终概率和评分。本地接口支持导出榜单 CSV、逐题结果和运行材料。已有运行可用 `./bench report <运行目录>` 离线重建可读报告。完整受控榜要求覆盖全套题，每轮失败或中断的题计零。Brier 只统计成功交卷。子集仅在相同题号集合内比较。[安装、后端与用量](evaluation/README.md) · [榜单规则](evaluation/RANKING.md)
 
 | CLI | 可运行的环境与验证范围 |
 | --- | --- |

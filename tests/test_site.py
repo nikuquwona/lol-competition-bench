@@ -111,10 +111,31 @@ class PublishedResultsTest(unittest.TestCase):
             (free["scored"], free["attempted"], free["selected"]), (4, 6, 10)
         )
         self.assertIsNone(free["mean_reward"])
+        self.assertIsNone(free["rank"])
+        ranked = [
+            (entry["harness"], entry["rank"])
+            for entry in sample["entries"]
+            if entry["rank"] is not None
+        ]
+        self.assertEqual(ranked, [("codex", 1), ("claude", 2)])
+        for entry in sample["entries"]:
+            if entry["rank"] is not None:
+                self.assertAlmostEqual(
+                    entry["mean_reward"],
+                    sum(p["mean_reward"] for p in entry["by_phase"].values()) / 2,
+                )
         self.assertAlmostEqual(free["mean_scored_reward"], 0.7336875)
         modes = {group["track"] for group in board["groups"]}
         self.assertFalse(modes.intersection({"fixture", "baseline"}))
         self.assertIn("controlled", modes)
+
+        # A duplicated trial cannot turn a nine-task run into a ranked ten-task entry.
+        codex = next(e for e in sample["entries"] if e["rank"] == 1)
+        rec, doc, folder = reports[codex["run_id"]]
+        corrupt = dict(doc, trials=doc["trials"][:-1] + doc["trials"][:1])
+        self.assertEqual(
+            index.featured({"invalid": (rec, corrupt, folder)})["entries"], []
+        )
 
     def test_published_mirror_counts_only_once(self):
         example = ROOT / "evaluation/examples/worlds-2026-kc-t1-openrouter"

@@ -11,7 +11,7 @@ from pathlib import Path
 
 from evaluation.cli.client import BIN
 from evaluation.draft import draft_view
-from evaluation.selections import SUITES, suite_ids
+from evaluation.selections import CURRENT_SUITE, SUITES, suite_ids
 from production.build import ROOT
 from production.catalog import display_names
 
@@ -383,13 +383,13 @@ class RunIndex:
         """Show coverage on the fixed five games, including when a suite stops early."""
         from evaluation.ranking import check_trial
 
-        spec = read_doc(SUITES / "featured-five.json")
+        spec = read_doc(SUITES / (CURRENT_SUITE + ".json"))
         tasks, manifest = self.verified_tasks(
             {"release": spec["release"], "archive_sha256": spec["archive_sha256"]}
         )
         if not manifest:
             return None
-        featured_ids = set(suite_ids("featured-five", manifest))
+        featured_ids = set(suite_ids(CURRENT_SUITE, manifest))
         games = game_rows(sorted(featured_ids), tasks)
         order = {(g["series"], g["game"]): n for n, g in enumerate(spec["games"])}
         games.sort(key=lambda g: order[(g["series"], g["game"])])
@@ -405,6 +405,13 @@ class RunIndex:
             if not selected:
                 continue
             subset = [t for t in doc["trials"] if t["task"] in selected]
+            if (
+                len(set(doc["planned"])) != len(doc["planned"])
+                or len({t["task"] for t in doc["trials"]}) != len(doc["trials"])
+                or any(t["task"] not in doc["planned"] for t in doc["trials"])
+                or any(t.get("phase") != tasks[t["task"]]["phase"] for t in subset)
+            ):
+                continue
             submitted = [t for t in subset if t["status"] == "scored"]
             try:
                 for t in submitted:
@@ -418,6 +425,17 @@ class RunIndex:
             finished = len(subset) == len(featured_ids) and all(
                 t["status"] in ("scored", "failed", "interrupted") for t in subset
             )
+            exact = set(doc["planned"]) == featured_ids
+            phases = {}
+            for phase in ("lobby", "draft-lock"):
+                scores = [t["reward"] for t in submitted if t["phase"] == phase]
+                count = sum(tasks[task]["phase"] == phase for task in featured_ids)
+                phases[phase] = dict(
+                    scored=len(scores),
+                    selected=count,
+                    mean_scored_reward=sum(scores) / len(scores) if scores else None,
+                    mean_reward=sum(scores) / count if finished and exact else None,
+                )
             entries.append(
                 dict(
                     run_id=key,
@@ -431,7 +449,10 @@ class RunIndex:
                     scored=len(submitted),
                     finished=finished,
                     status=rec["status"],
-                    is_suite=set(doc["planned"]) == featured_ids,
+                    is_suite=exact,
+                    created_at=rec["created_at"],
+                    by_phase=phases,
+                    rank=None,
                     mean_scored_reward=sum(t["reward"] for t in submitted)
                     / len(submitted)
                     if submitted
@@ -443,15 +464,17 @@ class RunIndex:
                     else None,
                 )
             )
+        # Choose a representative by coverage and recency, independently of its score.
         entries.sort(
             key=lambda e: (
-                not e["is_suite"],
-                not e["finished"],
-                -e["attempted"],
-                e["model"],
-                e["harness"],
+                e["is_suite"],
+                e["scored"] == e["selected"],
+                e["scored"],
+                e["attempted"],
+                e["created_at"],
                 e["run_id"],
-            )
+            ),
+            reverse=True,
         )
         unique = {}
         for entry in entries:
@@ -463,11 +486,40 @@ class RunIndex:
                 entry["harness"],
             )
             unique.setdefault(combo, entry)
+        entries = list(unique.values())
+        eligible = [
+            e
+            for e in entries
+            if e["track"] == "controlled"
+            and e["is_suite"]
+            and e["mean_reward"] is not None
+            and e["scored"] == e["selected"]
+        ]
+        for entry in eligible:
+            entry["rank"] = 1 + sum(
+                e["protocol"] == entry["protocol"]
+                and e["backend"] == entry["backend"]
+                and round(e["mean_reward"], 12) > round(entry["mean_reward"], 12)
+                for e in eligible
+            )
+        entries.sort(
+            key=lambda e: (
+                e["rank"] is None,
+                e["backend"],
+                e["track"],
+                e["protocol"],
+                e["rank"] or 0,
+                -e["scored"],
+                e["model"],
+                e["harness"],
+            )
+        )
         return {
+            "suite": CURRENT_SUITE,
             "release": spec["release"],
             **display_names(spec["release"]),
             "games": games,
-            "entries": list(unique.values()),
+            "entries": entries,
             "game_count": len(games),
         }
 
@@ -490,7 +542,7 @@ class RunIndex:
             group["game_count"] = len(group["games"])
             try:
                 group["is_featured"] = set(first["planned"]) == set(
-                    suite_ids("featured-five", manifest)
+                    suite_ids(CURRENT_SUITE, manifest)
                 )
             except (KeyError, ValueError):
                 group["is_featured"] = False

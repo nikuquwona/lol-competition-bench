@@ -18,7 +18,7 @@ from collections import Counter
 from pathlib import Path, PurePosixPath
 
 from evaluation.traces import attach, overview
-from evaluation.selections import suite_ids, suite_names
+from evaluation.selections import CURRENT_SUITE, suite_ids, suite_names
 from evaluation.baseline import predict
 from evaluation.cli.client import BIN
 from evaluation.cli.gateway import credential_name, free_model
@@ -425,12 +425,8 @@ def main(simple=False):
     p.add_argument("--patch")
     p.add_argument("--limit", type=int)
     p.add_argument("--list", action="store_true")
+    p.add_argument("--all", action="store_true", help="Select the full source release")
     if simple:
-        p.add_argument(
-            "--all",
-            action="store_true",
-            help="Run the baseline over the entire release",
-        )
         p.set_defaults(mode="baseline", harness=None, model=None, backend="local")
     else:
         p.add_argument(
@@ -442,6 +438,14 @@ def main(simple=False):
         p.add_argument("--harness", choices=BIN)
         p.add_argument("--model")
     a = p.parse_args()
+    if (
+        not simple
+        and a.release == DEFAULT_RELEASE
+        and not any(
+            (a.all, a.task, a.series, a.game, a.phase, a.patch, a.limit, a.suite)
+        )
+    ):
+        a.suite = CURRENT_SUITE
     if (
         simple
         and not a.all

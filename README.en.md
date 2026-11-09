@@ -19,7 +19,7 @@ Start the local model scoreboard with `./bench serve`. The five games cover IG�
 
 The second command uses the host's `DEEPSEEK_API_KEY` and bills the account through the official DeepSeek API. Use `--harness claude` to run Claude Code on the same backend. The team marks come from [official LoL Esports assets](evaluation/site_assets/teams/sources.json).
 
-Run `./bench audit` offline to verify the native traces, evidence cutoffs and scores. Each trial page shows the draft in order, links each forecast revision to its tool call, and lets you share a URL to an individual native event. Selected model claims have human reviews linked to the frozen evidence. [Five-game rollout review](evaluation/ROLLOUT_REVIEW.md) · [Worlds artwork and match photography credits](evaluation/site_assets/media/sources.json)
+The leaderboard compares models and CLIs on one active selection of five games and ten tasks. Each row shows a combination’s rank, phase scores and coverage. Open a new trial to inspect each outgoing model request and paired response. Older trials show the original instructions and CLI transcript. Run `./bench audit` offline to verify the published sample. [Model context capture](evaluation/README.md#逐题轨迹的阅读方式) · [Rollout review](evaluation/ROLLOUT_REVIEW.md) · [Artwork credits](evaluation/site_assets/media/sources.json)
 
 ## A game from snapshot to score
 
@@ -52,7 +52,7 @@ To run the same model and harness on both phases using macOS, install Codex CLI 
   --series worlds-2026-main-event-quarterfinals-4 --game 2
 ```
 
-Open the run's `report.md` or use the local site to inspect each prompt, input snapshot, native CLI messages, tool calls and outputs, submitted probabilities and score. The site exports leaderboard CSVs, trial results and run artifacts. Rebuild the readable report for an existing run offline with `./bench report <run-directory>`. The full controlled leaderboard requires every scheduled task. Failed and interrupted trials earn zero. Individual Brier scores cover successful submissions, and subsets are compared within identical task selections. [Installation and runners](evaluation/README.md) · [Ranking rules](evaluation/RANKING.md)
+Open the run's `report.md` or use the local site to inspect each prompt, input snapshot, native CLI messages, tool calls and outputs, submitted probabilities and score. The local API exports leaderboard CSVs, trial results and run artifacts. Rebuild the readable report for an existing run offline with `./bench report <run-directory>`. The full controlled leaderboard requires every scheduled task. Failed and interrupted trials earn zero. Individual Brier scores cover successful submissions, and subsets are compared within identical task selections. [Installation and runners](evaluation/README.md) · [Ranking rules](evaluation/RANKING.md)
 
 | CLI | Execution and verification |
 | --- | --- |

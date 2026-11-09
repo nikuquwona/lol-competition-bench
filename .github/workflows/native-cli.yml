@@ -93,6 +93,9 @@ jobs:
           if [[ "$GAME" != 0 ]]; then args+=(--game "$GAME"); fi
           if [[ "$PHASE" != both ]]; then args+=(--phase "$PHASE"); fi
           if [[ -n "$LIMIT" ]]; then args+=(--limit "$LIMIT"); fi
+          if [[ "$SERIES" = "*" && "$GAME" = 0 && "$PHASE" = both && -z "$LIMIT" ]]; then
+            args+=(--all)
+          fi
           ./bench e2e "${args[@]}"
           if [[ "$BENCH_MODE" = fixture ]]; then
             python -c 'import json; r=json.load(open("output/report.json")); assert all(t["prediction"]=={"p_blue_win":0.41,"p_blue_ahead_15":0.57} for t in r["trials"])'
