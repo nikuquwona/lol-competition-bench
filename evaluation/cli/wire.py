@@ -12,6 +12,7 @@ import threading
 from urllib.parse import quote
 
 FILENAME = "model-context.jsonl"
+DOCKER_DIR = "/private-wire"
 BODY_LIMIT = 4 * 1024 * 1024
 TRIAL_LIMIT = 24 * 1024 * 1024
 
@@ -131,13 +132,11 @@ class WireLog:
         path,
         *,
         secrets=(),
-        existing_empty=False,
         body_limit=BODY_LIMIT,
         trial_limit=TRIAL_LIMIT,
     ):
         path = Path(path)
-        if not existing_empty:
-            create_private_file(path)
+        create_private_file(path)
         fd = os.open(path, os.O_WRONLY | os.O_APPEND | os.O_NOFOLLOW)
         info = os.fstat(fd)
         if not stat.S_ISREG(info.st_mode) or info.st_size or info.st_mode & 0o077:

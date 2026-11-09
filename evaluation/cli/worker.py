@@ -8,13 +8,14 @@ import re
 import signal
 import subprocess
 import sys
+import tempfile
 from concurrent.futures import ThreadPoolExecutor
 import uuid
 from pathlib import Path
 from urllib.parse import quote
 from evaluation.cli.client import BIN, CURSOR_HOSTS
 from evaluation.cli.gateway import credential_name, free_model
-from evaluation.cli.wire import FILENAME, create_private_file
+from evaluation.cli.wire import DOCKER_DIR, FILENAME
 
 HERE = Path(__file__).resolve().parent
 READ_PREDICTION = """
@@ -123,6 +124,7 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
     image = shared or tag + ":trial"
     out.mkdir(parents=True, exist_ok=False)
     controlled_gateway = name != "cursor" and mode != "check"
+    wire_volume = tag + "-wire"
     wire_started = False
     try:
         if not shared:
@@ -158,10 +160,9 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
             "/tmp:rw,size=128m",
         ]
         if controlled_gateway:
-            # Publish only a single organizer-owned output file to the trusted relay.
-            # The worker gets the socket volume and never mounts this artifact or its directory.
-            wire_path = (out / FILENAME).resolve()
-            create_private_file(wire_path)
+            # The relay can create a 0600 file with all capabilities dropped, regardless
+            # of the UID of the operator or Docker user namespace. Only it sees this volume.
+            docker("volume", "create", wire_volume)
             params = ["--network", "none"] if mode == "fixture" else ["-e", secret]
             if boundary_command:
                 params.extend(["-e", "BENCH_FIXTURE_COMMAND=" + boundary_command])
@@ -181,7 +182,7 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
                 "--mount",
                 f"type=bind,src={HERE / 'wire.py'},dst=/opt/wire.py,readonly",
                 "--mount",
-                f"type=bind,src={wire_path},dst=/opt/{FILENAME}",
+                f"type=volume,src={wire_volume},dst={DOCKER_DIR},volume-nocopy",
                 "--user",
                 "0:0",
                 image,
@@ -244,7 +245,7 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
                 worker,
                 "sh",
                 "-ec",
-                'test ! -e "/opt/model-context.jsonl" && test ! -e "/relay/model-context.jsonl"',
+                f'test ! -e "{DOCKER_DIR}" && test ! -e "/relay/{FILENAME}"',
             )
         for source, dest in (
             (snapshot, "/app/snapshot.json"),
@@ -342,6 +343,8 @@ print(json.dumps(json.loads(raw)))
             + "\n"
         )
     finally:
+        trial_failed = sys.exc_info()[0] is not None
+        copy_error = None
         docker("rm", "-f", worker, check=False, capture=True)
         if wire_started:
             # SIGTERM finalizes partially streamed calls before reclaiming the relay.
@@ -351,14 +354,30 @@ print(json.dumps(json.loads(raw)))
                 )
             except subprocess.TimeoutExpired:
                 pass  # Force-remove the container below even if graceful shutdown stalls.
+            try:
+                with tempfile.TemporaryDirectory(dir=out) as staging:
+                    target = Path(staging) / FILENAME
+                    docker(
+                        "cp",
+                        f"{gateway}:{DOCKER_DIR}/{FILENAME}",
+                        str(target),
+                        timeout=30,
+                    )
+                    target.chmod(0o600)
+                    target.replace(out / FILENAME)
+            except (OSError, subprocess.SubprocessError) as exc:
+                copy_error = exc
         docker("rm", "-f", gateway, check=False, capture=True)
         docker("volume", "rm", volume, check=False, capture=True)
+        if controlled_gateway:
+            docker("volume", "rm", wire_volume, check=False, capture=True)
         if not shared:
             docker("image", "rm", image, check=False, capture=True)
         for kind, identifier in (
             ("container", worker),
             ("container", gateway),
             ("volume", volume),
+            ("volume", wire_volume),
             ("image", image),
         ):
             if shared and kind == "image":
@@ -370,6 +389,13 @@ print(json.dumps(json.loads(raw)))
                 == 0
             ):
                 raise RuntimeError("Failed cleanup: " + identifier)
+        if copy_error and trial_failed:
+            print(
+                f"Failed to retrieve private model context: {copy_error}",
+                file=sys.stderr,
+            )
+        elif copy_error:
+            raise RuntimeError("Failed to retrieve private model context") from copy_error
 
 
 if __name__ == "__main__":

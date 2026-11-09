@@ -287,7 +287,7 @@ class Server(socketserver.ThreadingUnixStreamServer):
 if __name__ == "__main__":
     import signal
     import sys
-    from wire import FILENAME, WireLog  # The Docker relay executes this standalone.
+    from wire import DOCKER_DIR, FILENAME, WireLog  # Standalone inside Docker.
 
     path = "/relay/inference"
     server = Server(path, Handler)
@@ -301,8 +301,7 @@ if __name__ == "__main__":
     with (
         server,
         WireLog(
-            Path("/opt") / FILENAME,
-            existing_empty=True,
+            Path(DOCKER_DIR) / FILENAME,
             secrets=(os.environ.get(key_name) if key_name else None,),
         ) as wire,
     ):
