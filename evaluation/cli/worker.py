@@ -238,6 +238,14 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
             "sleep",
             "infinity",
         )
+        if controlled_gateway:
+            docker(
+                "exec",
+                worker,
+                "sh",
+                "-ec",
+                'test ! -e "/opt/model-context.jsonl" && test ! -e "/relay/model-context.jsonl"',
+            )
         for source, dest in (
             (snapshot, "/app/snapshot.json"),
             (instruction, "/input/instruction.md"),
@@ -337,7 +345,12 @@ print(json.dumps(json.loads(raw)))
         docker("rm", "-f", worker, check=False, capture=True)
         if wire_started:
             # SIGTERM finalizes partially streamed calls before reclaiming the relay.
-            docker("stop", "-t", "4", gateway, check=False, capture=True, timeout=15)
+            try:
+                docker(
+                    "stop", "-t", "4", gateway, check=False, capture=True, timeout=15
+                )
+            except subprocess.TimeoutExpired:
+                pass  # Force-remove the container below even if graceful shutdown stalls.
         docker("rm", "-f", gateway, check=False, capture=True)
         docker("volume", "rm", volume, check=False, capture=True)
         if not shared:

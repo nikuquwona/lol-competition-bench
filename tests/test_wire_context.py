@@ -12,6 +12,7 @@ import tempfile
 import threading
 from types import SimpleNamespace
 import unittest
+import urllib.error
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from evaluation.cli.gateway import Handler
@@ -179,6 +180,36 @@ class WireTests(unittest.TestCase):
             (429, "http_error", raw),
         )
 
+    def test_openrouter_httperror_stream_captures_provider_body_without_headers(self):
+        payload = {"model": "vendor/model:free", "input": "forecast"}
+        raw = b'{"error":"upstream quota"}\n'
+        exc = urllib.error.HTTPError(
+            "https://openrouter.ai/api/v1/responses",
+            429,
+            "rate limited",
+            {"Content-Type": "application/json", "Set-Cookie": "private"},
+            io.BytesIO(raw),
+        )
+        opener = MagicMock()
+        opener.open.side_effect = exc
+        with (
+            WireLog(self.path) as log,
+            patch.dict("os.environ", OPEN_ROUTER_API_KEY="test-only-key"),
+            patch(
+                "evaluation.cli.gateway.urllib.request.build_opener",
+                return_value=opener,
+            ),
+        ):
+            h = self.handler(log, payload, router=True)
+            h.do_POST()
+        response = read_rows(self.path)[1]
+        self.assertEqual(
+            (response["state"], response["status"], decoded(response)),
+            ("http_error", 429, raw),
+        )
+        self.assertEqual(h.wfile.getvalue(), raw)
+        self.assertNotIn("Set-Cookie", self.path.read_text())
+
     def test_upstream_connect_failure_and_short_replies_are_distinct_from_client_disconnect(
         self,
     ):
@@ -305,7 +336,12 @@ class WireTests(unittest.TestCase):
 
 class HarborWireTests(unittest.TestCase):
     def test_failed_worker_capture_remains_private_in_harbor_agent_directory(self):
-        from evaluation.cli.agent import CompetitionCLI
+        try:
+            from evaluation.cli.agent import CompetitionCLI
+        except ModuleNotFoundError as exc:
+            if exc.name != "harbor":
+                raise
+            self.skipTest("Harbor is an optional runtime dependency")
 
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
