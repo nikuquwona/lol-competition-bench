@@ -5,6 +5,7 @@ __pycache__/
 .venv/
 
 .work/
+model-context.jsonl
 
 # Publish only the verified, sanitized native events of this example.
 !evaluation/examples/worlds-2026-kc-t1-openrouter/jobs/

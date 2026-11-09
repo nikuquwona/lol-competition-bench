@@ -108,20 +108,45 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args):
         pass
 
-    def stream_upstream(self, response, url):
+    def send_entity(self, call, data):
+        call.append(data)
+        try:
+            self.wfile.write(data)
+        except OSError:
+            call.finish("client_disconnected")
+            raise
+
+    def stream_upstream(self, response, url, call):
         print(
             json.dumps(
                 {"route": url, "model": self.server.model, "status": response.status}
             ),
             flush=True,
         )
-        self.send_response(response.status)
-        self.send_header(
-            "Content-Type", response.headers.get("Content-Type", "application/json")
-        )
-        self.end_headers()
-        while chunk := response.read1(65536):
-            self.wfile.write(chunk)
+        ct = response.headers.get("Content-Type", "application/json")
+        call.head(response.status, ct)
+        try:
+            self.send_response(response.status)
+            self.send_header("Content-Type", ct)
+            self.end_headers()
+        except OSError:
+            call.finish("client_disconnected")
+            raise
+        expected = response.headers.get("Content-Length")
+        size = 0
+        while True:
+            try:
+                chunk = response.read1(65536)
+            except http.client.IncompleteRead as exc:
+                if exc.partial:
+                    self.send_entity(call, exc.partial)
+                raise
+            if not chunk:
+                break
+            size += len(chunk)
+            self.send_entity(call, chunk)
+        if expected is not None and expected.isdecimal() and size != int(expected):
+            raise http.client.IncompleteRead(b"", max(0, int(expected) - size))
 
     def do_POST(self):
         url = self.path.split("?", 1)[0]
@@ -150,51 +175,109 @@ class Handler(BaseHTTPRequestHandler):
             json.dumps({"route": url, "model": self.server.model, "stage": "accepted"}),
             flush=True,
         )
-        if self.server.fixture:
-            if __package__:
-                from .fixture import respond
-            else:  # The Docker gateway runs /opt/gateway.py as a standalone script.
-                from fixture import respond
-
-            return respond(self, url, body)
-        if getattr(self.server, "openrouter_free", False):
+        fixture = self.server.fixture
+        use_router = getattr(self.server, "openrouter_free", False) and not fixture
+        if use_router:
             if not free_model(self.server.model):
                 return self.send_error(403, "A pinned :free model is required")
-            key = os.environ[credential_name("openrouter-free")]
             body["provider"] = {"max_price": {"prompt": 0, "completion": 0}}
             if url == "/v1/responses":
                 body["store"] = False
-            request = urllib.request.Request(
-                "https://openrouter.ai/api" + url,
-                data=json.dumps(body).encode(),
-                headers={
-                    "Authorization": "Bearer " + key,
-                    "Content-Type": "application/json",
-                    "anthropic-version": "2023-06-01",
-                },
-            )
-            try:
-                response = urllib.request.build_opener(NoRedirect).open(
-                    request, timeout=100
-                )
-            except urllib.error.HTTPError as exc:
-                response = exc
-            except (TimeoutError, OSError):
-                return self.send_error(502, "OpenRouter connection failed")
-            with response:
-                self.stream_upstream(response, url)
-            return
-        conn = http.client.HTTPSConnection("api.deepseek.com", timeout=100)
-        key = os.environ["DEEPSEEK_API_KEY"]
-        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
-        if url == "/v1/messages":
-            headers.update({"x-api-key": key, "anthropic-version": "2023-06-01"})
+        provider = "fixture" if fixture else "openrouter" if use_router else "deepseek"
+        target = url if fixture else "/api" + url if use_router else ROUTES[url]
+        raw = json.dumps(body).encode()
+        call = self.server.wire.start(provider, target, self.server.model, raw)
         try:
-            conn.request("POST", ROUTES[url], json.dumps(body).encode(), headers)
-            with conn.getresponse() as response:
-                self.stream_upstream(response, url)
-        finally:
-            conn.close()
+            if fixture:
+                if __package__:
+                    from .fixture import respond
+                else:
+                    from fixture import respond
+                respond(FixtureResponse(self, call), url, body)
+            elif use_router:
+                key = os.environ[credential_name("openrouter-free")]
+                request = urllib.request.Request(
+                    "https://openrouter.ai" + target,
+                    data=raw,
+                    headers={
+                        "Authorization": "Bearer " + key,
+                        "Content-Type": "application/json",
+                        "anthropic-version": "2023-06-01",
+                    },
+                )
+                try:
+                    response = urllib.request.build_opener(NoRedirect).open(
+                        request, timeout=100
+                    )
+                except urllib.error.HTTPError as exc:
+                    response = exc
+                with response:
+                    self.stream_upstream(response, url, call)
+            else:
+                key = os.environ["DEEPSEEK_API_KEY"]
+                headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + key,
+                }
+                if url == "/v1/messages":
+                    headers.update(
+                        {"x-api-key": key, "anthropic-version": "2023-06-01"}
+                    )
+                conn = http.client.HTTPSConnection("api.deepseek.com", timeout=100)
+                try:
+                    conn.request("POST", target, raw, headers)
+                    with conn.getresponse() as response:
+                        self.stream_upstream(response, url, call)
+                finally:
+                    conn.close()
+        except (OSError, http.client.HTTPException):
+            call.finish("upstream_error")
+            self.close_connection = True
+            if call.status is None:
+                self.send_error(502, "Upstream connection failed")
+        except BaseException:
+            call.finish("interrupted")
+            raise
+        else:
+            call.finish()
+
+
+class FixtureResponse:
+    """Fixture protocol generator writes body bytes separately from HTTP framing."""
+
+    def __init__(self, handler, call):
+        self.handler = handler
+        self.call = call
+        self.wfile = self
+        self.status = 200
+        self.content_type = "application/json"
+
+    def send_response(self, status):
+        self.status = status
+        self.handler.send_response(status)
+
+    def send_header(self, name, value):
+        if name.lower() == "content-type":
+            self.content_type = value
+        self.handler.send_header(name, value)
+
+    def end_headers(self):
+        self.call.head(self.status, self.content_type)
+        try:
+            self.handler.end_headers()
+        except OSError:
+            self.call.finish("client_disconnected")
+            raise
+
+    def write(self, data):
+        self.handler.send_entity(self.call, data)
+        return len(data)
+
+    def send_error(self, status, description="Fixture failed"):
+        self.send_response(status)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.end_headers()
+        self.write(description.encode())
 
 
 class Server(socketserver.ThreadingUnixStreamServer):
@@ -202,7 +285,9 @@ class Server(socketserver.ThreadingUnixStreamServer):
 
 
 if __name__ == "__main__":
+    import signal
     import sys
+    from wire import FILENAME, WireLog  # The Docker relay executes this standalone.
 
     path = "/relay/inference"
     server = Server(path, Handler)
@@ -212,4 +297,15 @@ if __name__ == "__main__":
     server.openrouter_free = sys.argv[2] == "openrouter-free"
     server.remaining = MAX_CALLS
     server.lock = threading.Lock()
-    server.serve_forever()
+    key_name = credential_name(sys.argv[2])
+    with (
+        server,
+        WireLog(
+            Path("/opt") / FILENAME,
+            existing_empty=True,
+            secrets=(os.environ.get(key_name) if key_name else None,),
+        ) as wire,
+    ):
+        server.wire = wire
+        signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
+        server.serve_forever()

@@ -132,6 +132,7 @@ def attach(out, record, task):
     for key, name in (
         ("events", "trajectory.jsonl"),
         ("native_log", "cli-events.log"),
+        ("context", "model-context.jsonl"),
         ("stderr", "stderr.txt"),
         ("prediction", "prediction.json"),
     ):
@@ -157,6 +158,7 @@ def attach(out, record, task):
             ("prompt", "实际题面"),
             ("snapshot", "可查询的完整快照"),
             ("events", "原始事件 JSONL"),
+            ("context", "逐次推理请求与响应"),
             ("native_log", "原生 CLI 日志"),
             ("stderr", "stderr"),
             ("prediction", "交卷文件"),

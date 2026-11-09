@@ -15,7 +15,8 @@ import tempfile
 import threading
 
 from evaluation.cli.client import claude_command, claude_environment, codex_command
-from evaluation.cli.gateway import Handler, MAX_CALLS
+from evaluation.cli.gateway import Handler, MAX_CALLS, credential_name
+from evaluation.cli.wire import FILENAME, WireLog
 
 ROOT = Path(__file__).resolve().parents[2]
 TASKS = ROOT / "datasets/examples/replay-v1-kc-t1-g2"
@@ -56,6 +57,13 @@ def blocked(endpoint):
 assert not {'DEEPSEEK_API_KEY', 'OPEN_ROUTER_API_KEY', 'OPENROUTER_API_KEY'} & os.environ.keys()
 assert Path('snapshot.json').is_file()
 assert denied(sys.argv[1]) and denied(sys.argv[2])
+assert denied(sys.argv[4])
+try:
+    open(sys.argv[4], "r+b").close()
+except PermissionError:
+    pass
+else:
+    raise AssertionError("Private gateway context file is writable by the CLI")
 assert blocked(('1.1.1.1',443)) and blocked(('127.0.0.1',int(sys.argv[3])))
 print('snapshot accessible; labels, personal shell config, public IP and second loopback listener denied')
 """
@@ -106,6 +114,17 @@ def run(
         tempfile.TemporaryDirectory(
             prefix=f"lol-{harness}-", dir="/private/tmp"
         ) as temp,
+        WireLog(
+            out / FILENAME,
+            secrets=(
+                token,
+                None
+                if fixture
+                else os.getenv(
+                    credential_name("openrouter-free" if openrouter_free else "live")
+                ),
+            ),
+        ) as wire,
         http.server.ThreadingHTTPServer(("127.0.0.1", 0), Relay) as srv,
     ):
         root = Path(temp)
@@ -113,9 +132,9 @@ def run(
         srv.fixture = fixture
         srv.remaining = MAX_CALLS
         srv.lock = threading.Lock()
+        srv.wire = wire
         srv.model = model
         port = srv.server_port
-        threading.Thread(target=srv.serve_forever, daemon=True).start()
         for folder in ("app", "home", "tmp", "codex-home", "bin"):
             (root / folder).mkdir()
         exe = root / "bin" / harness
@@ -158,6 +177,7 @@ def run(
                     str(task / "tests/labels.json"),
                     str(Path.home() / ".zshrc"),
                     str(decoy.server_port),
+                    str((out / FILENAME).resolve()),
                 ],
                 cwd=work,
                 env=env,
@@ -180,7 +200,6 @@ def run(
             raise ValueError("Unexpected CLI version " + version)
         if check_only:
             print(version, probe.stdout.strip(), flush=True)
-            srv.shutdown()
             return
         prompt = (task / "instruction.md").read_text().replace("/app/", "./")
         (root / "home/.zshenv").write_text('export TMPPREFIX="$TMPDIR/zsh"\n')
@@ -198,6 +217,7 @@ def run(
             else codex_command(base, model, prompt)
         )
         args[0] = str(exe)
+        threading.Thread(target=srv.serve_forever, daemon=True).start()
         try:
             with (
                 (out / "trajectory.jsonl").open("w") as trace,

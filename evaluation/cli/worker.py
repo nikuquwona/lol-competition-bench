@@ -14,6 +14,7 @@ from pathlib import Path
 from urllib.parse import quote
 from evaluation.cli.client import BIN, CURSOR_HOSTS
 from evaluation.cli.gateway import credential_name, free_model
+from evaluation.cli.wire import FILENAME, create_private_file
 
 HERE = Path(__file__).resolve().parent
 READ_PREDICTION = """
@@ -121,6 +122,8 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
         raise ValueError("Invalid operator-supplied suite image")
     image = shared or tag + ":trial"
     out.mkdir(parents=True, exist_ok=False)
+    controlled_gateway = name != "cursor" and mode != "check"
+    wire_started = False
     try:
         if not shared:
             docker(
@@ -154,7 +157,11 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
             "--tmpfs",
             "/tmp:rw,size=128m",
         ]
-        if name != "cursor" and mode != "check":
+        if controlled_gateway:
+            # Publish only a single organizer-owned output file to the trusted relay.
+            # The worker gets the socket volume and never mounts this artifact or its directory.
+            wire_path = (out / FILENAME).resolve()
+            create_private_file(wire_path)
             params = ["--network", "none"] if mode == "fixture" else ["-e", secret]
             if boundary_command:
                 params.extend(["-e", "BENCH_FIXTURE_COMMAND=" + boundary_command])
@@ -171,6 +178,10 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
                 f"type=bind,src={HERE / 'gateway.py'},dst=/opt/gateway.py,readonly",
                 "--mount",
                 f"type=bind,src={HERE / 'fixture.py'},dst=/opt/fixture.py,readonly",
+                "--mount",
+                f"type=bind,src={HERE / 'wire.py'},dst=/opt/wire.py,readonly",
+                "--mount",
+                f"type=bind,src={wire_path},dst=/opt/{FILENAME}",
                 "--user",
                 "0:0",
                 image,
@@ -180,6 +191,7 @@ def run(name, model, mode, snapshot, instruction, out, *, boundary_command=None)
                 model,
                 mode,
             )
+            wire_started = True
         opts = []
         if name == "cursor" and mode in ("vendor", "check"):
             # TLS terminates at Cursor. Each relay has a fixed destination selected by the operator.
@@ -322,8 +334,11 @@ print(json.dumps(json.loads(raw)))
             + "\n"
         )
     finally:
-        for container in (worker, gateway):
-            docker("rm", "-f", container, check=False, capture=True)
+        docker("rm", "-f", worker, check=False, capture=True)
+        if wire_started:
+            # SIGTERM finalizes partially streamed calls before reclaiming the relay.
+            docker("stop", "-t", "4", gateway, check=False, capture=True, timeout=15)
+        docker("rm", "-f", gateway, check=False, capture=True)
         docker("volume", "rm", volume, check=False, capture=True)
         if not shared:
             docker("image", "rm", image, check=False, capture=True)

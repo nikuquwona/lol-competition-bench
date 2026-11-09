@@ -10,6 +10,7 @@ from pathlib import Path
 
 from harbor.agents.base import BaseAgent
 from evaluation.cli.client import BIN
+from evaluation.cli.wire import FILENAME, create_private_file
 
 
 class CompetitionCLI(BaseAgent):
@@ -61,6 +62,12 @@ class CompetitionCLI(BaseAgent):
                     captured = root / "out" / filename
                     if captured.is_file():
                         shutil.copyfile(captured, self.logs_dir / filename)
+                wire = root / "out" / FILENAME
+                if wire.is_file():
+                    # Organizer-only Harbor agent logs, including failed trials.
+                    target = self.logs_dir / FILENAME
+                    create_private_file(target)
+                    shutil.copyfile(wire, target)
             self.logs_dir.joinpath("cli-run.json").write_bytes(
                 (root / "out/run.json").read_bytes()
             )

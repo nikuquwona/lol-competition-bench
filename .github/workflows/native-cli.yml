@@ -97,6 +97,22 @@ jobs:
           if [[ "$BENCH_MODE" = fixture ]]; then
             python -c 'import json; r=json.load(open("output/report.json")); assert all(t["prediction"]=={"p_blue_win":0.41,"p_blue_ahead_15":0.57} for t in r["trials"])'
           fi
+      - if: inputs.mode == 'smoke' && matrix.cli != 'cursor'
+        name: Verify the Harbor gateway captured the model context
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from evaluation.model_context import model_context
+          root = Path("output")
+          for trial in json.loads((root / "report.json").read_text())["trials"]:
+              path = root / trial["trajectory"]["files"]["context"]
+              calls = model_context(path)["calls"]
+              assert calls and all(c["source"] == "fixture" for c in calls)
+              assert any(c["complete"] and c["status"] == 200 for c in calls)
+              for c in calls:
+                  model_context(path, c["id"])
+          PY
       - if: inputs.mode == 'smoke'
         name: Check hidden facts and allowed history from the CLI worker
         run: ./bench boundary --harness "$BENCH_CLI" --out output/boundary
@@ -116,6 +132,7 @@ jobs:
             output/jobs/**/agent/cli-run.json
             output/jobs/**/artifacts/app/prediction.json
             output/boundary/
+            !output/**/model-context.jsonl
           retention-days: 7
       - if: always()
         run: |
